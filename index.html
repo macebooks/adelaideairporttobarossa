@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<script>document.documentElement.classList.add('js');</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Adelaide Airport to Barossa | Private Transfers &amp; Chauffeur — One Flat Fare</title>
+<meta name="description" content="A private car and driver from Adelaide Airport arrivals to your Barossa cellar door — about 75 km, one hour, one flat fare. Flight tracked, met at the gate, luggage handled." />
+<link rel="canonical" href="https://adelaideairporttobarossa.com.au" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Adelaide Airport to Barossa | Private Transfers — One Flat Fare" />
+<meta property="og:description" content="A private car and driver from Adelaide Airport arrivals to your Barossa cellar door. About 75 km, one hour, one flat fare. Flight tracked, met at the gate." />
+<meta property="og:url" content="https://adelaideairporttobarossa.com.au" />
+<meta property="og:site_name" content="Adelaide Airport to Barossa" />
+<meta property="og:locale" content="en_AU" />
+<meta property="og:image" content="https://adelaideairporttobarossa.com.au/assets/img/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="655" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://adelaideairporttobarossa.com.au/assets/img/og-image.jpg" />
+<meta name="theme-color" content="#efe7d6" />
+
+<!-- Fonts: Space Grotesk (display), IBM Plex Mono (data/labels), Newsreader (body serif) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+
+<!-- Preload the LCP hero plate image -->
+<link rel="preload" as="image" href="assets/img/hero-road.jpg" fetchpriority="high" />
+
+<!-- Schema.org LocalBusiness / TravelAgency (placeholder NAP — replace before launch) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["TravelAgency", "LocalBusiness"],
+  "name": "Adelaide Airport to Barossa",
+  "url": "https://adelaideairporttobarossa.com.au",
+  "description": "Private door-to-door chauffeur transfers and bespoke winery day-tours between Adelaide Airport (ADL) and the Barossa Valley, South Australia.",
+  "image": "https://adelaideairporttobarossa.com.au/assets/img/og-image.jpg",
+  "telephone": "+61-000-000-000",
+  "priceRange": "$$$",
+  "areaServed": [
+    { "@type": "Place", "name": "Adelaide Airport (ADL)" },
+    { "@type": "Place", "name": "Barossa Valley, South Australia" },
+    { "@type": "Place", "name": "Tanunda" },
+    { "@type": "Place", "name": "Nuriootpa" },
+    { "@type": "Place", "name": "Angaston" },
+    { "@type": "Place", "name": "Lyndoch" }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "SA",
+    "addressCountry": "AU",
+    "postalCode": "0000",
+    "streetAddress": "PLACEHOLDER — business address"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00", "closes": "23:59"
+  },
+  "makesOffer": {
+    "@type": "Offer",
+    "name": "Private airport-to-Barossa chauffeur transfer",
+    "priceCurrency": "AUD"
+  }
+}
+</script>
+
+<style>
+/* ============================================================
+   THE ITINERARY — design tokens
+   ============================================================ */
+:root{
+  --paper:      #efe7d6;   /* base paper */
+  --paper-2:    #f5f0e6;   /* lighter card paper */
+  --paper-3:    #e6ddc9;   /* deeper panel */
+  --ink:        #1c1a17;   /* near-black ink */
+  --ink-soft:   #4a453d;   /* faded ink */
+  --ink-faint:  #6f685c;   /* very faded (AA on paper) */
+  --oxblood:    #8a2f24;   /* rubber-stamp accent */
+  --oxblood-dk: #6f251c;
+  --green:      #3d4a3a;   /* muted botanical secondary */
+  --line:       #b7ac96;   /* hairline rule */
+  --line-ink:   #2a271f;
+
+  --maxw: 1180px;
+  --pad: clamp(1.15rem, 5vw, 2.75rem);
+
+  --disp: "Space Grotesk", "Arial Narrow", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+
+  --t-6xl: clamp(2.35rem, 8.5vw, 6rem);
+  --t-5xl: clamp(2.3rem, 6vw, 4rem);
+  --t-4xl: clamp(1.9rem, 4.4vw, 3rem);
+  --t-3xl: clamp(1.55rem, 3vw, 2.1rem);
+  --t-2xl: 1.4rem;
+  --t-xl:  1.2rem;
+  --t-lg:  1.08rem;
+  --t-base:1rem;
+  --t-sm:  .875rem;
+  --t-xs:  .75rem;
+  --t-2xs: .68rem;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip;max-width:100%}
+body{
+  font-family:var(--serif);
+  color:var(--ink);
+  background:var(--paper);
+  font-size:var(--t-lg);
+  line-height:1.62;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+/* paper grain overlay */
+body::before{
+  content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.05;mix-blend-mode:multiply;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2.5px solid var(--oxblood);outline-offset:3px}
+
+h1,h2,h3{font-family:var(--disp);font-weight:600;line-height:1.02;letter-spacing:-.02em}
+
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:var(--t-xs);color:var(--ink-soft);font-weight:500}
+
+/* layout helpers */
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);position:relative;z-index:2}
+.section{padding-block:clamp(3.2rem,8vw,6rem);position:relative;z-index:2}
+.eyebrow{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem}
+.eyebrow .no{font-family:var(--mono);color:var(--oxblood);font-weight:600;font-size:var(--t-sm);letter-spacing:.1em;white-space:nowrap}
+.eyebrow .lbl{font-family:var(--mono);text-transform:uppercase;letter-spacing:.22em;font-size:var(--t-xs);color:var(--ink-soft);white-space:nowrap}
+.eyebrow::after{content:"";flex:1;height:1px;border-top:1.5px dashed var(--line)}
+.section-head{max-width:46ch;margin-bottom:2.4rem}
+.section-head h2{font-size:var(--t-4xl);margin-bottom:.7rem}
+.section-head p{font-size:var(--t-lg);color:var(--ink-soft)}
+
+/* skip link */
+.skip{position:fixed;left:.5rem;top:.5rem;z-index:200;background:var(--ink);color:var(--paper);padding:.7rem 1.1rem;font-family:var(--mono);font-size:var(--t-sm);transform:translateY(-160%);transition:transform .2s ease}
+.skip:focus{transform:translateY(0)}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  font-family:var(--mono);font-weight:600;font-size:var(--t-sm);
+  text-transform:uppercase;letter-spacing:.14em;
+  padding:.85rem 1.4rem;border:1.5px solid var(--ink);
+  transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+  will-change:transform;text-align:center;line-height:1.1;
+}
+.btn-solid{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 rgba(28,26,23,.18)}
+.btn-solid:hover{background:var(--oxblood);border-color:var(--oxblood);transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(138,47,36,.25)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--paper);transform:translate(-2px,-2px)}
+.btn-block{width:100%}
+.btn .arw{font-family:var(--disp);font-weight:700}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background-color .3s ease, box-shadow .3s ease}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:.7rem}
+.site-header.scrolled{background:rgba(239,231,214,.94);backdrop-filter:blur(6px);box-shadow:0 1px 0 var(--line)}
+.brand{display:flex;flex-direction:column;line-height:1}
+.brand .b1{font-family:var(--disp);font-weight:700;font-size:1.02rem;letter-spacing:-.01em}
+.brand .b2{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.24em;color:var(--ink-soft);text-transform:uppercase;margin-top:.2rem}
+.nav-links{display:none;gap:1.8rem;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.16em;color:var(--ink-soft);transition:color .2s ease;padding-bottom:2px;border-bottom:1.5px solid transparent}
+.nav-links a:hover{color:var(--ink);border-color:var(--oxblood)}
+.nav-cta{display:none}
+@media(min-width:1000px){.nav-links{display:flex}.nav-cta{display:inline-flex}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{padding-top:6.5rem;padding-bottom:3rem;border-bottom:1.5px dashed var(--line)}
+.hero-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.hero-top .dossier{font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.hero-top .dossier b{color:var(--oxblood)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:2.6rem}
+.hero-grid>*{min-width:0}
+.hero-top .dossier{overflow-wrap:anywhere}
+.hero h1{font-size:var(--t-6xl);font-weight:600;letter-spacing:-.035em;max-width:15ch;margin-bottom:1.3rem;overflow-wrap:break-word;hyphens:auto}
+.hero h1 .ox{color:var(--oxblood)}
+.hero-lead{font-size:var(--t-xl);color:var(--ink-soft);max-width:42ch;margin-bottom:1.7rem;line-height:1.5}
+.hero-lead b{color:var(--ink);font-weight:500}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-bottom:2rem}
+
+/* photo plates */
+.plate{border:1.5px solid var(--line-ink);background:var(--paper-2);padding:.5rem}
+.plate img{width:100%;height:auto;display:block;filter:saturate(.82) contrast(1.02)}
+.plate figcaption{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);padding:.55rem .3rem .2rem;display:flex;justify-content:space-between;gap:1rem}
+.hero-plate{margin-bottom:1.6rem}
+.hero-plate img{aspect-ratio:1408/768;object-fit:cover}
+
+/* route rail */
+.route{overflow-x:auto;padding-bottom:.4rem;-webkit-overflow-scrolling:touch}
+.route-inner{display:flex;align-items:center;gap:0;min-width:max-content;padding-block:.4rem}
+.stop{display:flex;flex-direction:column;align-items:center;gap:.5rem;flex-shrink:0}
+.stop .dot{width:9px;height:9px;border-radius:50%;background:var(--ink)}
+.stop.term .dot{width:12px;height:12px;background:var(--oxblood);box-shadow:0 0 0 3px rgba(138,47,36,.18)}
+.stop .nm{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.stop.term .nm{color:var(--ink);font-weight:600}
+.seg{width:clamp(26px,5vw,64px);height:0;border-top:1.5px dashed var(--line-ink);flex-shrink:0;margin-bottom:1.35rem}
+
+/* ============================================================
+   THE DOCKET (booking slip form)
+   ============================================================ */
+.docket{background:var(--paper-2);border:1.5px solid var(--line-ink);position:relative;box-shadow:6px 6px 0 rgba(28,26,23,.1)}
+.docket-head{padding:1.1rem 1.4rem .9rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.docket-head .dh-t{font-family:var(--disp);font-weight:700;font-size:var(--t-lg);letter-spacing:-.01em;line-height:1.1}
+.docket-head .dh-s{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:.3rem}
+.docket-head .dh-no{font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.12em;color:var(--oxblood);font-weight:600;text-align:right;white-space:nowrap}
+.perf{position:relative;border-top:1.5px dashed var(--line-ink);height:0;margin:0 0 .2rem}
+.perf::before,.perf::after{content:"";position:absolute;top:0;width:15px;height:15px;border-radius:50%;background:var(--paper);border:1.5px solid var(--line-ink);transform:translate(0,-50%)}
+.perf::before{left:-8px}
+.perf::after{right:-8px}
+.docket-body{padding:1.3rem 1.4rem 3rem;position:relative}
+
+/* rubber stamp */
+.stamp{
+  position:absolute;font-family:var(--mono);text-transform:uppercase;font-weight:600;
+  color:var(--oxblood);border:2px solid var(--oxblood);border-radius:5px;
+  padding:.28rem .6rem;font-size:var(--t-2xs);letter-spacing:.16em;line-height:1;
+  transform:rotate(-11deg);opacity:.7;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(138,47,36,.25);
+}
+.stamp.s-bottom{bottom:.85rem;right:1.1rem}
+
+/* form fields as slip lines */
+.field{margin-bottom:1rem}
+.field label{display:block;font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.35rem}
+.field label .req{color:var(--oxblood)}
+.field input,.field select{
+  width:100%;font-family:var(--serif);font-size:var(--t-base);color:var(--ink);
+  background:transparent;border:0;border-bottom:1.5px dotted var(--line-ink);
+  padding:.4rem .1rem;border-radius:0;
+}
+.field select{font-family:var(--mono);font-size:var(--t-sm);text-transform:uppercase;letter-spacing:.05em}
+.field input:focus,.field select:focus{outline:none;border-bottom:1.5px solid var(--oxblood)}
+.field input[aria-invalid="true"],.field select[aria-invalid="true"]{border-bottom:1.5px solid var(--oxblood)}
+.field .err{display:none;font-family:var(--mono);color:var(--oxblood-dk);font-size:var(--t-2xs);letter-spacing:.04em;margin-top:.3rem;text-transform:uppercase}
+.field.invalid .err{display:block}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.form-note{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.08em;color:var(--ink-faint);margin-top:1rem;text-align:center;text-transform:uppercase}
+.form-note a{color:var(--oxblood-dk);border-bottom:1px solid var(--oxblood)}
+.form-success{display:none;text-align:center;padding:1.5rem .5rem}
+.form-success.show{display:block;animation:fadeIn .4s ease both}
+.form-success .rec-stamp{display:inline-block;font-family:var(--mono);text-transform:uppercase;color:var(--oxblood);border:2.5px solid var(--oxblood);border-radius:6px;padding:.4rem .9rem;font-weight:600;letter-spacing:.18em;transform:rotate(-6deg);margin-bottom:1.2rem;box-shadow:inset 0 0 0 1.5px rgba(138,47,36,.25)}
+.form-success h3{font-size:var(--t-2xl);margin-bottom:.5rem}
+.form-success p{font-family:var(--serif);color:var(--ink-soft);font-size:var(--t-base)}
+
+@media(min-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:3.2rem;align-items:start}
+  .hero-plate{margin-bottom:0}
+}
+
+/* ============================================================
+   STRIP
+   ============================================================ */
+.strip{background:var(--ink);color:var(--paper)}
+.strip .wrap{display:flex;flex-wrap:wrap;gap:1.2rem 2rem;padding-block:1.2rem;justify-content:space-between}
+.strip-item{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;color:#e7dcc6}
+.strip-item .mk{color:#d98b7f;font-weight:600}
+
+/* ============================================================
+   PROBLEM
+   ============================================================ */
+.prob-grid{display:grid;grid-template-columns:1fr;gap:0}
+.prob-item{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;padding:1.4rem 0;border-top:1.5px dashed var(--line)}
+.prob-item:last-child{border-bottom:1.5px dashed var(--line)}
+.prob-item .pn{font-family:var(--mono);font-size:var(--t-sm);color:var(--oxblood);font-weight:600;letter-spacing:.05em;padding-top:.25rem}
+.prob-item h3{font-family:var(--disp);font-weight:600;font-size:var(--t-xl);margin-bottom:.3rem;letter-spacing:-.01em}
+.prob-item p{color:var(--ink-soft);font-size:var(--t-base)}
+.prob-bridge{font-family:var(--serif);font-style:italic;font-size:var(--t-3xl);color:var(--ink);margin-top:2rem;max-width:26ch;line-height:1.25}
+.prob-bridge .ox{color:var(--oxblood)}
+
+/* ============================================================
+   WHY US / DIFFERENTIATORS
+   ============================================================ */
+.diff{background:var(--paper-3)}
+.diff-grid{display:grid;grid-template-columns:1fr;gap:1.4rem}
+.diff-card{border:1.5px solid var(--line-ink);background:var(--paper-2);padding:1.5rem 1.4rem}
+.diff-card .dc-no{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase}
+.diff-card h3{font-family:var(--disp);font-weight:600;font-size:var(--t-xl);margin:.6rem 0 .5rem;letter-spacing:-.01em}
+.diff-card p{color:var(--ink-soft);font-size:var(--t-base)}
+.diff-card .tag{display:inline-block;margin-top:.9rem;font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.14em;text-transform:uppercase;color:var(--oxblood-dk);border:1.5px solid var(--oxblood);padding:.2rem .5rem}
+@media(min-width:760px){.diff-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.diff-grid{grid-template-columns:repeat(4,1fr)}.diff-card:nth-child(2){transform:translateY(1.4rem)}.diff-card:nth-child(4){transform:translateY(1.4rem)}}
+
+/* ============================================================
+   THE ITINERARY (legs)
+   ============================================================ */
+.itin-grid{display:grid;grid-template-columns:1fr;gap:2.4rem;align-items:start}
+.legs{display:grid;gap:0}
+.leg{display:grid;grid-template-columns:auto 1fr;gap:1.3rem;padding:1.5rem 0;border-top:1.5px dashed var(--line)}
+.leg:last-child{border-bottom:1.5px dashed var(--line)}
+.leg .leg-mark{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.leg .leg-no{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+.leg .leg-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);flex-shrink:0}
+.leg .leg-line{width:2px;flex:1;min-height:20px;background:repeating-linear-gradient(var(--line-ink) 0 5px, transparent 5px 10px)}
+.leg:last-child .leg-line{display:none}
+.leg h3{font-family:var(--disp);font-weight:600;font-size:var(--t-2xl);margin-bottom:.35rem;letter-spacing:-.015em}
+.leg .stage{display:block;font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.16em;text-transform:uppercase;color:var(--oxblood);margin-bottom:.5rem}
+.leg p{color:var(--ink-soft);font-size:var(--t-base)}
+@media(min-width:900px){.itin-grid{grid-template-columns:.9fr 1.1fr;gap:3rem}}
+
+/* ============================================================
+   VEHICLE
+   ============================================================ */
+.veh-grid{display:grid;grid-template-columns:1fr;gap:2.2rem;align-items:center}
+.veh-copy h3{font-size:var(--t-3xl);margin-bottom:.8rem}
+.veh-copy p{color:var(--ink-soft);margin-bottom:1.2rem}
+.spec{list-style:none;display:grid;gap:0;margin-bottom:1.4rem}
+.spec li{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-top:1.5px dashed var(--line);font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase}
+.spec li:last-child{border-bottom:1.5px dashed var(--line)}
+.spec li .k{color:var(--ink-soft)}
+.spec li .v{color:var(--ink);font-weight:500;text-align:right}
+@media(min-width:820px){.veh-grid{grid-template-columns:1.1fr .9fr}}
+
+/* ============================================================
+   WINERY ADD-ON
+   ============================================================ */
+.addon{background:var(--green);color:#eae4d3}
+.addon .wrap{display:grid;grid-template-columns:1fr;gap:2.2rem;align-items:center}
+.addon .eyebrow .lbl{color:#cbcdc1}
+.addon .eyebrow .no{color:#e39a8f}
+.addon .eyebrow::after{border-color:rgba(234,228,211,.3)}
+.addon h2{color:#f2eddd;font-size:var(--t-4xl);margin-bottom:.8rem}
+.addon p{color:#d3d4c8;margin-bottom:1.4rem;max-width:48ch}
+.addon .plate{border-color:#26301f;background:#33402f}
+.addon .plate figcaption{color:#aeb5a0}
+.addon .btn-line{border-color:#eae4d3;color:#eae4d3}
+.addon .btn-line:hover{background:#eae4d3;color:var(--green)}
+@media(min-width:820px){.addon .wrap{grid-template-columns:1.1fr .9fr}}
+
+/* ============================================================
+   PASSENGER NOTES
+   ============================================================ */
+.notice{border:1.5px dashed var(--oxblood);background:rgba(138,47,36,.06);padding:.85rem 1.1rem;margin-bottom:1.8rem;display:flex;gap:.7rem;align-items:flex-start;font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.05em;color:var(--oxblood-dk);text-transform:uppercase;line-height:1.6}
+.guest-grid{display:grid;grid-template-columns:1fr;gap:1.4rem}
+.guest{border:1.5px solid var(--line-ink);background:var(--paper-2);padding:1.5rem 1.4rem}
+.guest .qmark{font-family:var(--disp);font-size:2.6rem;line-height:.6;color:var(--oxblood);opacity:.5}
+.guest blockquote{font-family:var(--serif);font-size:var(--t-lg);font-style:italic;color:var(--ink);margin:.6rem 0 1.2rem;line-height:1.4}
+.guest .by{display:flex;align-items:center;gap:.7rem;border-top:1.5px dashed var(--line);padding-top:.9rem}
+.guest .mono-init{width:36px;height:36px;border:1.5px solid var(--line-ink);display:grid;place-items:center;font-family:var(--mono);font-size:var(--t-xs);color:var(--ink-soft);flex-shrink:0}
+.guest .by .nm{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);font-weight:600}
+.guest .by .mt{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+@media(min-width:820px){.guest-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ============================================================
+   FARE TABLE / TARIFF
+   ============================================================ */
+.tariff{background:var(--paper-3)}
+.tariff-note{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.05em;text-transform:uppercase;color:var(--oxblood-dk);border:1.5px dashed var(--oxblood);padding:.7rem 1rem;margin-bottom:2rem;max-width:64ch;line-height:1.6}
+.fare-table{border:1.5px solid var(--line-ink);background:var(--paper-2)}
+.fare-row{display:grid;grid-template-columns:1fr;gap:0;border-top:1.5px dashed var(--line-ink);position:relative}
+.fare-row:first-child{border-top:0}
+.fare-cell{padding:1.5rem 1.4rem}
+.fare-cell .ft-no{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase}
+.fare-cell h3{font-family:var(--disp);font-weight:600;font-size:var(--t-2xl);margin:.4rem 0 .3rem;letter-spacing:-.01em}
+.fare-cell .cap{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.fare-cell.desc{color:var(--ink-soft);font-size:var(--t-base)}
+.fare-cell.desc ul{list-style:none;display:grid;gap:.4rem;margin-top:.4rem}
+.fare-cell.desc li{display:flex;gap:.6rem;font-size:var(--t-sm)}
+.fare-cell.desc li::before{content:"—";color:var(--oxblood)}
+.fare-cell.price{display:flex;flex-direction:column;justify-content:center;gap:.5rem}
+.fare-cell.price .amt{font-family:var(--disp);font-weight:600;font-size:var(--t-3xl);letter-spacing:-.02em}
+.fare-cell.price .amt .from{display:block;font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-weight:500;margin-bottom:.2rem}
+.fare-cell.price .unit{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.5rem}
+.fare-row.feat{background:var(--paper)}
+.fare-row.feat .ribbon{position:absolute;top:0;right:1.4rem;transform:translateY(-50%);background:var(--oxblood);color:var(--paper-2);font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.14em;text-transform:uppercase;padding:.25rem .6rem;font-weight:600}
+@media(min-width:820px){.fare-row{grid-template-columns:1.1fr 1.5fr .95fr;align-items:stretch}.fare-cell{border-left:1.5px dashed var(--line-ink)}.fare-cell:first-child{border-left:0}}
+
+/* ============================================================
+   NOTES & CONDITIONS (FAQ)
+   ============================================================ */
+.notes-list{max-width:760px}
+.note-item{border-top:1.5px dashed var(--line)}
+.note-item:last-child{border-bottom:1.5px dashed var(--line)}
+.note-item summary{list-style:none;cursor:pointer;padding:1.15rem 0;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:baseline}
+.note-item summary::-webkit-details-marker{display:none}
+.note-item summary .qn{font-family:var(--mono);font-size:var(--t-xs);color:var(--oxblood);letter-spacing:.08em}
+.note-item summary .qt{font-family:var(--disp);font-weight:500;font-size:var(--t-lg);letter-spacing:-.01em;color:var(--ink)}
+.note-item summary .pm{font-family:var(--mono);font-size:1.2rem;color:var(--ink-soft);transition:transform .3s ease;line-height:1}
+.note-item[open] summary .pm{transform:rotate(45deg)}
+.note-answer{padding:0 0 1.3rem calc(3ch + 1rem);color:var(--ink-soft);font-size:var(--t-base)}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.final{background:var(--ink);color:var(--paper)}
+.final .wrap{text-align:center;max-width:720px}
+.final .eyebrow{justify-content:center}
+.final .eyebrow::after{display:none}
+.final .eyebrow .lbl{color:#cbc0aa}
+.final .eyebrow .no{color:#e39a8f}
+.final h2{font-size:var(--t-5xl);color:var(--paper);margin-bottom:1rem;letter-spacing:-.03em}
+.final h2 .ox{color:#e39a8f}
+.final p{color:#d0c6af;font-size:var(--t-lg);margin-bottom:1.8rem}
+.final .cta-actions{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.final .btn-solid{background:var(--paper);color:var(--ink);border-color:var(--paper);box-shadow:4px 4px 0 rgba(0,0,0,.3)}
+.final .btn-solid:hover{background:var(--oxblood);color:var(--paper);border-color:var(--oxblood)}
+.final .btn-line{border-color:rgba(239,231,214,.5);color:var(--paper)}
+.final .btn-line:hover{background:var(--paper);color:var(--ink)}
+.final .risk{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.1em;text-transform:uppercase;color:#a89e8b;margin-top:1.6rem}
+.final .ps{font-family:var(--serif);font-style:italic;color:#d0c6af;margin-top:1.6rem;font-size:var(--t-base);max-width:50ch;margin-inline:auto}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{background:var(--paper);border-top:1.5px dashed var(--line);padding-block:2.6rem 5.5rem}
+.footer-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+.footer .brand{margin-bottom:1rem}
+.footer p{font-size:var(--t-sm);color:var(--ink-soft);max-width:36ch}
+.footer h4{font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin-bottom:1rem}
+.footer ul{list-style:none;display:grid;gap:.55rem}
+.footer a{font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);transition:color .2s ease}
+.footer a:hover{color:var(--oxblood)}
+.footer-contact li{font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+.footer-bottom{border-top:1.5px dashed var(--line);margin-top:2.4rem;padding-top:1.4rem;display:flex;flex-wrap:wrap;gap:.8rem;justify-content:space-between;font-family:var(--mono);font-size:var(--t-2xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+@media(min-width:760px){.footer-grid{grid-template-columns:1.7fr 1fr 1.1fr}}
+
+/* ============================================================
+   STICKY MOBILE BAR
+   ============================================================ */
+.mobile-bar{position:fixed;bottom:0;left:0;right:0;z-index:90;display:grid;grid-template-columns:1fr 1.4fr;gap:0;background:var(--ink);border-top:1.5px solid var(--oxblood);transform:translateY(100%);transition:transform .3s ease}
+.mobile-bar.show{transform:translateY(0)}
+.mobile-bar a{padding:1rem;font-family:var(--mono);font-size:var(--t-xs);letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--paper);font-weight:600}
+.mobile-bar a.call{border-right:1.5px dashed rgba(239,231,214,.3);color:#e7dcc6}
+.mobile-bar a.book{background:var(--oxblood)}
+@media(min-width:1000px){.mobile-bar{display:none}}
+@media(max-width:999px){.footer{padding-bottom:6.5rem}}
+
+/* ============================================================
+   SCROLL REVEAL (progressive enhancement — gated on .js)
+   ============================================================ */
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+.js .reveal.d1{transition-delay:.08s}
+.js .reveal.d2{transition-delay:.16s}
+.js .reveal.d3{transition-delay:.24s}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .reveal,.js .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#docket">Skip to booking slip</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Adelaide Airport to Barossa — home">
+      <span class="b1">Adelaide&nbsp;&rarr;&nbsp;Barossa</span>
+      <span class="b2">Private Transfers</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#problem">The last leg</a>
+      <a href="#itin">The itinerary</a>
+      <a href="#vehicle">The car</a>
+      <a href="#tariff">Tariff</a>
+      <a href="#notes">Notes</a>
+    </nav>
+    <a href="#docket" class="btn btn-solid nav-cta">Book your transfer</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="dossier"><b>Transfer No. 001</b> &nbsp;·&nbsp; ADL arrivals &rarr; Barossa Valley</span>
+      <span class="dossier">Sturt Hwy &nbsp;·&nbsp; ~75 km &nbsp;·&nbsp; ~1 hr</span>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 id="hero-h1">The hour between the <span class="ox">tarmac</span> and the tasting.</h1>
+        <p class="hero-lead">A private car and driver from the Adelaide Airport arrivals hall to your cellar-door doorstep — up through Gawler and into the vines. <b>One driver. One flat fare. No meter.</b></p>
+        <div class="hero-actions">
+          <a href="#docket" class="btn btn-solid">Book your transfer <span class="arw">&rarr;</span></a>
+          <a href="#tariff" class="btn btn-line">See the tariff</a>
+        </div>
+        <figure class="plate hero-plate reveal">
+          <img src="assets/img/hero-road.jpg" alt="Overcast country road curving into the vine-covered hills on the approach to the Barossa Valley" width="1408" height="768" fetchpriority="high" decoding="async" />
+          <figcaption><span>Plate I — the road up into the valley</span><span>Sturt Hwy, SA</span></figcaption>
+        </figure>
+        <!-- ROUTE RAIL -->
+        <div class="route" role="img" aria-label="Route: Adelaide Airport, Gawler, Lyndoch, Tanunda, Nuriootpa, Angaston, Seppeltsfield">
+          <div class="route-inner">
+            <span class="stop term"><span class="dot"></span><span class="nm">ADL</span></span>
+            <span class="seg"></span>
+            <span class="stop"><span class="dot"></span><span class="nm">Gawler</span></span>
+            <span class="seg"></span>
+            <span class="stop"><span class="dot"></span><span class="nm">Lyndoch</span></span>
+            <span class="seg"></span>
+            <span class="stop"><span class="dot"></span><span class="nm">Tanunda</span></span>
+            <span class="seg"></span>
+            <span class="stop"><span class="dot"></span><span class="nm">Nuriootpa</span></span>
+            <span class="seg"></span>
+            <span class="stop"><span class="dot"></span><span class="nm">Angaston</span></span>
+            <span class="seg"></span>
+            <span class="stop term"><span class="dot"></span><span class="nm">Seppeltsfield</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ THE DOCKET (booking slip) ============ -->
+      <aside class="docket" id="docket" aria-labelledby="docket-t">
+        <div class="docket-head">
+          <div>
+            <div class="dh-t" id="docket-t">Transfer Booking Slip</div>
+            <div class="dh-s">Request a quote — no obligation</div>
+          </div>
+          <div class="dh-no">No. 001<br />ADL&ndash;BAR</div>
+        </div>
+        <div class="perf" aria-hidden="true"></div>
+        <div class="docket-body">
+          <div id="formPanel">
+            <span class="stamp s-bottom" aria-hidden="true">Private · Flat fare</span>
+            <form id="bookingForm" novalidate>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="f-name">Name <span class="req" aria-hidden="true">*</span></label>
+                  <input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true" />
+                  <span class="err" id="err-name">Enter your name</span>
+                </div>
+                <div class="field">
+                  <label for="f-phone">Phone <span class="req" aria-hidden="true">*</span></label>
+                  <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-required="true" />
+                  <span class="err" id="err-phone">Enter a contact number</span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" required aria-required="true" />
+                <span class="err" id="err-email">Enter a valid email</span>
+              </div>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="f-dir">From / To <span class="req" aria-hidden="true">*</span></label>
+                  <select id="f-dir" name="direction" required aria-required="true">
+                    <option value="">Select…</option>
+                    <option>ADL &rarr; Barossa</option>
+                    <option>Barossa &rarr; ADL</option>
+                    <option>Return — both ways</option>
+                    <option>Winery day-tour</option>
+                  </select>
+                  <span class="err" id="err-dir">Choose a direction</span>
+                </div>
+                <div class="field">
+                  <label for="f-party">Party <span class="req" aria-hidden="true">*</span></label>
+                  <select id="f-party" name="party" required aria-required="true">
+                    <option value="">Select…</option>
+                    <option>1–2 guests</option>
+                    <option>3–4 guests</option>
+                    <option>5–7 (people-mover)</option>
+                    <option>8+ (group)</option>
+                  </select>
+                  <span class="err" id="err-party">Select party size</span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-date">Date <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-date" name="date" type="date" required aria-required="true" />
+                <span class="err" id="err-date">Choose a date</span>
+              </div>
+              <button type="submit" class="btn btn-solid btn-block">Lodge booking request <span class="arw">&rarr;</span></button>
+              <p class="form-note">Rather speak to a person? <a href="tel:+61000000000">Call / SMS [PHONE]</a></p>
+            </form>
+          </div>
+          <div class="form-success" id="formSuccess" role="status" aria-live="polite" tabindex="-1">
+            <span class="rec-stamp" aria-hidden="true">Received</span>
+            <h3>Slip lodged</h3>
+            <p>We&rsquo;ve got your details and will confirm availability and a flat fare by reply. For anything urgent, call [PHONE].</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STRIP ============ -->
+<section class="strip" aria-label="What's included as standard">
+  <div class="wrap">
+    <span class="strip-item"><span class="mk" aria-hidden="true">✦</span> Licensed &amp; insured chauffeurs</span>
+    <span class="strip-item"><span class="mk" aria-hidden="true">✦</span> We track your flight</span>
+    <span class="strip-item"><span class="mk" aria-hidden="true">✦</span> Met at the arrivals hall</span>
+    <span class="strip-item"><span class="mk" aria-hidden="true">✦</span> Flat fare, meter never runs</span>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="section" id="problem" aria-labelledby="prob-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 01</span><span class="lbl">The last leg</span></div>
+      <h2 id="prob-h">You flew a long way for the wine. Don&rsquo;t let the last hour undo it.</h2>
+      <p>The 75 km from the terminal to the vines is where most trips lose their shine. Three ways it usually goes wrong:</p>
+    </div>
+    <div class="prob-grid">
+      <article class="prob-item reveal">
+        <span class="pn">a.</span>
+        <div><h3>You land already spent</h3><p>After a long-haul or the redeye from the east coast, decoding surge pricing and queuing at the rank with your bags is the last thing you have in you.</p></div>
+      </article>
+      <article class="prob-item reveal">
+        <span class="pn">b.</span>
+        <div><h3>The ride doesn&rsquo;t show</h3><p>Shared shuttles run to a timetable, not your flight. A cancelled driver in an unfamiliar city — with patchy rural coverage — turns a celebration into a scramble.</p></div>
+      </article>
+      <article class="prob-item reveal">
+        <span class="pn">c.</span>
+        <div><h3>The meter just climbs</h3><p>A 75 km metered fare with waiting time is a guessing game. Nobody wants to watch numbers tick over on the first hour of a holiday.</p></div>
+      </article>
+    </div>
+    <p class="prob-bridge reveal">There is a quieter way to arrive &mdash; <span class="ox">arranged before you board.</span></p>
+  </div>
+</section>
+
+<!-- ============ WHY US / DIFFERENTIATORS ============ -->
+<section class="section diff" aria-labelledby="diff-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 02</span><span class="lbl">Why book us</span></div>
+      <h2 id="diff-h">Not a shuttle. Not a meter. One car, held for you.</h2>
+    </div>
+    <div class="diff-grid">
+      <article class="diff-card reveal">
+        <div class="dc-no">Point i</div>
+        <h3>Met at the gate</h3>
+        <p>We watch your flight in real time. Land early or late, your driver is waiting inside the ADL arrivals hall with your name — ready to take the bags.</p>
+        <span class="tag">Meet &amp; greet</span>
+      </article>
+      <article class="diff-card reveal d1">
+        <div class="dc-no">Point ii</div>
+        <h3>One flat fare</h3>
+        <p>Quoted and agreed before you travel — GST in, per vehicle. No meter, no per-bag charge, no toll line-item, no holiday surge.</p>
+        <span class="tag">Fixed price</span>
+      </article>
+      <article class="diff-card reveal d2">
+        <div class="dc-no">Point iii</div>
+        <h3>Private, door to door</h3>
+        <p>Just your party. Terminal kerb to your winery, hotel or B&amp;B doorstep. Child seats and extra luggage arranged in advance.</p>
+        <span class="tag">Yours only</span>
+      </article>
+      <article class="diff-card reveal d3">
+        <div class="dc-no">Point iv</div>
+        <h3>A local at the wheel</h3>
+        <p>Barossa-based drivers who know Menglers Hill, the family growers off the main road, and which cellar door suits your afternoon.</p>
+        <span class="tag">Local knowledge</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE ITINERARY (how it works) ============ -->
+<section class="section itin" id="itin" aria-labelledby="itin-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 03</span><span class="lbl">The itinerary</span></div>
+      <h2 id="itin-h">How the day runs, leg by leg.</h2>
+    </div>
+    <div class="itin-grid">
+      <div class="legs">
+        <article class="leg reveal">
+          <div class="leg-mark"><span class="leg-no">Leg 1</span><span class="leg-dot"></span><span class="leg-line"></span></div>
+          <div><span class="stage">Before you fly</span><h3>Lodge the slip</h3><p>Send your flight number, party and destination. We confirm the car and lock a single flat fare — the tariff you see is the tariff you pay.</p></div>
+        </article>
+        <article class="leg reveal">
+          <div class="leg-mark"><span class="leg-no">Leg 2</span><span class="leg-dot"></span><span class="leg-line"></span></div>
+          <div><span class="stage">Adelaide Airport &middot; ADL</span><h3>We track &amp; meet you</h3><p>Your driver follows the flight live, adjusts for delays, and greets you inside the arrivals hall with a name board. Bags into the boot, water in the door.</p></div>
+        </article>
+        <article class="leg reveal">
+          <div class="leg-mark"><span class="leg-no">Leg 3</span><span class="leg-dot"></span><span class="leg-line"></span></div>
+          <div><span class="stage">Sturt Hwy &middot; via Gawler</span><h3>Up into the valley</h3><p>Settle in for the ~1-hour run north through Gawler and into the vines. Quiet if you want to sleep, local intel if you don&rsquo;t.</p></div>
+        </article>
+        <article class="leg reveal">
+          <div class="leg-mark"><span class="leg-no">Leg 4</span><span class="leg-dot"></span><span class="leg-line"></span></div>
+          <div><span class="stage">Your doorstep</span><h3>Arrive rested</h3><p>Dropped at your cellar door, hotel or B&amp;B — anywhere from Lyndoch to Angaston. Ask about the return leg for your flight out.</p></div>
+        </article>
+      </div>
+      <figure class="plate reveal">
+        <img src="assets/img/car-window.jpg" alt="View through a car side mirror of vineyard rows and a stone gateway on the drive into the Barossa" width="1200" height="655" loading="lazy" decoding="async" />
+        <figcaption><span>Plate II — gate to grape, from the car</span><span>Barossa Valley</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE VEHICLE ============ -->
+<section class="section" id="vehicle" aria-labelledby="veh-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 04</span><span class="lbl">The car</span></div>
+      <h2 id="veh-h">A clean, quiet car — matched to your party.</h2>
+    </div>
+    <div class="veh-grid">
+      <figure class="plate reveal">
+        <img src="assets/img/sedan-road.jpg" alt="A dark sedan on an open country road in soft, overcast film-toned light" width="1000" height="545" loading="lazy" decoding="async" />
+        <figcaption><span>Plate III — the car, on the road [demo — swap for your real vehicle]</span></figcaption>
+      </figure>
+      <div class="veh-copy reveal d1">
+        <h3>Executive sedan &amp; premium people-mover.</h3>
+        <p>Late-model, immaculate, air-conditioned. The sedan carries up to four in comfort; the people-mover takes up to seven with room for luggage, wine cases and golf clubs — one vehicle, no convoy.</p>
+        <ul class="spec">
+          <li><span class="k">Sedan</span><span class="v">Up to 4 guests · 3–4 bags</span></li>
+          <li><span class="k">People-mover</span><span class="v">Up to 7 guests · ample luggage</span></li>
+          <li><span class="k">On board</span><span class="v">Water · Wi-Fi · phone charging</span></li>
+          <li><span class="k">On request</span><span class="v">Child seats · capsules · boosters</span></li>
+          <li><span class="k">Groups 8+</span><span class="v">Coordinated multi-car flat quote</span></li>
+        </ul>
+        <a href="#docket" class="btn btn-line">Book the right car</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WINERY ADD-ON ============ -->
+<section class="section addon" aria-labelledby="addon-h">
+  <div class="wrap">
+    <div class="addon-copy reveal">
+      <div class="eyebrow"><span class="no">§ 05</span><span class="lbl">Optional — day tour</span></div>
+      <h2 id="addon-h">Make it a Barossa day, not just a drive.</h2>
+      <p>Arrived a day early, or leaving on an evening flight? Keep the car and driver, and let them set a private cellar-door itinerary around your palate — Shiraz icons, boutique family growers, a long lunch among the vines. One driver all day, and no one has to skip a pour to drive.</p>
+      <a href="#docket" class="btn btn-line">Plan a day tour</a>
+    </div>
+    <figure class="plate reveal d1">
+      <img src="assets/img/table-wine.jpg" alt="A quiet glass of red wine on a table beside a window, in muted film tones" width="900" height="630" loading="lazy" decoding="async" />
+      <figcaption><span>Plate IV — a glass by the window</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ PASSENGER NOTES (testimonials) ============ -->
+<section class="section" aria-labelledby="pnotes-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 06</span><span class="lbl">From the guest book</span></div>
+      <h2 id="pnotes-h">Passenger notes.</h2>
+    </div>
+    <p class="notice reveal" role="note">Owner action — these are placeholder notes. Replace with genuine, permission-based guest reviews before launch. Do not publish invented quotes, names, photos or ratings.</p>
+    <div class="guest-grid">
+      <figure class="guest reveal">
+        <span class="qmark" aria-hidden="true">&ldquo;</span>
+        <blockquote>[PLACEHOLDER — a real, verified guest note about being met at arrivals and the flat fare.]</blockquote>
+        <figcaption class="by"><span class="mono-init" aria-hidden="true">[ ]</span><span><span class="nm">[Guest name]</span><br /><span class="mt">[City · trip type]</span></span></figcaption>
+      </figure>
+      <figure class="guest reveal d1">
+        <span class="qmark" aria-hidden="true">&ldquo;</span>
+        <blockquote>[PLACEHOLDER — a real note about the day tour and the driver&rsquo;s local knowledge.]</blockquote>
+        <figcaption class="by"><span class="mono-init" aria-hidden="true">[ ]</span><span><span class="nm">[Guest name]</span><br /><span class="mt">[City · trip type]</span></span></figcaption>
+      </figure>
+      <figure class="guest reveal d2">
+        <span class="qmark" aria-hidden="true">&ldquo;</span>
+        <blockquote>[PLACEHOLDER — a real note, e.g. from a wedding party or corporate group in the people-mover.]</blockquote>
+        <figcaption class="by"><span class="mono-init" aria-hidden="true">[ ]</span><span><span class="nm">[Guest name]</span><br /><span class="mt">[City · trip type]</span></span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FARE TABLE / TARIFF ============ -->
+<section class="section tariff" id="tariff" aria-labelledby="tariff-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 07</span><span class="lbl">Tariff</span></div>
+      <h2 id="tariff-h">The fare table.</h2>
+      <p>Per-vehicle flat rates, GST included. Agreed before you travel — no meter, no per-bag fee, no surge.</p>
+    </div>
+    <p class="tariff-note reveal" role="note">Owner note — the amounts below are example placeholders. Replace with your real, current fares before launch and keep them accurate.</p>
+    <div class="fare-table">
+      <div class="fare-row reveal">
+        <div class="fare-cell"><div class="ft-no">Fare A</div><h3>Executive Sedan</h3><div class="cap">Up to 4 guests · one way</div></div>
+        <div class="fare-cell desc">Private transfer, ADL arrivals to your Barossa doorstep.<ul><li>Flight tracking &amp; meet at the gate</li><li>60 min free wait for delays</li><li>Water, Wi-Fi, child seat on request</li></ul></div>
+        <div class="fare-cell price"><div class="amt"><span class="from">From</span>$AUD [XXX]</div><span class="unit">per vehicle</span><a href="#docket" class="btn btn-solid btn-block">Book sedan</a></div>
+      </div>
+      <div class="fare-row feat reveal">
+        <span class="ribbon" aria-hidden="true">Most booked</span>
+        <div class="fare-cell"><div class="ft-no">Fare B</div><h3>Premium People-Mover</h3><div class="cap">Up to 7 guests · one way</div></div>
+        <div class="fare-cell desc">Everything in Fare A, with room to spread out.<ul><li>Seats 7 with luggage, wine cases, golf clubs</li><li>Ideal for families &amp; wedding parties</li><li>One vehicle — no convoy</li></ul></div>
+        <div class="fare-cell price"><div class="amt"><span class="from">From</span>$AUD [XXX]</div><span class="unit">per vehicle</span><a href="#docket" class="btn btn-solid btn-block">Book people-mover</a></div>
+      </div>
+      <div class="fare-row reveal">
+        <div class="fare-cell"><div class="ft-no">Fare C</div><h3>Winery Day-Tour</h3><div class="cap">Bespoke · half or full day</div></div>
+        <div class="fare-cell desc">Transfer plus a private cellar-door tour with your driver-guide.<ul><li>Tailored itinerary to your taste</li><li>Boutique &amp; iconic cellar doors</li><li>Lunch bookings arranged · airport add-on</li></ul></div>
+        <div class="fare-cell price"><div class="amt"><span class="from">From</span>$AUD [XXX]</div><span class="unit">per day</span><a href="#docket" class="btn btn-solid btn-block">Plan a day tour</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOTES & CONDITIONS (FAQ) ============ -->
+<section class="section" id="notes" aria-labelledby="cond-h">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span class="no">§ 08</span><span class="lbl">Notes &amp; conditions</span></div>
+      <h2 id="cond-h">Good to know before you book.</h2>
+    </div>
+    <div class="notes-list">
+      <details class="note-item reveal">
+        <summary><span class="qn">N1</span><span class="qt">What if my flight is delayed or early?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">We track your flight in real time from your flight number, so the driver adjusts automatically. Domestic arrivals include complimentary wait time and international arrivals allow extra for immigration and baggage — no surge or rush fee for a delay outside your control. [Owner: confirm exact free-wait windows.]</div>
+      </details>
+      <details class="note-item reveal">
+        <summary><span class="qn">N2</span><span class="qt">How much luggage can you take?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">The sedan fits up to four guests with 3–4 standard cases. For larger groups, extra luggage, wine cases, prams or golf clubs, choose the people-mover. Tell us what you&rsquo;re carrying and we&rsquo;ll match the right vehicle.</div>
+      </details>
+      <details class="note-item reveal">
+        <summary><span class="qn">N3</span><span class="qt">Do you provide child seats and capsules?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">Yes — approved seats, boosters and baby capsules are available on request at no surprise cost. Note the ages and number of children when booking so we fit the correct restraints in advance.</div>
+      </details>
+      <details class="note-item reveal">
+        <summary><span class="qn">N4</span><span class="qt">How large a group can you carry?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">Up to four in the sedan and up to seven in the people-mover. For weddings, corporate incentives or wine-club groups of 8+, we coordinate multiple vehicles on one flat quote. Ask about group and return-trip rates.</div>
+      </details>
+      <details class="note-item reveal">
+        <summary><span class="qn">N5</span><span class="qt">How do I pay — and is the fare really fixed?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">Your fare is a fixed, all-inclusive flat rate per vehicle (GST included), quoted and agreed before you travel — no meter, no per-bag fee. [Owner: confirm accepted payment methods and whether a deposit applies.]</div>
+      </details>
+      <details class="note-item reveal">
+        <summary><span class="qn">N6</span><span class="qt">What is your cancellation policy?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">[PLACEHOLDER — owner to set a clear, fair policy, e.g. free cancellation up to 24–48 hours before pick-up. State it plainly here. We recommend a transparent, no-tricks policy that builds trust.]</div>
+      </details>
+      <details class="note-item reveal">
+        <summary><span class="qn">N7</span><span class="qt">Where in the Barossa do you cover?</span><span class="pm" aria-hidden="true">+</span></summary>
+        <div class="note-answer">The greater Barossa in both directions — Lyndoch, Tanunda, Nuriootpa, Angaston, Marananga, Seppeltsfield, Eden Valley and surrounding cellar doors, hotels and B&amp;Bs. Outside this area? Ask us for a flat quote.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="section final" aria-labelledby="final-h">
+  <div class="wrap">
+    <div class="eyebrow reveal"><span class="no">Transfer No. 001</span><span class="lbl">Ready when you are</span></div>
+    <h2 id="final-h" class="reveal">Lodge the slip. We&rsquo;ll take the <span class="ox">last leg</span> from here.</h2>
+    <p class="reveal">Send your flight and we&rsquo;ll hold a car, track your arrival, and have you among the vines within the hour — for one fare you agree up front.</p>
+    <div class="cta-actions reveal">
+      <a href="#docket" class="btn btn-solid">Book your transfer <span class="arw">&rarr;</span></a>
+      <a href="tel:+61000000000" class="btn btn-line">Call / SMS [PHONE]</a>
+    </div>
+    <p class="risk reveal">No obligation · Flat pricing · Licensed &amp; insured · Flight-tracked pick-up</p>
+    <p class="ps reveal">P.S. Travelling for a wedding, a milestone or a wine-club weekend? Ask about return trips and full-day cellar-door tours — one driver, all weekend.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#top"><span class="b1">Adelaide&nbsp;&rarr;&nbsp;Barossa</span><span class="b2">Private Transfers</span></a>
+        <p>Private door-to-door chauffeur transfers and bespoke winery day-tours between Adelaide Airport (ADL) and the Barossa Valley, South Australia.</p>
+      </div>
+      <nav aria-label="Footer">
+        <h4>Itinerary</h4>
+        <ul>
+          <li><a href="#problem">The last leg</a></li>
+          <li><a href="#itin">The itinerary</a></li>
+          <li><a href="#vehicle">The car</a></li>
+          <li><a href="#tariff">Tariff</a></li>
+          <li><a href="#notes">Notes &amp; conditions</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h4>Contact</h4>
+        <ul class="footer-contact">
+          <li><a href="tel:+61000000000">Tel — [PHONE, replace]</a></li>
+          <li><a href="mailto:hello@adelaideairporttobarossa.com.au">hello@adelaideairporttobarossa.com.au</a></li>
+          <li>Servicing ADL &amp; the Barossa Valley, SA</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Adelaide Airport to Barossa · ABN [XX XXX XXX XXX]</span>
+      <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Cancellation</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE BAR ============ -->
+<div class="mobile-bar" id="mobileBar">
+  <a href="tel:+61000000000" class="call">Call</a>
+  <a href="#docket" class="book">Book your transfer</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var header = document.getElementById("siteHeader");
+  var mobileBar = document.getElementById("mobileBar");
+  function onScroll(){
+    var y = window.scrollY;
+    header.classList.toggle("scrolled", y > 40);
+    mobileBar.classList.toggle("show", y > 640);
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  /* Scroll reveal (gated on .js so content is visible without JS) */
+  var reveals = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)){
+    reveals.forEach(function(el){el.classList.add("in");});
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, {rootMargin:"0px 0px -10% 0px", threshold:0.12});
+    reveals.forEach(function(el){io.observe(el);});
+  }
+
+  var yearEl = document.getElementById("year");
+  if(yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* Booking slip validation (client-side only) */
+  var form = document.getElementById("bookingForm");
+  var successPanel = document.getElementById("formSuccess");
+  var formPanel = document.getElementById("formPanel");
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function byId(id){ return document.getElementById(id); }
+  function setInvalid(field, invalid){
+    var wrap = field.closest(".field");
+    if(!wrap) return;
+    wrap.classList.toggle("invalid", invalid);
+    field.setAttribute("aria-invalid", invalid ? "true" : "false");
+  }
+  function validate(){
+    var ok = true, firstBad = null;
+    var checks = [
+      {el: byId("f-name"),  t: function(v){return v.trim().length > 1;}},
+      {el: byId("f-phone"), t: function(v){return v.replace(/[^\d]/g,"").length >= 6;}},
+      {el: byId("f-email"), t: function(v){return emailRe.test(v.trim());}},
+      {el: byId("f-dir"),   t: function(v){return v !== "";}},
+      {el: byId("f-party"), t: function(v){return v !== "";}},
+      {el: byId("f-date"),  t: function(v){return v !== "";}}
+    ];
+    checks.forEach(function(c){
+      var good = c.t(c.el.value || "");
+      setInvalid(c.el, !good);
+      if(!good){ ok = false; if(!firstBad) firstBad = c.el; }
+    });
+    return {ok:ok, firstBad:firstBad};
+  }
+  form.querySelectorAll("input,select").forEach(function(el){
+    el.addEventListener("input", function(){
+      if(el.getAttribute("aria-invalid") === "true") setInvalid(el, false);
+    });
+  });
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var res = validate();
+    if(!res.ok){ if(res.firstBad) res.firstBad.focus(); return; }
+    /* -----------------------------------------------------------
+       TODO (owner/dev): wire to a real endpoint. Example:
+         var data = Object.fromEntries(new FormData(form).entries());
+         fetch("/api/quote",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})...
+       Or point <form> at Formspree / Netlify Forms / your CRM.
+       Currently client-side only — nothing is sent.
+    ----------------------------------------------------------- */
+    formPanel.style.display = "none";
+    successPanel.classList.add("show");
+    if(successPanel.focus) successPanel.focus();
+    successPanel.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"nearest"});
+  });
+})();
+</script>
+</body>
+</html>
