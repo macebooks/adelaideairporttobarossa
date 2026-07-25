@@ -67,14 +67,15 @@ is behind a redirect.
 ## Tier 3 — Launch blockers 🚫
 
 Everything below is real-world data or a decision only the business can supply. **Do not go live
-until all are cleared.**
+until all are cleared.** `CLIENT-INFO-REQUEST.md` is the ready-to-send message that collects the
+outstanding items from the owner; its final table maps each question back to the blockers below.
 
 | # | Blocker | What is needed |
 |---|---|---|
 | L1 | **Fabricated testimonials** | The three quotes in "What guests say" (Rebecca H., Sarah & Tom K., Priya N.) are invented samples with a hidden HTML comment saying so. Publishing them is fake social proof. **Replace with real, consented reviews or delete the section.** No `Review`/`AggregateRating` schema has been added, and none may be until the reviews are genuine. |
 | L2 | Fares | Three `$AUD [XXX]` placeholders in the fares cards. Note they contradict the estimator, which already quotes $175 / $215 / $275 — reconcile both. |
 | L3 | Vehicle spec | `[VEHICLE MAKE / MODEL]` and `[SEATS]` in "The ride" and the fares card. |
-| L4 | Payment + cancellation terms | `[PAYMENT METHODS]` and `[CANCELLATION POLICY]` in the FAQ, and the matching `[…]` blocks in `/terms` (payment, waiting time, cancellation). |
+| L4 | Payment + cancellation terms | **Partly cleared.** Payment methods (card, bank transfer, cash on the day, invoice by arrangement) and a 48-hour free-cancellation window are now written into the FAQ, `/terms` and the `FAQPage` schema. Still outstanding: the **exact cancellation fee** inside 48 hours, the **no-show charge**, and the `[FREE WAITING TIME…]` block in `/terms`. |
 | L5 | SMTP2GO secret | `npx wrangler secret put SMTP2GO_API_KEY`, then submit a real booking and confirm it lands at `barossacabs@outlook.com.au` **and** that the customer auto-reply arrives. Until then `/api/booking` returns 500. |
 | L6 | Sender domain auth | `EMAIL_FROM` is `support@finestsemmail.com`. Confirm SPF/DKIM are valid for it in SMTP2GO or auto-replies will land in spam. |
 | L7 | DNS + host redirect | Point `adelaideairporttobarossa.com.au` at the Worker and add a redirect rule `www → apex` (the canonical is the apex). |

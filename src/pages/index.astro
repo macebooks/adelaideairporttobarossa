@@ -86,10 +86,26 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
+      name: 'How do I pay?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Nothing is charged when you lodge a request. We reply with a flat fare, and payment is arranged on confirmation. We take Visa and Mastercard, bank transfer, or cash to the driver on the day. Regular and corporate clients can be invoiced by arrangement.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "What's your cancellation policy?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: "Cancel more than 48 hours before your pick-up time and there is nothing to pay. Inside 48 hours a cancellation fee may apply. If your flight moves, tell us and we will shift the booking rather than cancel it.",
+      },
+    },
+    {
+      '@type': 'Question',
       name: 'How long does the drive from Adelaide Airport to the Barossa Valley take?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'About one hour door to door, roughly 75 km north up the Sturt Highway through Gawler to Lyndoch, Tanunda, Nuriootpa or Angaston.',
+        text: 'About one hour door to door, roughly 75 km north up the Sturt Highway through Gawler to Lyndoch, Tanunda, Nuriootpa or Angaston. Lyndoch is the closest stop at around 50 minutes; Angaston the furthest at around 70.',
       },
     },
   ],
@@ -1069,11 +1085,15 @@ const schemas = [businessSchema, faqSchema];
       </details>
       <details>
         <summary>How do I pay?</summary>
-        <p>Nothing is charged when you lodge this request. We reply with a flat fare, and payment is arranged on confirmation. [PAYMENT METHODS, owner placeholder.]</p>
+        <p>Nothing is charged when you lodge this request. We reply with a flat fare, and payment is arranged on confirmation. We take Visa and Mastercard, bank transfer, or cash to the driver on the day. Regular and corporate clients can be invoiced by arrangement.</p>
       </details>
       <details>
         <summary>What's your cancellation policy?</summary>
-        <p>[CANCELLATION POLICY, owner placeholder. State notice period and any fee here, e.g. free cancellation up to XX hours before pick-up.]</p>
+        <p>Cancel more than 48 hours before your pick-up time and there is nothing to pay. Inside 48 hours a cancellation fee may apply. If your flight moves, tell us and we'll shift the booking rather than cancel it.</p>
+      </details>
+      <details>
+        <summary>How long does the drive from Adelaide Airport to the Barossa Valley take?</summary>
+        <p>About one hour door to door, roughly 75 km north up the Sturt Highway through Gawler to Lyndoch, Tanunda, Nuriootpa or Angaston. Lyndoch is the closest stop at around 50 minutes; Angaston the furthest at around 70.</p>
       </details>
     </div>
   </div>
