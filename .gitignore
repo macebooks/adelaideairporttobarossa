@@ -1,0 +1,11 @@
+dist/
+node_modules/
+.astro/
+.wrangler/
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# raw asset archives — keep photo zips out of the repo
+*.zip

@@ -1,86 +1,94 @@
-# Definition of Done — AdelaideAirportToBarossa.com.au
+# Definition of Done — adelaideairporttobarossa.com.au
 
-Build: **"The Itinerary"** (`index.html`). Master gate list & method:
-`~/.claude/landing-page-expert/DEFINITION-OF-DONE.md`.
-Verified by headless Chromium render + measurement on 2026-07-22.
+**Stack:** Astro 5 (static) + Cloudflare Worker (`worker/index.ts`) serving `dist/` through the
+`ASSETS` binding and handling `POST /api/booking`. Structure, configuration and the booking
+Worker mirror the `Barossataxi` project.
 
-**Status: ✅ BUILD-COMPLETE — 🚫 LAUNCH-BLOCKED** (real business data still needed; see Tier 2).
+**Design:** unchanged from the pre-migration `index.html` ("Tarmac to Vines" naive-premium poster
+build) — flat colour blocks, hand-drawn inline SVG, zero raster photography.
 
-🔬 = verified by rendering, not code-reading.
+**Verification:** every gate marked 🔬 was *measured* in headless Chrome against the site served by
+`wrangler dev`, not read off the source. Re-run any time with:
 
-## Tier 1 — Build-Complete
+```bash
+npm run serve     # terminal 1 — wrangler dev on :8787
+npm run audit     # terminal 2 — prints the JSON report the 🔬 gates are read from
+```
 
-| Gate | Status | Evidence |
-|---|---|---|
-| A1 type/goal/audience/awareness stated | ✅ | Local booking page; goal = quote/booking; travellers→Barossa; awareness 2–3 (all labeled assumptions) |
-| A2 blueprint section order / every section justified | ✅ | Hero+docket → §01 last leg → §02 why us → §03 itinerary → §04 car → §05 day-tour → §06 notes → §07 tariff → §08 FAQ → CTA → footer |
-| A3 above-fold = what/who/next | ✅ | H1 + dossier line + docket form in first screen |
-| A4 CTA prominent, repeats 3+×, single primary 🔬 | ✅ | 7 CTA instances; one primary action ("Book/Lodge transfer") |
-| A5 trust stacked & early | ✅ | Included-as-standard strip + differentiators before the ask |
-| A6 objections handled | ✅ | §08 Notes/FAQ (delays, luggage, child seats, cancellation) |
-| B1 not-a-template / concept named 🔬 | ✅ | "Editorial transfer dossier"; passed AI-feel review after rebuild |
-| B2 characterful display font | ✅ | Space Grotesk (Fraunces removed — grep-confirmed 0) |
-| B3 disciplined palette + hex | ✅ | paper `#efe7d6`/`#f5f0e6`, ink `#1c1a17`, faded `#4a453d`, oxblood `#8a2f24`, green `#3d4a3a` |
-| B4 consistent system 🔬 | ✅ | one type scale / spacing rhythm / button style across sections |
-| B5 imagery not glossy-stock/AI 🔬 | ⚠️ | Muted film-graded plates (grain+faded grade) — read as photography, **but are AI-generated**; real photos recommended → see L3 |
-| B6 purposeful motion + a bold/asymmetric move 🔬 | ✅ | GPU-only reveals; asymmetric docket/route/staggered cards (not centered grid) |
-| C1 headline specific + 3–5 ranked | ✅ | "The hour between the tarmac and the tasting" + ranked options provided |
-| C2 concrete/human copy | ✅ | Sturt Hwy, ~75km, Gawler, ADL arrivals hall, named localities |
-| C3 CTAs benefit-framed | ✅ | "Book your transfer", "Lodge booking request" |
-| D1 zero h-overflow @320/360/390/768/1440 🔬 | ✅ | scrollWidth===clientWidth at all five (measured) |
-| D2 no header/hero overlap ≤360 🔬 | ✅ | hero padding-top clears fixed header; no overlap |
-| D3 layouts collapse correctly 🔬 | ✅ | hero→1col, route rail scrolls in-column, nav condenses |
-| D4 tap targets / no clipped text 🔬 | ✅ | H1 wraps at 320 (right edge 302px), buttons full-width mobile |
-| E1 LCP eager+preload; rest lazy+dims | ✅ | hero-road.jpg preloaded `fetchpriority=high`; 3 below-fold lazy w/ width/height |
-| E2 weight < 1.5MB | ✅ | index 61KB + images 884KB ≈ 0.95MB |
-| E3 fonts swap+preconnect ≤3 | ✅ | `display=swap`, 2 preconnect, 3 families |
-| E4 no JS libs / GPU-only anim | ✅ | single file, vanilla JS, transform/opacity only |
-| E5 0 console errors @all widths 🔬 | ✅ | 0 pageerror/console-error at 320/360/390/768/1440 |
-| F1 landmarks + one h1 | ✅ | semantic landmarks; `<h1>` count = 1 |
-| F2 labelled fields + programmatic errors | ✅ | mono labels + `aria-invalid`/inline errors |
-| F3 focus visible + skip link 🔬 | ✅ | oxblood focus ring; transform-based skip link present |
-| F4 contrast ≥4.5:1 body 🔬 | ✅ | ink 14.1:1, faded 7.7:1, oxblood 6.8:1, green 7.6:1 (all pass body) |
-| F5 alt/aria-hidden + reduced-motion visible 🔬 | ✅ | 4/4 imgs have alt, 0 missing; reduced-motion → 0 hidden content |
-| G1 JS-off renders ALL content 🔬 | ✅ | JS disabled → only 4 hidden (form error/success), all sections visible |
-| G2 no blank-on-throw 🔬 | ✅ | `.js`-gated reveals; content visible by default |
-| G3 form validates + success + endpoint noted | ✅ | client validate + "Received" state; endpoint stubbed w/ comment |
-| H1 title+meta | ✅ | unique title + meta description present |
-| H2 OG/Twitter → 1200×630 og-image | ✅ | og+twitter → `og-image.jpg` (1200×655) |
-| H3 canonical + JSON-LD NAP | ✅ | canonical set; TravelAgency/LocalBusiness JSON-LD (NAP placeholder) |
-| I1 no fabricated social proof | ✅ | testimonials visibly `[PLACEHOLDER]`, monogram avatars, no AI faces |
-| I2 no dark patterns/fake scarcity | ✅ | "Most booked" is static label; no countdowns/hidden fees |
-| I3 transparent pricing/terms | ✅ | flat-fare framing; cancellation flagged as owner placeholder |
+Last full run: **2026-07-25**, commit at time of migration.
 
-## Tier 2 — Launch-Ready (🚫 all blocking until done)
-
-| Gate | Status | Needed |
-|---|---|---|
-| L1 real data | 🚫 | Replace `[PHONE]`, `$AUD [XXX]` fares, ABN, NAP |
-| L2 genuine testimonials | 🚫 | Real, consented reviews (or remove §06) |
-| L3 real photos | 🚫 | Swap `sedan-road.jpg` for the actual vehicle(s); ideally real Barossa photos over AI plates |
-| L4 live form endpoint | 🚫 | Wire form to a tested endpoint (Formspree/Netlify/API); confirm lead arrives |
-| L5 analytics/consent/legal | 🚫 | Add analytics + privacy/terms links if required |
-| L6 re-run 🔬 gates on real content | 🚫 | Real copy/prices can reintroduce overflow/contrast — re-verify |
-
-**Bottom line:** the craft is done and independently verified. Do not go live until Tier 2 is cleared — a page with placeholder pricing and placeholder testimonials is not launch-ready.
+**Status: ✅ MIGRATION-COMPLETE + TECH-SEO-CLEAN — 🚫 LAUNCH-BLOCKED** (see Tier 3).
 
 ---
 
-# Build B — "Tarmac to Vines" naive-premium (`index-naive.html`)
+## Tier 1 — Platform migration
 
-Second, **active** deliverable. Built 2026-07-22 to the **intelligently-naive-design** philosophy (chosen fresh over Build A's editorial dossier). Concept: alternating full-bleed flat-colour **printed-poster blocks** (bone/vine/wine/sky/ink) with **hand-drawn inline-SVG folk-art** (Charley-Harper vines/road/sedan) — **zero raster photos**, so the AI-photo tell (B5) is eliminated by construction. Authored via `landing-page-expert` subagent; verified by main-thread Chromium render + measurement.
+| # | Gate | Status | Evidence |
+|---|---|---|---|
+| P1 | Astro project builds clean | ✅ | `npm run build` → 4 pages, 0 warnings, 0 errors |
+| P2 | Routes emitted as flat files, no trailing-slash redirect | ✅ | `build.format:'file'`, `trailingSlash:'never'`; `/privacy` → **200** direct (not 307) |
+| P3 | Worker serves assets + booking API | ✅ | `wrangler.toml` `[assets] binding=ASSETS`; `/api/booking` handled, everything else falls through |
+| P4 | Booking endpoint validates | 🔬 ✅ | GET → 405; missing fields → 400; bad email → 400; honeypot → 200 no-send; 4th POST/min → 429 |
+| P5 | Form wired end-to-end (no stub) | 🔬 ✅ | Browser submit → `fetch('/api/booking')` → success state shown, focus moved to it; server-error path shows the server message and re-enables the button |
+| P6 | Secrets not in the repo | ✅ | `SMTP2GO_API_KEY` is a Wrangler secret; `.dev.vars` gitignored; `.dev.vars.example` committed |
+| P7 | 404s return a real 404 | 🔬 ✅ | `not_found_handling = "404-page"`; `/nonexistent-page` → **404** + branded page |
+| P8 | Legacy artefacts out of the served tree | ✅ | `index-v3.html`, `index-premium.html`, unused Build-A JPEGs moved to `legacy/` |
+| P9 | Security + cache headers | 🔬 ✅ | `public/_headers`: nosniff, `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy`; `/_astro/*` immutable 1yr (verified via `curl -I`) |
 
-**Status: ✅ BUILD-COMPLETE — 🚫 LAUNCH-BLOCKED** (same Tier-2 placeholders as Build A: real fares/phone/email/ABN/vehicle/cancellation).
+## Tier 2 — Technical SEO, performance, accessibility
 
-🔬 gates re-verified on this file (not code-read):
-- H1 "Land in Adelaide. Be in the Barossa by the second glass." — single `<h1>`.
-- Palette: ink `#241E1B`, bone `#F3ECDD`, vine `#2F5233`, wine `#7A2C3B`, harvest gold `#E8A33D` (primary CTA), sky text-bg lightened to `#6795AF`. Type: Bricolage Grotesque / Hanken Grotesk / Space Mono (no Fraunces).
-- Contrast (rendered): bone/ink 13.99, bone-on-vine 7.52, bone-on-wine 7.93, ink-on-sky `#6795AF` 5.09, ink-on-gold 7.63 — all ≥4.5 body.
-- Overflow: scrollWidth==clientWidth @ 320/360/390/768/1440 (measured). Route strip scrolls in its own container.
-- JS-off: 12/12 tracked sections visible, form visible, 0 hidden — reveals gated by `.js-anim` set only inside a `try`; `catch` reverts to visible.
-- Reduced-motion: `.js-anim` never added → all content at rest, hero drive/pop suppressed. Signature motion (sedan drives tarmac→vines, vines `pop`) confirmed running with motion allowed.
-- Console: 0 pageerror/console-error @ 390 & 1440.
-- OG: `assets/img/og-image.jpg` regenerated as a 1200×630 folk-art poster (rendered from palette, no photo).
-- Honesty: all NAP/fares/vehicle/cancellation are visibly-labelled placeholders; no testimonials/fake proof; no dark patterns. Placeholder brand name "Tarmac to Vines" — swap for real brand.
+| # | Gate | Status | Evidence (measured) |
+|---|---|---|---|
+| S1 | One canonical host, absolute canonical on every page | 🔬 ✅ | `https://adelaideairporttobarossa.com.au/`, `/privacy`, `/terms` — all self-canonical, no `www` |
+| S2 | Title + meta description within display limits | 🔬 ✅ | Home title 77 chars, description 148 chars; both legal pages unique |
+| S3 | Robots directives correct | 🔬 ✅ | Home/legal `index, follow` (+ `max-image-preview:large`); 404 `noindex, follow` **and no canonical** |
+| S4 | `robots.txt` + `sitemap.xml` | 🔬 ✅ | Both 200; sitemap lists exactly the 3 indexable URLs, all no-slash, matching the canonicals |
+| S5 | No redirect chains on canonical URLs | 🔬 ✅ | `/`, `/privacy`, `/terms` → 200 direct. `/index.html` → 307 `/`; `/privacy/` → 307 `/privacy` (normalisation only) |
+| S6 | Valid structured data | 🔬 ✅ | 2 JSON-LD blocks parse: `TravelAgency` (name, url, tel, email, areaServed, opening hours) + `FAQPage` (5 Q&A). Placeholder answers deliberately excluded |
+| S7 | Open Graph / Twitter complete, absolute image | 🔬 ✅ | `og:url`, `og:image` absolute; `og-image.jpg` measured **1200×630**; `summary_large_image` |
+| S8 | Exactly one `<h1>`, sane outline | 🔬 ✅ | h1=1 on all 4 pages; H2/H3 nesting has no level skips |
+| S9 | `lang` + locale | 🔬 ✅ | `lang="en-AU"`, `og:locale=en_AU` |
+| S10 | Favicon set complete | 🔬 ✅ | `favicon.ico` (32px), `favicon.svg`, `apple-touch-icon.png` 180×180 — all 200 |
+| S11 | Zero horizontal overflow | 🔬 ✅ | `scrollWidth === clientWidth` at 265/275/285/290/295/**305/320**/325/345/360/375/390/414/768/1024/1280/1440/1920 px |
+| S12 | No header/hero overlap | 🔬 ✅ | `h1.top > header.bottom` at all tested viewports, all 4 pages |
+| S13 | Zero console / network errors | 🔬 ✅ | 0 pageerror, 0 console.error, 0 failed requests across 4 pages × 5 viewports |
+| S14 | Text contrast ≥ WCAG AA | 🔬 ✅ | **0 failures / 173 text elements** computed against real rendered backgrounds |
+| S15 | Form accessibility | 🔬 ✅ | Every field labelled; invalid submit sets `aria-invalid` on all 6 fields, writes 6 `aria-live` errors, focuses the first bad field |
+| S16 | Content survives JS-off | 🔬 ✅ | JS disabled → 10/10 sections, form, 6 FAQ `<details>`, fares and final CTA all present; `js-anim` never applied |
+| S17 | `prefers-reduced-motion` respected | 🔬 ✅ | 0 of 57 `.reveal` elements hidden, 0 sections hidden, animation suppressed |
+| S18 | Images have alt / decorative SVG labelled | 🔬 ✅ | 0 `<img>` missing alt (page uses inline SVG only); 0 `svg[role=img]` without a label |
+| S19 | Page weight and paint | 🔬 ✅ | 41KB HTML + 14KB CSS + 145KB fonts ≈ **0.2MB**, no images; local FCP/LCP 500ms, load 550ms |
+| S20 | No third-party JS | ✅ | No analytics/tag manager/library; one inline vanilla script; only Google Fonts is off-origin |
 
-**Four HTML files on disk:** `index-naive.html` (active, Build B) · `index.html` (Build A "Itinerary") · `index-v3.html` (dark experiment) · `index-premium.html` (rejected glossy template).
+**Known, accepted:** `/privacy/` and `/index.html` answer with a 307 to the canonical form. That is
+Cloudflare's asset-server normalisation, nothing links or sitemaps those forms, and no crawlable URL
+is behind a redirect.
+
+## Tier 3 — Launch blockers 🚫
+
+Everything below is real-world data or a decision only the business can supply. **Do not go live
+until all are cleared.**
+
+| # | Blocker | What is needed |
+|---|---|---|
+| L1 | **Fabricated testimonials** | The three quotes in "What guests say" (Rebecca H., Sarah & Tom K., Priya N.) are invented samples with a hidden HTML comment saying so. Publishing them is fake social proof. **Replace with real, consented reviews or delete the section.** No `Review`/`AggregateRating` schema has been added, and none may be until the reviews are genuine. |
+| L2 | Fares | Three `$AUD [XXX]` placeholders in the fares cards. Note they contradict the estimator, which already quotes $175 / $215 / $275 — reconcile both. |
+| L3 | Vehicle spec | `[VEHICLE MAKE / MODEL]` and `[SEATS]` in "The ride" and the fares card. |
+| L4 | Payment + cancellation terms | `[PAYMENT METHODS]` and `[CANCELLATION POLICY]` in the FAQ, and the matching `[…]` blocks in `/terms` (payment, waiting time, cancellation). |
+| L5 | SMTP2GO secret | `npx wrangler secret put SMTP2GO_API_KEY`, then submit a real booking and confirm it lands at `barossacabs@outlook.com.au` **and** that the customer auto-reply arrives. Until then `/api/booking` returns 500. |
+| L6 | Sender domain auth | `EMAIL_FROM` is `support@finestsemmail.com`. Confirm SPF/DKIM are valid for it in SMTP2GO or auto-replies will land in spam. |
+| L7 | DNS + host redirect | Point `adelaideairporttobarossa.com.au` at the Worker and add a redirect rule `www → apex` (the canonical is the apex). |
+| L8 | Analytics + consent | No analytics is installed. If GA4/Ads/Clarity go in (as on Barossataxi), add them and state it in `/privacy`, which currently says "no advertising or tracking cookies". |
+| L9 | Street address in schema | `TravelAgency` schema carries locality/region/country only. Adding the real street address (and Google Business Profile `sameAs`) materially helps local ranking. |
+| L10 | Re-run the 🔬 gates | Real fares, longer vehicle names and real testimonials can reintroduce overflow or contrast failures. Run `npm run audit` again after the content swap. |
+
+## Re-verification command
+
+```bash
+npm run build
+npm run serve      # terminal 1
+npm run audit      # terminal 2 — 🔬 gates
+```
+
+Pass condition: `overflow:false` everywhere, `errors:[]` on every page, `contrast.failCount === 0`,
+`reducedMotion.hiddenReveals === 0`, `noJsChecks.sectionCount === 10`.

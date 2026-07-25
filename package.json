@@ -1,0 +1,22 @@
+{
+  "name": "adelaideairporttobarossa",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "astro build && wrangler deploy",
+    "serve": "wrangler dev --port 8787 --local",
+    "audit": "node scripts/audit.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.7.10"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1",
+    "wrangler": "^4.20.0"
+  }
+}

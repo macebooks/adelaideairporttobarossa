@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>adelaideairporttobarossa.com.au — Logo &amp; Icon Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --ink:  #241E1B;
+    --bone: #F3ECDD;
+    --vine: #2F5233;
+    --wine: #7A2C3B;
+    --gold: #E8A33D;
+    --docket: #FBF7EE;
+    --radius: 14px;
+  }
+  body {
+    margin: 0; background: var(--bone); color: var(--ink);
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    line-height: 1.55; font-size: 1.02rem;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: clamp(2rem,5vw,4rem) clamp(1.1rem,4vw,2rem); }
+  h1, h2 { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 .5em; text-wrap: balance; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+  h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin-top: 0; }
+  p  { margin: 0 0 1rem; max-width: 62ch; }
+  .mono {
+    font-family: "Space Mono", ui-monospace, monospace;
+    font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+  }
+  .eyebrow { display: block; margin-bottom: 1rem; }
+  section { margin-bottom: clamp(3rem, 7vw, 5rem); }
+
+  .board {
+    border: 3px solid var(--ink); border-radius: var(--radius);
+    background: var(--docket); overflow: hidden;
+  }
+  .board-head {
+    background: var(--ink); color: var(--bone); padding: .7rem 1.1rem;
+    display: flex; justify-content: space-between; gap: 1rem;
+  }
+  .board-body { padding: clamp(1.4rem, 4vw, 2.5rem); }
+
+  /* lockups */
+  .lockup { display: flex; align-items: center; gap: 1rem; }
+  .lockup svg { width: 72px; height: 72px; flex: none; }
+  .lockup .wm b {
+    display: block; font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800; font-size: 1.7rem; line-height: 1.08; letter-spacing: -0.015em;
+  }
+  .wm .to { color: var(--wine); }
+  .wm .tld { opacity: .6; }
+  .wm.rev .to { color: var(--gold); }
+  .lockup .wm .tag { display: block; margin-top: .45rem; }
+  .lockup.stacked { flex-direction: column; text-align: center; gap: .8rem; }
+  .lockup.stacked svg { width: 88px; height: 88px; }
+
+  /* anatomy */
+  .anatomy { display: grid; gap: clamp(1.5rem,4vw,3rem); grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 760px) { .anatomy { grid-template-columns: 1fr 1.2fr; } }
+  .anatomy svg { width: min(300px, 70vw); margin-inline: auto; display: block; }
+  .anatomy ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .anatomy li { display: flex; gap: .8rem; align-items: baseline; }
+  .anatomy .dot { width: 1rem; height: 1rem; border-radius: 50%; flex: none; border: 2px solid var(--ink); transform: translateY(2px); }
+  .anatomy b { font-family: "Bricolage Grotesque", sans-serif; }
+
+  /* colorways */
+  .swatches { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  .swatch { border: 3px solid var(--ink); border-radius: var(--radius); overflow: hidden; }
+  .swatch .tile { display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; }
+  .swatch .tile svg { width: 72px; height: 72px; }
+  .swatch .cap { border-top: 3px solid var(--ink); padding: .55rem .8rem; background: var(--docket); }
+
+  /* size test */
+  .sizes { display: flex; align-items: flex-end; gap: 2.2rem; flex-wrap: wrap; }
+  .sizes figure { margin: 0; text-align: center; }
+  .sizes figcaption { margin-top: .6rem; }
+  .chip { display: inline-flex; background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 6px; }
+
+  /* usage table */
+  .use { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .use { grid-template-columns: 1fr 1fr; } }
+  .use .card { border: 3px solid var(--ink); border-radius: var(--radius); background: var(--docket); padding: 1.2rem 1.3rem; }
+  .use h3 { font-family: "Bricolage Grotesque", sans-serif; margin: 0 0 .5rem; font-size: 1.05rem; }
+  .use ul { margin: 0; padding-left: 1.1rem; }
+  .use li { margin-bottom: .4rem; }
+  code {
+    font-family: "Space Mono", monospace; font-size: .82em;
+    background: rgba(36,30,27,.07); padding: .1em .35em; border-radius: 5px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header style="margin-bottom: clamp(3rem,7vw,5rem)">
+  <span class="mono eyebrow">Brand concept &middot; adelaideairporttobarossa.com.au</span>
+  <h1>The Last Leg</h1>
+  <p style="font-size:1.15rem">One continuous journey, drawn in one line: a gold runway light, a dotted road that lifts off the tarmac, and a grape cluster where it lands. Departure is the airport; arrival is the valley. The mark tells the whole service in a glance. The name is the domain itself &mdash; it says the route and the search query &mdash; so the mark and type treatment supply the character the domain can&rsquo;t.</p>
+</header>
+
+<!-- ============ LOCKUPS ============ -->
+<section>
+  <span class="mono eyebrow">01 &middot; Lockups</span>
+  <div class="board">
+    <div class="board-head mono"><span>Primary &middot; horizontal</span><span>bone ground</span></div>
+    <div class="board-body">
+      <div class="lockup">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="8" cy="54" r="4" fill="#E8A33D"/>
+          <path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/>
+          <path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="39.5" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="52" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#7A2C3B"/>
+          <path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <span class="wm">
+          <b>adelaideairport<br><span class="to">to</span>barossa<span class="tld">.com.au</span></b>
+          <span class="tag mono">Private Barossa transfers</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="board" style="margin-top:1.1rem">
+    <div class="board-head mono"><span>Stacked &middot; centred uses</span><span>social avatars, print</span></div>
+    <div class="board-body">
+      <div class="lockup stacked">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="8" cy="54" r="4" fill="#E8A33D"/>
+          <path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/>
+          <path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="39.5" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="52" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#7A2C3B"/>
+          <path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <span class="wm">
+          <b>adelaideairport<br><span class="to">to</span>barossa<span class="tld">.com.au</span></b>
+          <span class="tag mono">Private Barossa transfers</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANATOMY ============ -->
+<section>
+  <span class="mono eyebrow">02 &middot; What the mark says</span>
+  <div class="board">
+    <div class="board-head mono"><span>Anatomy</span><span>one line, four beats</span></div>
+    <div class="board-body anatomy">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="8" cy="54" r="4" fill="#E8A33D"/>
+        <path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/>
+        <path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="39.5" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="52" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#7A2C3B"/>
+        <path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <ol>
+        <li><span class="dot" style="background:var(--gold)"></span><span><b>The runway light.</b> A single gold point marks departure — the tarmac at ADL. It is also the brand's accent colour doing its one job.</span></li>
+        <li><span class="dot" style="background:var(--ink)"></span><span><b>The dotted road.</b> The same dashed line that runs through the whole site — the Sturt Highway, rising as it leaves the airport behind.</span></li>
+        <li><span class="dot" style="background:var(--vine)"></span><span><b>The turn to green.</b> The last dash changes colour and becomes a vine stem: the exact moment the trip stops being travel and starts being holiday.</span></li>
+        <li><span class="dot" style="background:var(--wine)"></span><span><b>The cluster.</b> Three grapes, the destination. Wine-dark, drawn from the same circles as the current site mark, so nothing on the page feels replaced — only sharpened.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLORWAYS ============ -->
+<section>
+  <span class="mono eyebrow">03 &middot; Colourways</span>
+  <div class="swatches">
+    <div class="swatch">
+      <div class="tile" style="background:var(--bone)">
+        <svg viewBox="0 0 64 64"><circle cx="8" cy="54" r="4" fill="#E8A33D"/><path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/><path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/><circle cx="39.5" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="52" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#7A2C3B"/><path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cap mono">Primary &middot; on bone</div>
+    </div>
+    <div class="swatch">
+      <div class="tile" style="background:var(--ink)">
+        <svg viewBox="0 0 64 64"><circle cx="8" cy="54" r="4" fill="#E8A33D"/><path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#F3ECDD" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/><path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#F3ECDD" stroke-width="4" stroke-linecap="round"/><circle cx="39.5" cy="22.5" r="6.8" fill="#E8A33D"/><circle cx="52" cy="22.5" r="6.8" fill="#E8A33D"/><circle cx="45.5" cy="31.5" r="6.8" fill="#E8A33D"/><path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#F3ECDD" stroke-width="4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cap mono">Reverse &middot; on ink</div>
+    </div>
+    <div class="swatch">
+      <div class="tile" style="background:var(--vine)">
+        <svg viewBox="0 0 64 64"><circle cx="8" cy="54" r="4" fill="#E8A33D"/><path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#F3ECDD" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/><path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#F3ECDD" stroke-width="4" stroke-linecap="round"/><circle cx="39.5" cy="22.5" r="6.8" fill="#E8A33D"/><circle cx="52" cy="22.5" r="6.8" fill="#E8A33D"/><circle cx="45.5" cy="31.5" r="6.8" fill="#E8A33D"/><path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#F3ECDD" stroke-width="4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cap mono">Reverse &middot; on vine</div>
+    </div>
+    <div class="swatch">
+      <div class="tile" style="background:#fff">
+        <svg viewBox="0 0 64 64"><circle cx="8" cy="54" r="4" fill="#241E1B"/><path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/><path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#241E1B" stroke-width="4" stroke-linecap="round"/><circle cx="39.5" cy="22.5" r="6.8" fill="#241E1B"/><circle cx="52" cy="22.5" r="6.8" fill="#241E1B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#241E1B"/><path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#241E1B" stroke-width="4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cap mono">Mono ink &middot; print, stamps</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIZE TEST ============ -->
+<section>
+  <span class="mono eyebrow">04 &middot; Favicon &amp; small sizes</span>
+  <div class="board">
+    <div class="board-head mono"><span>Simplified cut &middot; road + grapes only</span><span>assets/brand/favicon.svg</span></div>
+    <div class="board-body">
+      <p>Below 32&nbsp;px the tendril and runway light turn to noise, so the favicon is a bolder three-element cut. The full mark takes over from 48&nbsp;px up.</p>
+      <div class="sizes">
+        <figure>
+          <span class="chip"><svg width="16" height="16" viewBox="0 0 64 64"><path d="M6 56 C 20 57 32 51 40 42" fill="none" stroke="#241E1B" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 12"/><circle cx="38" cy="20.5" r="8.5" fill="#7A2C3B"/><circle cx="54" cy="20.5" r="8.5" fill="#7A2C3B"/><circle cx="46" cy="32.5" r="8.5" fill="#7A2C3B"/></svg></span>
+          <figcaption class="mono">16</figcaption>
+        </figure>
+        <figure>
+          <span class="chip"><svg width="24" height="24" viewBox="0 0 64 64"><path d="M6 56 C 20 57 32 51 40 42" fill="none" stroke="#241E1B" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 12"/><circle cx="38" cy="20.5" r="8.5" fill="#7A2C3B"/><circle cx="54" cy="20.5" r="8.5" fill="#7A2C3B"/><circle cx="46" cy="32.5" r="8.5" fill="#7A2C3B"/></svg></span>
+          <figcaption class="mono">24</figcaption>
+        </figure>
+        <figure>
+          <span class="chip"><svg width="32" height="32" viewBox="0 0 64 64"><path d="M6 56 C 20 57 32 51 40 42" fill="none" stroke="#241E1B" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 12"/><circle cx="38" cy="20.5" r="8.5" fill="#7A2C3B"/><circle cx="54" cy="20.5" r="8.5" fill="#7A2C3B"/><circle cx="46" cy="32.5" r="8.5" fill="#7A2C3B"/></svg></span>
+          <figcaption class="mono">32</figcaption>
+        </figure>
+        <figure>
+          <span class="chip"><svg width="48" height="48" viewBox="0 0 64 64"><circle cx="8" cy="54" r="4" fill="#E8A33D"/><path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/><path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/><circle cx="39.5" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="52" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#7A2C3B"/><path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/></svg></span>
+          <figcaption class="mono">48 &middot; full mark</figcaption>
+        </figure>
+        <figure>
+          <span class="chip" style="background:var(--bone); border-radius:14px"><svg width="64" height="64" viewBox="0 0 64 64" style="padding:4px"><circle cx="8" cy="54" r="4" fill="#E8A33D"/><path d="M16 55 C 27 55.5 34.5 50 40 43" fill="none" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 9.5"/><path d="M41.5 41 C 44 37 45 34.5 45.4 31.5" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/><circle cx="39.5" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="52" cy="22.5" r="6.8" fill="#7A2C3B"/><circle cx="45.5" cy="31.5" r="6.8" fill="#7A2C3B"/><path d="M46.5 14 c 4 -3.8 9 -2.8 9 -2.8" fill="none" stroke="#2F5233" stroke-width="4" stroke-linecap="round"/></svg></span>
+          <figcaption class="mono">App tile &middot; bone</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ USAGE ============ -->
+<section>
+  <span class="mono eyebrow">05 &middot; Usage</span>
+  <div class="use">
+    <div class="card">
+      <h3>Do</h3>
+      <ul>
+        <li>Set the wordmark in <b>Bricolage Grotesque 800</b>, lowercase, broken as <b>adelaideairport / tobarossa.com.au</b> &mdash; with &ldquo;to&rdquo; in wine on light grounds, gold on dark. Tagline in <b>Space Mono</b> caps.</li>
+        <li>Use the reverse cut on ink, vine and wine grounds; mono ink for single-colour print.</li>
+        <li>Keep clear space around the mark of at least the height of one grape.</li>
+        <li>Wire the favicon with <code>&lt;link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml"&gt;</code>.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Don't</h3>
+      <ul>
+        <li>Don't recolour the grapes outside wine (light grounds) or gold (dark grounds).</li>
+        <li>Don't use the full mark below 48&nbsp;px — switch to the favicon cut.</li>
+        <li>Don't outline the grapes with heavy strokes at small sizes; the flat cut reads cleaner.</li>
+        <li>Don't rotate the mark; the road must always rise left to right — that's the story.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="mono" style="opacity:.7; padding-bottom:2rem">adelaideairporttobarossa.com.au &middot; brand concept &middot; files in assets/brand/</footer>
+
+</div>
+</body>
+</html>

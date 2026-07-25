@@ -1,0 +1,16 @@
+name = "adelaideairporttobarossa"
+main = "worker/index.ts"
+compatibility_date = "2026-04-27"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+# Serve the built 404.html (with a real 404 status) for unknown paths.
+not_found_handling = "404-page"
+
+[vars]
+EMAIL_FROM = "support@finestsemmail.com"
+# Comma-separated: every address receives the booking notification.
+EMAIL_CC = "barossacabs@outlook.com.au"
+# Where a customer's reply to the auto-reply lands.
+EMAIL_REPLY_TO = "barossacabs@outlook.com.au"

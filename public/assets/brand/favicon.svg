@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Simplified, bolder cut of the mark for 16–32px: road + grapes only -->
+  <path d="M6 56 C 20 57 32 51 40 42" fill="none" stroke="#241E1B" stroke-width="7" stroke-linecap="round" stroke-dasharray="0.1 12"/>
+  <circle cx="38" cy="20.5" r="8.5" fill="#7A2C3B"/>
+  <circle cx="54" cy="20.5" r="8.5" fill="#7A2C3B"/>
+  <circle cx="46" cy="32.5" r="8.5" fill="#7A2C3B"/>
+</svg>

@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local `wrangler dev`. Never commit .dev.vars.
+SMTP2GO_API_KEY="api-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+EMAIL_FROM="support@finestsemmail.com"
+EMAIL_CC="barossacabs@outlook.com.au"
+EMAIL_REPLY_TO="barossacabs@outlook.com.au"

@@ -1,0 +1,95 @@
+---
+/*
+  Legal.astro — minimal shared layout for /privacy and /terms.
+  Carries the index page's palette and type so the legal pages read as the same site,
+  without dragging in the full poster-block CSS.
+
+  Props: title, description, slug, h1, updated
+*/
+const { title, description, slug, h1, updated, robots = 'index, follow', canonical = true } = Astro.props;
+const site = 'https://adelaideairporttobarossa.com.au';
+const url = `${site}/${slug}`;
+const ogImage = `${site}/assets/img/og-image.jpg`;
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+{canonical && <link rel="canonical" href={url} />}
+<meta name="robots" content={robots}>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#F3ECDD">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Adelaide Airport to Barossa">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={url}>
+<meta property="og:image" content={ogImage}>
+<meta property="og:locale" content="en_AU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={ogImage}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --ink:#241E1B; --bone:#F3ECDD; --vine:#2F5233; --wine:#7A2C3B; --gold:#E8A33D; --docket:#FBF7EE;
+    --pad: clamp(1.1rem, 4vw, 2rem);
+  }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin:0; background:var(--bone); color:var(--ink);
+    font-family:"Hanken Grotesk", system-ui, sans-serif;
+    font-size:clamp(1rem,1.2vw,1.08rem); line-height:1.65; overflow-x:hidden;
+  }
+  .wrap { max-width:760px; margin:0 auto; padding-inline:var(--pad); }
+  a { color:var(--wine); }
+  a:focus-visible, .btn:focus-visible { outline:3px solid var(--ink); outline-offset:3px; }
+  h1, h2 { font-family:"Bricolage Grotesque","Hanken Grotesk",sans-serif; font-weight:800; line-height:1.08; letter-spacing:-0.01em; }
+  h1 { font-size:clamp(2rem,5vw,3rem); margin:0 0 .4em; }
+  h2 { font-size:clamp(1.25rem,2.6vw,1.6rem); margin:2.2rem 0 .6rem; }
+  p, li { margin:0 0 1rem; }
+  ul { padding-left:1.2rem; }
+  .skip { position:absolute; left:-9999px; }
+  .skip:focus { left:var(--pad); top:.6rem; position:fixed; background:var(--ink); color:var(--bone); padding:.6rem 1rem; border-radius:10px; z-index:99; }
+  .legal-head { background:var(--ink); color:var(--bone); padding-block:1rem; }
+  .legal-head a { color:var(--bone); text-decoration:none; font-family:"Space Mono",ui-monospace,monospace; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; }
+  .legal-head a:hover { text-decoration:underline; }
+  main { padding-block: clamp(2.5rem,7vw,4.5rem); }
+  .updated { font-family:"Space Mono",ui-monospace,monospace; font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; opacity:.7; margin-bottom:2rem; }
+  .note { background:var(--docket); border:2px solid rgba(36,30,27,.14); border-radius:14px; padding:1rem 1.2rem; }
+  footer { background:var(--ink); color:var(--bone); padding-block:2rem; font-size:.88rem; }
+  footer a { color:var(--gold); }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="legal-head">
+  <div class="wrap"><a href="/">&larr; adelaideairporttobarossa.com.au</a></div>
+</header>
+<main id="main">
+  <div class="wrap">
+    <h1>{h1}</h1>
+    <p class="updated">Last updated {updated}</p>
+    <slot />
+  </div>
+</main>
+<footer>
+  <div class="wrap">
+    <p style="margin:0">&copy; 2026 adelaideairporttobarossa.com.au &middot;
+      <a href="/">Home</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+    <p style="margin:.6rem 0 0">Phone <a href="tel:+61447958346">0447 958 346</a> &middot;
+      Email <a href="mailto:barossacabs@outlook.com.au">barossacabs@outlook.com.au</a></p>
+  </div>
+</footer>
+</body>
+</html>
