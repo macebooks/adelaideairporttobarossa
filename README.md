@@ -61,6 +61,30 @@ For local runs, copy `.dev.vars.example` to `.dev.vars` (gitignored) and put the
   business inbox);
 - returns `{success:true}` or `{error:"…"}`, which the page renders inline.
 
+## Deployment
+
+`npm run deploy` pushes from your machine. For continuous deployment, the repo
+(`macebooks/adelaideairporttobarossa`) is connected to the Worker through **Workers Builds**:
+Cloudflare dashboard → Workers & Pages → `adelaideairporttobarossa` → Settings → Build.
+
+| Setting | Value |
+|---|---|
+| Production branch | `main` |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | `/` |
+
+The build command is not optional. `dist/` is gitignored, so a deploy without it would ship a
+Worker whose `ASSETS` binding points at nothing.
+
+Secrets do not travel with the repo. `SMTP2GO_API_KEY` must be set on the Worker itself
+(Settings → Variables and Secrets, or `npx wrangler secret put`), otherwise `/api/booking`
+returns 500 on every deploy.
+
+Non-production branches get preview URLs on `workers.dev`. Every page carries an absolute
+canonical pointing at the apex domain, so a previewed copy will not compete with the live site in
+search.
+
 ## Before going live
 
 Work through Tier 3 in `DEFINITION-OF-DONE.md`. The short version: real testimonials or none, real
