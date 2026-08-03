@@ -5,10 +5,89 @@ const ogImage = `${site}/assets/img/og-image.jpg`;
 const title = 'Adelaide Airport to Barossa Valley Transfers | Private Car ADL to the Barossa';
 // Kept under ~155 characters so Google shows it whole.
 const description =
-  'Private car transfers from Adelaide Airport (ADL) to the Barossa Valley. Flat fare up front, flight tracked, met in arrivals. About 75 km, one hour.';
+  'Private chauffeur transfers from Adelaide Airport (ADL) to the Barossa Valley from $200 one way per car. Flat fare, flight tracked, met in arrivals.';
 const socialTitle = 'Adelaide Airport to Barossa Valley Transfers';
 const socialDescription =
-  'A comfortable private car from the ADL arrivals hall to your Barossa cellar door. Flat fare, flight tracked, met on arrival.';
+  'A white, discreet chauffeur car from the ADL arrivals hall to your Barossa cellar door. Flat fares from $200, flight tracked, met on arrival.';
+
+// Fleet + fares — supplied by the operator. One flat price per car, each way, for the
+// central Barossa townships. Kept in one place so the cards, the estimator rates in the
+// inline script and the Offer schema below cannot drift apart.
+const fleet = [
+  {
+    id: 'sedan',
+    tier: 'Sedan',
+    vehicle: 'Toyota Camry Hybrid or Corolla',
+    seats: 4,
+    was: 245,
+    now: 200,
+    featured: true,
+    points: [
+      'Up to 4 passengers plus luggage',
+      'Met in the arrivals hall, flight tracked',
+      'White and discreet, minimal markings',
+    ],
+  },
+  {
+    id: 'tarago',
+    tier: 'People mover',
+    vehicle: 'Toyota Tarago',
+    seats: 7,
+    was: 275,
+    now: 230,
+    featured: false,
+    points: [
+      'Up to 7 passengers plus luggage',
+      'Room for the group and the wine cases',
+      'White and discreet, minimal markings',
+    ],
+  },
+  {
+    id: 'hiace',
+    tier: 'Commuter bus',
+    vehicle: 'Toyota HiAce Commuter',
+    seats: 13,
+    was: 300,
+    now: 250,
+    featured: false,
+    points: [
+      'Up to 13 passengers plus luggage',
+      'Weddings, corporate groups, wine tours',
+      'Buses do carry more markings than the cars',
+    ],
+  },
+];
+
+// The townships the flat fare covers. Anything outside these may be quoted higher.
+const centralTowns = ['Tanunda', 'Lyndoch', 'Nuriootpa', 'Greenock', 'Angaston'];
+
+/* ---------------------------------------------------------------------------
+   Guest reviews — REAL, CONSENTED REVIEWS ONLY.
+
+   The "What guests say" section, the nav link to it and its schema all render
+   only when this array has entries, so an empty array means the section simply
+   does not exist in the HTML. It is not hidden with CSS: nothing is served to a
+   visitor or a crawler.
+
+   Three sample quotes (Rebecca H., Sarah & Tom K., Priya N.) were written while
+   designing the page and were REMOVED on 2026-08-03. They were never real and
+   must not be restored — publishing invented testimonials breaches the ACCC's
+   rules on false or misleading testimonials. See L1 in DEFINITION-OF-DONE.md.
+
+   To bring the section back, add entries in this shape:
+     { quote: "…the guest's own words…", name: 'First L.', trip: 'Airport pick-up · Tanunda' }
+   Only add a review you hold the guest's consent to publish. Once there are
+   real reviews here, Review/AggregateRating schema may also be added.
+--------------------------------------------------------------------------- */
+const testimonials = [];
+const hasTestimonials = testimonials.length > 0;
+
+// Handed to the estimator script below via define:vars, so the rate the estimator quotes
+// is literally the rate on the card above it. `size` is the capacity order used to
+// auto-upgrade the vehicle when a bigger party is chosen.
+const estCars = Object.fromEntries(
+  fleet.map((f, i) => [f.id, { fare: f.now, seats: f.seats, size: i + 1 }])
+);
 
 const businessSchema = {
   '@context': 'https://schema.org',
@@ -21,18 +100,38 @@ const businessSchema = {
   image: ogImage,
   telephone: '+61447958346',
   email: 'barossacabs@outlook.com.au',
-  priceRange: '$$',
+  priceRange: '$200-$250',
   currenciesAccepted: 'AUD',
+  paymentAccepted: 'Visa, Mastercard, Bank transfer, Cash',
   areaServed: [
     'Adelaide Airport',
     'Gawler',
     'Lyndoch',
     'Tanunda',
     'Nuriootpa',
+    'Greenock',
     'Angaston',
     'Seppeltsfield',
     'Barossa Valley',
   ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Adelaide Airport to Barossa Valley transfers',
+    itemListElement: fleet.map((f) => ({
+      '@type': 'Offer',
+      name: `${f.tier} transfer — ${f.vehicle}`,
+      description: `Private chauffeur transfer between Adelaide Airport and the central Barossa townships, up to ${f.seats} passengers. One flat price per car, each way.`,
+      price: String(f.now),
+      priceCurrency: 'AUD',
+      availability: 'https://schema.org/InStock',
+      itemOffered: {
+        '@type': 'Service',
+        name: `${f.tier} airport transfer`,
+        serviceType: 'Private airport transfer',
+        provider: { '@id': `${site}/#business` },
+      },
+    })),
+  },
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Barossa Valley',
@@ -78,10 +177,42 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
-      name: 'Can you fit a child seat?',
+      name: 'Can you fit a child booster seat?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, on request. Tell us the ages on your booking and we will fit the right seat before pick-up.',
+        text: 'Yes, child booster seats are available on request. Tell us the ages of the children on your booking and we will have the seat fitted before pick-up.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How much is a transfer from Adelaide Airport to the Barossa Valley?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'One flat price per car, each way: $200 for a sedan carrying up to 4 passengers, $230 for the Tarago people mover carrying up to 7, and $250 for the HiAce commuter bus carrying up to 13. Those fares cover the central Barossa townships of Tanunda, Lyndoch, Nuriootpa, Greenock and Angaston, and apply in both directions.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Which Barossa towns does the flat fare cover?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'The central Barossa townships: Tanunda, Lyndoch, Nuriootpa, Greenock and Angaston. Destinations outside that central area can be quoted higher, so tell us exactly where you are headed and we will confirm the price in writing before you fly.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are your drivers accredited?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. Every driver is fully accredited in line with the South Australian government regulations for passenger transport vehicles, and every vehicle has passed its SA Government mechanical inspection.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can we drink in the car?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Water and other non-alcoholic drinks are welcome on board, and we encourage you to stay hydrated on a wine-country day. Alcohol cannot be consumed in the vehicle. Sealed bottles and cases you have bought at a cellar door travel in the boot without any problem.',
       },
     },
     {
@@ -406,8 +537,23 @@ const schemas = [businessSchema, faqSchema];
   .fare-top .r { font-family: "Space Mono", monospace; font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; }
   .fare.feat .fare-top { background: var(--gold); }
   .fare-body { padding: 1.2rem; display: flex; flex-direction: column; gap: .6rem; flex: 1; }
+  .fare .veh { font-family: "Space Mono", monospace; font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; opacity: .78; margin: 0; }
   .fare .price { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: 2.1rem; letter-spacing: -.02em; line-height: 1; }
-  .fare .price small { font-size: .8rem; font-weight: 500; font-family: "Hanken Grotesk"; opacity: .7; }
+  .fare .price small { display: block; font-size: .8rem; font-weight: 500; font-family: "Hanken Grotesk"; opacity: .7; margin-top: .4rem; }
+  /* "was" price sits beside the fare, struck through. Colour is --ink at 62% on the
+     --docket card (7.6:1), so it clears AA even though it reads as secondary. */
+  .fare .was {
+    font-family: "Hanken Grotesk", sans-serif; font-size: .95rem; font-weight: 500;
+    text-decoration: line-through; color: rgba(36,30,27,.62);
+    margin-left: .5rem; letter-spacing: 0; white-space: nowrap;
+  }
+  .fare .save {
+    display: inline-block; margin-top: .5rem;
+    font-family: "Space Mono", monospace; font-size: .62rem;
+    text-transform: uppercase; letter-spacing: .1em; font-weight: 700;
+    background: var(--vine); color: var(--bone);
+    padding: .25rem .5rem; border-radius: 6px;
+  }
   .fare ul { list-style: none; padding: 0; margin: .2rem 0 1rem; font-size: .95rem; }
   .fare ul li { padding: .3rem 0 .3rem 1.4rem; position: relative; }
   .fare ul li::before { content: "→"; position: absolute; left: 0; color: var(--vine); font-weight: 700; }
@@ -479,7 +625,10 @@ const schemas = [businessSchema, faqSchema];
   .step h3 { margin-bottom: .35rem; }
   .step p { margin: 0; font-size: .96rem; }
 
-  /* ---------- Testimonials ---------- */
+  /* ---------- Testimonials ----------
+     Currently unused: the reviews section renders only once `testimonials` in the
+     frontmatter holds real, consented reviews. Kept deliberately so the section
+     comes back styled the moment those arrive. Do not delete as dead CSS. */
   .quotes { display: grid; gap: 1.15rem; grid-template-columns: 1fr; margin-top: 2rem; }
   @media (min-width: 720px){ .quotes { grid-template-columns: repeat(3, 1fr); } }
   .quote {
@@ -557,7 +706,7 @@ const schemas = [businessSchema, faqSchema];
         <a href="#route">The drive</a>
         <a href="#how">How it works</a>
         <a href="#fares">Fares</a>
-        <a href="#reviews">Reviews</a>
+        {hasTestimonials && <a href="#reviews">Reviews</a>}
       </span>
       <a class="btn head-cta" href="#book">Book a transfer</a>
     </nav>
@@ -574,7 +723,7 @@ const schemas = [businessSchema, faqSchema];
       <div>
         <p class="eyebrow">Adelaide Airport &rarr; the Barossa &middot; private car</p>
         <h1 id="hero-h1">Land in Adelaide.<br>Arrive in the Barossa relaxed.</h1>
-        <p class="lead">Private, door-to-door chauffeur transfers between Adelaide Airport and the Barossa wine country: flat, transparent pricing, flight-tracked meet &amp; greet, and optional cellar-door day-tours with a local driver-guide.</p>
+        <p class="lead">Private, door-to-door chauffeur transfers between Adelaide Airport and the Barossa wine country. Flat fares from <strong>$200 per car, each way</strong>, flight-tracked meet &amp; greet in arrivals, and optional cellar-door day-tours with a local driver-guide.</p>
 
         <div class="hero-route" aria-hidden="true">
           <!-- Signature route illustration: plane -> dotted road -> sedan -> vines + glass -->
@@ -661,8 +810,10 @@ const schemas = [businessSchema, faqSchema];
                 <label for="pax">Passengers</label>
                 <select id="pax" name="passengers" required aria-describedby="err-pax">
                   <option value="">Choose…</option>
-                  <option>1</option><option>2</option><option>3</option>
-                  <option>4</option><option>5</option><option>6</option><option>7+</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option>
+                  <option>5</option><option>6</option><option>7</option><option>8</option>
+                  <option>9</option><option>10</option><option>11</option><option>12</option>
+                  <option>13</option><option>14+</option>
                 </select>
                 <p class="err" id="err-pax" aria-live="polite"></p>
               </div>
@@ -822,15 +973,15 @@ const schemas = [businessSchema, faqSchema];
         <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M15 12h9v14a6 6 0 0 1-6 6h-3z"/><path d="M15 32l-4 8"/><path d="M24 26h9l-4 10H20"/>
         </svg>
-        <h3>Child seats on request</h3>
-        <p>Travelling with little ones? Tell us on the booking and we'll fit the right seat before we set off.</p>
+        <h3>Booster seats on request</h3>
+        <p>Travelling with little ones? Tell us their ages on the booking and we'll have a child booster seat fitted before we set off.</p>
       </div>
       <div class="inc-card reveal d2">
         <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="8" y="14" width="32" height="20" rx="4"/><path d="M8 22h32"/><circle cx="16" cy="28" r="2.2" fill="currentColor"/><path d="M24 20l4 4-4 4"/>
         </svg>
         <h3>Door to door</h3>
-        <p>Straight to your cellar door, hotel, or the town centre: Tanunda, Nuriootpa, Angaston, Lyndoch.</p>
+        <p>Straight to your cellar door, hotel, or the town centre: Tanunda, Lyndoch, Nuriootpa, Greenock, Angaston.</p>
       </div>
     </div>
   </div>
@@ -854,15 +1005,18 @@ const schemas = [businessSchema, faqSchema];
       </div>
     </div>
     <div>
-      <p class="eyebrow reveal">The ride</p>
-      <h2 id="car-h" class="reveal">A quiet, comfortable car, not a shared shuttle.</h2>
-      <p class="reveal d1">You've just done a flight. The last thing you want is to squeeze into a full van. This is a clean, air-conditioned private sedan with room to stretch out and watch the vines roll in.</p>
+      <p class="eyebrow reveal">The fleet</p>
+      <h2 id="car-h" class="reveal">A quiet white chauffeur car, not a shared shuttle.</h2>
+      <p class="reveal d1">You've just done a flight. The last thing you want is to squeeze into a full van with strangers. Our cars are white, discreet and carry only minimal markings, so you're collected the way you'd want to be collected: quietly, by name, in a clean and air-conditioned car with room to stretch out and watch the vines roll in.</p>
       <ul class="spec reveal d2" style="border-color:rgba(36,30,27,.18)">
-        <li style="border-color:transparent"><span class="k">Vehicle</span><span>[VEHICLE MAKE / MODEL, owner placeholder]</span></li>
-        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Seats</span><span>[SEATS, owner placeholder], plus luggage</span></li>
-        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Comfort</span><span>Air-conditioned, non-smoking, water on board</span></li>
-        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Driver</span><span>Local, licensed, knows the Barossa</span></li>
+        <li style="border-color:transparent"><span class="k">Sedan</span><span>Toyota Camry Hybrid or Corolla &middot; up to 4 passengers</span></li>
+        <li style="border-color:rgba(36,30,27,.18)"><span class="k">People mover</span><span>Toyota Tarago &middot; up to 7 passengers</span></li>
+        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Commuter bus</span><span>Toyota HiAce &middot; up to 13 passengers</span></li>
+        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Comfort</span><span>Air-conditioned, non-smoking, clean inside and out, water on board</span></li>
+        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Roadworthy</span><span>Every vehicle passes its SA Government mechanical inspection</span></li>
+        <li style="border-color:rgba(36,30,27,.18)"><span class="k">Driver</span><span>Fully accredited under SA passenger transport regulations, and a local who knows the valley</span></li>
       </ul>
+      <p class="reveal d2" style="font-size:.85rem;opacity:.75;margin-top:1rem">The cars carry minimal markings. The commuter bus, being a bus, carries a little more.</p>
     </div>
   </div>
 </section>
@@ -894,48 +1048,38 @@ const schemas = [businessSchema, faqSchema];
   <div class="wrap">
     <p class="eyebrow reveal">Flat fares</p>
     <h2 id="fares-h" class="reveal">One price, agreed before you fly.</h2>
-    <p class="lead reveal d1">No meter and no surge. Here's the shape of it. We confirm your exact flat fare when we reply to your booking.</p>
+    <p class="lead reveal d1">No meter and no surge. One flat price per car, each way, whether you're heading to the valley or back to your flight.</p>
 
     <div class="fares">
-      <div class="fare reveal">
-        <div class="fare-top"><span class="r">Transfer</span></div>
-        <div class="fare-body">
-          <div class="price">$AUD [XXX]<br><small>ADL &rarr; Barossa, one way</small></div>
-          <ul>
-            <li>Up to [SEATS] passengers</li>
-            <li>Met in the arrivals hall</li>
-            <li>Flight tracked, luggage included</li>
-          </ul>
-          <a class="btn btn-block" href="#book">Book this transfer</a>
+      {fleet.map((f, i) => (
+        <div class={`fare reveal${f.featured ? ' feat' : ''}${i ? ` d${i}` : ''}`}>
+          <div class="fare-top">
+            <span class="r">{f.featured ? `Most booked · ${f.tier.toLowerCase()}` : f.tier}</span>
+          </div>
+          <div class="fare-body">
+            <p class="veh">{f.vehicle}</p>
+            <div class="price">
+              ${f.now}<span class="was">was ${f.was}</span>
+              <small>Per car, each way &middot; up to {f.seats} passengers</small>
+            </div>
+            <span class="save">Save ${f.was - f.now}</span>
+            <ul>
+              {f.points.map((p) => <li>{p}</li>)}
+            </ul>
+            <a class="btn btn-block" href="#book">Book the {f.tier.toLowerCase()}</a>
+          </div>
         </div>
-      </div>
-
-      <div class="fare feat reveal d1">
-        <div class="fare-top"><span class="r">Most booked &middot; return</span></div>
-        <div class="fare-body">
-          <div class="price">$AUD [XXX]<br><small>ADL &rarr; Barossa &rarr; ADL</small></div>
-          <ul>
-            <li>Both transfers, one booking</li>
-            <li>Same driver where possible</li>
-            <li>Best value if you're staying over</li>
-          </ul>
-          <a class="btn btn-block" href="#book">Book return</a>
-        </div>
-      </div>
-
-      <div class="fare reveal d2">
-        <div class="fare-top"><span class="r">Day-tour</span></div>
-        <div class="fare-body">
-          <div class="price">$AUD [XXX]<br><small>per hour / per day</small></div>
-          <ul>
-            <li>Keep the car for the day</li>
-            <li>Cellar doors of your choice</li>
-            <li>Airport or hotel finish</li>
-          </ul>
-          <a class="btn btn-block" href="#book">Enquire on a day-tour</a>
-        </div>
-      </div>
+      ))}
     </div>
+
+    <p class="fine reveal" style="margin-top:1.4rem">
+      Fares are per car, not per passenger, and are the same in both directions. They cover the
+      central Barossa townships of {centralTowns.slice(0, -1).join(', ')} and {centralTowns.at(-1)};
+      destinations beyond that central area may be quoted higher.
+      <strong>Travelling both ways?</strong> Ask for the return at the same time and we'll quote
+      both legs together. Cellar-door day tours are quoted on enquiry &mdash; tell us roughly what
+      you have in mind and we'll price the day.
+    </p>
     <!-- ============ INSTANT FARE ESTIMATOR ============ -->
     <div id="estimate" class="est-grid" style="scroll-margin-top:80px">
       <div>
@@ -944,6 +1088,7 @@ const schemas = [businessSchema, faqSchema];
         <p class="reveal d1">Pick your drop-off and your car and get an indicative flat fare on the spot, plus how long the drive will take. No email address required to see it.</p>
         <ul class="est-points reveal d2">
           <li>Per car, not per passenger</li>
+          <li>The same flat price in either direction</li>
           <li>Arrivals-hall meet &amp; greet and flight tracking included</li>
           <li>Your exact flat fare is confirmed in writing before you fly</li>
         </ul>
@@ -970,6 +1115,7 @@ const schemas = [businessSchema, faqSchema];
               <option value="tanunda" selected>Tanunda</option>
               <option value="nuriootpa">Nuriootpa</option>
               <option value="angaston">Angaston</option>
+              <option value="greenock">Greenock</option>
               <option value="seppeltsfield">Seppeltsfield</option>
               <option value="lyndoch">Lyndoch</option>
             </select>
@@ -977,19 +1123,19 @@ const schemas = [businessSchema, faqSchema];
 
           <div class="row2">
             <div class="field">
-              <label for="est-vehicle">Car</label>
+              <label for="est-vehicle">Vehicle</label>
               <select id="est-vehicle">
-                <option value="sedan" selected>Private sedan &middot; up to 3</option>
-                <option value="suv">SUV &middot; up to 4</option>
-                <option value="van">Van &middot; up to 7</option>
+                <option value="sedan" selected>Sedan &middot; Camry or Corolla &middot; up to 4</option>
+                <option value="tarago">People mover &middot; Tarago &middot; up to 7</option>
+                <option value="hiace">Commuter bus &middot; HiAce &middot; up to 13</option>
               </select>
             </div>
             <div class="field">
               <label for="est-pax">Passengers</label>
               <select id="est-pax">
-                <option value="sedan" selected>1&ndash;3</option>
-                <option value="suv">4</option>
-                <option value="van">5&ndash;7</option>
+                <option value="sedan" selected>1&ndash;4</option>
+                <option value="tarago">5&ndash;7</option>
+                <option value="hiace">8&ndash;13</option>
               </select>
             </div>
           </div>
@@ -1000,11 +1146,11 @@ const schemas = [businessSchema, faqSchema];
               <b id="est-drive">~1 hr (70 km)</b>
             </span>
             <span class="fare-out">
-              <span class="k">Indicative flat fare</span>
-              <b id="est-fare">$175 AUD</b>
+              <span class="k">Flat fare, each way</span>
+              <b id="est-fare">$200 AUD</b>
             </span>
           </div>
-          <p class="est-note">One-way, per car, luggage included. The flat fare we confirm in writing is the price that counts &mdash; nothing changes on the day.</p>
+          <p class="est-note">Per car, each way, luggage included, for the central Barossa townships. The flat fare we confirm in writing is the price that counts &mdash; nothing changes on the day.</p>
           <a class="btn btn-block" href="#book">Lock it in &mdash; lodge a request</a>
         </div>
       </div>
@@ -1014,7 +1160,12 @@ const schemas = [businessSchema, faqSchema];
   </div>
 </section>
 
-<!-- ================= WHAT GUESTS SAY ================= -->
+{/* ===== WHAT GUESTS SAY — renders only when `testimonials` (frontmatter) has real,
+       consented entries. Empty today, so this section is absent from the HTML, not
+       hidden. Rationale and the entry shape are documented at the array. L1 in
+       DEFINITION-OF-DONE.md. This comment is intentionally an Astro comment: it does
+       not ship to the browser. */}
+{hasTestimonials && (
 <section id="reviews" class="section bg-ink on-dark" aria-labelledby="reviews-h" style="scroll-margin-top:70px">
   <div class="wrap">
     <p class="eyebrow reveal">In their words</p>
@@ -1022,44 +1173,22 @@ const schemas = [businessSchema, faqSchema];
     <p class="lead reveal d1">The bit that matters after a long flight: someone's there, it's sorted, and you can finally exhale.</p>
 
     <div class="quotes">
-      <div class="quote reveal">
-        <div class="stars" role="img" aria-label="Rated 5 out of 5">★★★★★</div>
-        <blockquote>“Landed close to midnight after a delayed flight and half-expected a scramble for a cab. Instead our driver was already waiting, bags in the boot, and we were at our Tanunda hotel before we'd finished swapping stories.”</blockquote>
-        <div class="who">
-          <span class="grape-av" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="3" fill="#E8A33D"/><circle cx="15" cy="9" r="3" fill="#E8A33D"/><circle cx="12" cy="14" r="3" fill="#E8A33D"/><path d="M12 5c3-2 5-1 5-1" stroke="#E8A33D" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <span><b>Rebecca H.</b><span class="loc">Airport pick-up · Tanunda</span></span>
+      {testimonials.map((t, i) => (
+        <div class={`quote reveal${i ? ` d${i}` : ''}`}>
+          <div class="stars" role="img" aria-label="Rated 5 out of 5">★★★★★</div>
+          <blockquote>{`“${t.quote}”`}</blockquote>
+          <div class="who">
+            <span class="grape-av" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="3" fill="#E8A33D"/><circle cx="15" cy="9" r="3" fill="#E8A33D"/><circle cx="12" cy="14" r="3" fill="#E8A33D"/><path d="M12 5c3-2 5-1 5-1" stroke="#E8A33D" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span><b>{t.name}</b><span class="loc">{t.trip}</span></span>
+          </div>
         </div>
-      </div>
-
-      <div class="quote reveal d1">
-        <div class="stars" role="img" aria-label="Rated 5 out of 5">★★★★★</div>
-        <blockquote>“Booked the return so we didn't have to think about getting back for our flight. Same friendly driver both ways, flat price agreed up front, not a single surprise. Exactly how an airport transfer should feel.”</blockquote>
-        <div class="who">
-          <span class="grape-av" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="3" fill="#E8A33D"/><circle cx="15" cy="9" r="3" fill="#E8A33D"/><circle cx="12" cy="14" r="3" fill="#E8A33D"/><path d="M12 5c3-2 5-1 5-1" stroke="#E8A33D" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <span><b>Sarah &amp; Tom K.</b><span class="loc">Return transfer · Angaston</span></span>
-        </div>
-      </div>
-
-      <div class="quote reveal d2">
-        <div class="stars" role="img" aria-label="Rated 5 out of 5">★★★★★</div>
-        <blockquote>“We turned the transfer into a full cellar-door day. Our driver knew exactly which doors to hit and when, we bought far too much wine, and every case made it safely into the boot. Best day of the trip.”</blockquote>
-        <div class="who">
-          <span class="grape-av" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="9" r="3" fill="#E8A33D"/><circle cx="15" cy="9" r="3" fill="#E8A33D"/><circle cx="12" cy="14" r="3" fill="#E8A33D"/><path d="M12 5c3-2 5-1 5-1" stroke="#E8A33D" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <span><b>Priya N.</b><span class="loc">Day-tour · Seppeltsfield</span></span>
-        </div>
-      </div>
+      ))}
     </div>
-
-    <!-- LAUNCH TODO: the three quotes above are SAMPLE reviews. Replace with real,
-         attributable guest feedback before going live — do not launch with these. -->
   </div>
 </section>
+)}
 
 <!-- ================= FAQ / NOTES ================= -->
 <section class="section bg-sky" aria-labelledby="faq-h">
@@ -1080,8 +1209,24 @@ const schemas = [businessSchema, faqSchema];
         <p>Room for standard bags for every passenger, plus space for wine cases on the way back. Travelling with extra gear (golf clubs, prams, oversized cases)? Note it on the booking so we bring the right car.</p>
       </details>
       <details>
-        <summary>Can you fit a child seat?</summary>
-        <p>Yes, on request. Tell us the ages on your booking and we'll fit the right seat before pick-up at no guesswork to you.</p>
+        <summary>How much is a transfer from Adelaide Airport to the Barossa Valley?</summary>
+        <p>One flat price per car, each way: <strong>$200</strong> for a sedan carrying up to 4, <strong>$230</strong> for the Tarago people mover carrying up to 7, and <strong>$250</strong> for the HiAce commuter bus carrying up to 13. The price is the same in either direction, and it's per car rather than per passenger.</p>
+      </details>
+      <details>
+        <summary>Which Barossa towns does the flat fare cover?</summary>
+        <p>The central Barossa townships: Tanunda, Lyndoch, Nuriootpa, Greenock and Angaston. Destinations outside that central area can be quoted higher, so tell us exactly where you're headed and we'll confirm the price in writing before you fly.</p>
+      </details>
+      <details>
+        <summary>Can you fit a child booster seat?</summary>
+        <p>Yes, child booster seats are available on request. Tell us the ages of the children on your booking and we'll have the seat fitted before pick-up, so there's no guesswork on the day.</p>
+      </details>
+      <details>
+        <summary>Are your drivers accredited?</summary>
+        <p>Yes. Every driver is fully accredited in line with the South Australian government regulations for passenger transport vehicles, and every vehicle has passed its SA Government mechanical inspection. Our drivers are experienced locals who know the most direct routes and are happy to point out the sights and attractions along the way.</p>
+      </details>
+      <details>
+        <summary>Can we drink in the car?</summary>
+        <p>Water and other non-alcoholic drinks are welcome on board, and on a warm day in wine country we'd encourage it. Alcohol can't be consumed in the vehicle. Sealed bottles and the cases you buy at a cellar door travel in the boot without any trouble.</p>
       </details>
       <details>
         <summary>How do I pay?</summary>
@@ -1154,7 +1299,7 @@ const schemas = [businessSchema, faqSchema];
   </div>
 </footer>
 
-<script is:inline>
+<script is:inline define:vars={{ estCars }}>
 (function () {
   "use strict";
   var root = document.documentElement;
@@ -1274,20 +1419,22 @@ const schemas = [businessSchema, faqSchema];
     });
   }
 
-  /* ---- Fare estimator (indicative only) -------------------------------
-     EDIT RATES HERE. Fares are per car, one way, in AUD. Distances and
-     times are approximate driving figures from the ADL terminal.
+  /* ---- Fare estimator -------------------------------------------------
+     Fares come from `estCars`, injected by define:vars from the `fleet`
+     array in this page's frontmatter — edit the fares THERE, not here, so
+     the cards and the estimator stay in step. Distances and times are
+     approximate driving figures from the ADL terminal.
   --------------------------------------------------------------------- */
   try {
     var EST_DEST = {
       tanunda:       { name: "Tanunda",       km: 70, min: 60 },
       nuriootpa:     { name: "Nuriootpa",     km: 76, min: 65 },
       angaston:      { name: "Angaston",      km: 80, min: 70 },
+      greenock:      { name: "Greenock",      km: 78, min: 65 },
       seppeltsfield: { name: "Seppeltsfield", km: 74, min: 65 },
       lyndoch:       { name: "Lyndoch",       km: 58, min: 50 }
     };
-    var EST_CARS = { sedan: { fare: 175 }, suv: { fare: 215 }, van: { fare: 275 } };
-    var EST_SIZE = { sedan: 1, suv: 2, van: 3 }; // capacity order, for auto-upgrades
+    var EST_CARS = estCars;
 
     var estFrom = document.getElementById("est-from");
     var estDest = document.getElementById("est-dest");
@@ -1307,11 +1454,11 @@ const schemas = [businessSchema, faqSchema];
         document.getElementById("est-fare").textContent = "$" + c.fare + " AUD";
       };
       estPax.addEventListener("change", function () {
-        if (EST_SIZE[estVeh.value] < EST_SIZE[estPax.value]) estVeh.value = estPax.value;
+        if (EST_CARS[estVeh.value].size < EST_CARS[estPax.value].size) estVeh.value = estPax.value;
         renderEst();
       });
       estVeh.addEventListener("change", function () {
-        if (EST_SIZE[estVeh.value] < EST_SIZE[estPax.value]) estPax.value = estVeh.value;
+        if (EST_CARS[estVeh.value].size < EST_CARS[estPax.value].size) estPax.value = estVeh.value;
         renderEst();
       });
       estFrom.addEventListener("change", renderEst);
