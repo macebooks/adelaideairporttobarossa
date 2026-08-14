@@ -1,4 +1,5 @@
-// Cloudflare Worker: booking endpoint + static-asset fallthrough.
+// Cloudflare Worker: www redirect + booking endpoint + static-asset fallthrough.
+// www.<apex> -> 301 to the apex, before anything else runs.
 // POST /api/booking -> validate, notify business + auto-reply customer via SMTP2GO.
 // Every other request -> env.ASSETS.fetch (the static Astro site in ./dist).
 // Secrets/config: SMTP2GO_API_KEY (secret / .dev.vars), EMAIL_FROM, EMAIL_CC ([vars] / .dev.vars).
@@ -311,9 +312,25 @@ async function handleBooking(request: Request, env: Env): Promise<Response> {
   return json(200, { success: true, message: 'Request received. We will confirm shortly.' });
 }
 
+// Every page carries an absolute canonical pointing at the apex, so the www form must never
+// serve a copy of the site. Handled here rather than as a dashboard Redirect Rule so the
+// behaviour lives in the repo and survives Cloudflare moving its menus.
+//
+// Two things in wrangler.toml are load-bearing for this branch, and it silently does nothing
+// without either: the `routes` entry, which points the www hostname at this Worker, and
+// `run_worker_first`, without which the asset store answers /terms before the script runs.
+const APEX = 'adelaideairporttobarossa.com.au';
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    // 301, not 302: this is permanent, and it is what passes link equity to the apex.
+    // Path and query survive because only the hostname is rewritten.
+    if (url.hostname === `www.${APEX}`) {
+      url.hostname = APEX;
+      return Response.redirect(url.toString(), 301);
+    }
 
     if (url.pathname === '/api/booking') {
       if (request.method === 'OPTIONS') {

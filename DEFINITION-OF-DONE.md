@@ -15,16 +15,26 @@ npm run serve     # terminal 1 — wrangler dev on :8787
 npm run audit     # terminal 2 — prints the JSON report the 🔬 gates are read from
 ```
 
-Last full run: **2026-08-03**, after the owner's fares and fleet replaced the placeholders.
+Last full run: **2026-08-13**, after the sitemap moved to build-time generation.
 
-**Status: ✅ MIGRATION-COMPLETE + TECH-SEO-CLEAN + FARES-LIVE — ⚠️ LAUNCHABLE WITH CAVEATS** (see Tier 3).
+**Status: ✅ LIVE ON THE REAL DOMAIN — ⚠️ NOT DISCOVERABLE** (see Tier 3).
 
-L1 (fabricated testimonials) is resolved by removing them, so **no false or misleading content is
-served** and the hard content blocker is gone. What remains before go-live is operational rather
-than legal-content: **L7 DNS** is what actually stands between this and a live domain. **L11**
-(was/now price substantiation) is the one item that could require a same-day change if the owner
-cannot stand behind the "normally" prices. L4, L12 and L13 are missing prices and confirmations
-that make the page weaker, not wrong.
+> **Reality check, 2026-08-13.** This document was written as a pre-launch checklist and was
+> **wrong about the most important fact in it**: the site is live. `https://adelaideairporttobarossa.com.au/`
+> has been answering **200** from Cloudflare with the current build. Half of L7 shipped without
+> the document being updated, and everything below was re-verified against the running site
+> rather than against the repository. Three new blockers (L14–L16) came out of that check.
+>
+> The lesson worth keeping: **checking a claim against the repo tests internal consistency;
+> checking it against the live world tests reality.** L7 sat here for over a week describing a
+> state that no longer existed.
+
+L1 (fabricated testimonials) is resolved by removal, so **no false or misleading content is
+served**. The site is now live, and the binding constraint has moved from *can it launch* to
+**can anyone find it**: there is no Search Console property (L14), no Business Profile in the
+local pack (L15), and `www` does not resolve (L7). **L11** (was/now price substantiation) remains
+the one item that could require a same-day change if the owner cannot stand behind the "normally"
+prices. L4, L12 and L13 are missing prices and confirmations that make the page weaker, not wrong.
 
 ---
 
@@ -49,7 +59,7 @@ that make the page weaker, not wrong.
 | S1 | One canonical host, absolute canonical on every page | 🔬 ✅ | `https://adelaideairporttobarossa.com.au/`, `/privacy`, `/terms` — all self-canonical, no `www` |
 | S2 | Title + meta description within display limits | 🔬 ✅ | Home title 77 chars, description 148 chars; both legal pages unique |
 | S3 | Robots directives correct | 🔬 ✅ | Home/legal `index, follow` (+ `max-image-preview:large`); 404 `noindex, follow` **and no canonical** |
-| S4 | `robots.txt` + `sitemap.xml` | 🔬 ✅ | Both 200; sitemap lists exactly the 3 indexable URLs, all no-slash, matching the canonicals |
+| S4 | `robots.txt` + `sitemap.xml` | 🔬 ✅ | Both 200; sitemap lists exactly the 3 indexable URLs, all no-slash, matching the canonicals. **Re-verified 2026-08-13** after the sitemap moved from a static `public/sitemap.xml` to the build-time endpoint `src/pages/sitemap.xml.ts`: 200, `application/xml`, 3 `<loc>`, `lastmod` per page now derived from that page's last git commit (index/terms 2026-08-03, privacy 2026-07-25) instead of a literal `2026-07-25` on all three. See also L16 — the **served** `robots.txt` is not the file in `public/` |
 | S5 | No redirect chains on canonical URLs | 🔬 ✅ | `/`, `/privacy`, `/terms` → 200 direct. `/index.html` → 307 `/`; `/privacy/` → 307 `/privacy` (normalisation only) |
 | S6 | Valid structured data | 🔬 ✅ | 2 JSON-LD blocks parse: `TravelAgency` (name, url, tel, email, areaServed, opening hours) + `FAQPage` (5 Q&A). Placeholder answers deliberately excluded |
 | S7 | Open Graph / Twitter complete, absolute image | 🔬 ✅ | `og:url`, `og:image` absolute; `og-image.jpg` measured **1200×630**; `summary_large_image` |
@@ -71,11 +81,19 @@ that make the page weaker, not wrong.
 Cloudflare's asset-server normalisation, nothing links or sitemaps those forms, and no crawlable URL
 is behind a redirect.
 
-## Tier 3 — Launch blockers 🚫
+## Tier 3 — Open items 🚫
 
-Everything below is real-world data or a decision only the business can supply. **Do not go live
-until all are cleared.** `CLIENT-INFO-REQUEST.md` is the ready-to-send message that collects the
-outstanding items from the owner; its final table maps each question back to the blockers below.
+Renamed from "Launch blockers": **the site has already launched**, so framing these as gates on a
+launch that happened is exactly the staleness this document fell into. They are now ordered by how
+much they cost while live.
+
+Most are real-world data or a decision only the business can supply. `CLIENT-INFO-REQUEST.md` is
+the ready-to-send message that collects the outstanding items from the owner; its final table maps
+each question back to the items below.
+
+**Order of work.** L14 (Search Console) and L7b (`www`) first — they share one registrar-access
+request and nothing downstream is measurable without them. Then L15 (Business Profile), which is
+the single largest visibility gap. L11 stays first on legal grounds regardless of any of this.
 
 | # | Blocker | What is needed |
 |---|---|---|
@@ -88,10 +106,14 @@ outstanding items from the owner; its final table maps each question back to the
 | L13 | Out-of-area and return/day-tour pricing | New. Fares cover Tanunda, Lyndoch, Nuriootpa, Greenock, Angaston only. The surcharge beyond that, the return-trip price and the day-tour rate are all still "on enquiry" on the page. Seppeltsfield is currently priced as central but is not in the owner's list — needs a ruling. Question 4 in `CLIENT-INFO-REQUEST.md`. |
 | L5 | SMTP2GO secret | `npx wrangler secret put SMTP2GO_API_KEY`, then submit a real booking and confirm it lands at `barossacabs@outlook.com.au` **and** that the customer auto-reply arrives. Until then `/api/booking` returns 500. |
 | L6 | Sender domain auth | `EMAIL_FROM` is `support@finestsemmail.com`. Confirm SPF/DKIM are valid for it in SMTP2GO or auto-replies will land in spam. |
-| L7 | DNS + host redirect | Point `adelaideairporttobarossa.com.au` at the Worker and add a redirect rule `www → apex` (the canonical is the apex). |
+| L7a | ~~Apex DNS~~ | ✅ **Cleared, confirmed live 2026-08-13.** `https://adelaideairporttobarossa.com.au/` returns 200 from Cloudflare serving the current build (real fares, no testimonials, self-canonical). This shipped before 2026-08-13 and the document was not updated, which is why the reality-check note is at the top. |
+| L7b | **`www` does not resolve** | `www.adelaideairporttobarossa.com.au` **fails to connect entirely** — no DNS record, so not even a redirect. Anyone typing or linking the `www` form reaches nothing and any link equity aimed there is lost. Add the record and a `www → apex` **301** (the canonical is the apex). Measured 2026-08-13: apex `http=200`, `www` `http=000`. |
+| L14 | **No Search Console property** | 🚫 **The most binding item in this table.** The connected Google account holds six properties; **none is this domain**. The sitemap has never been submitted, there is no index-coverage data, and there are no query metrics. Until this exists the site is undiscoverable and unmeasurable, and no on-page work can be evaluated. Create the **domain property**, verify by DNS TXT, submit `https://adelaideairporttobarossa.com.au/sitemap.xml`, request indexing on all three URLs. Needs the same registrar access as L7b, so ask for both at once. |
+| L15 | **Absent from the local pack** | The Maps pack for "barossa airport transfer" near Tanunda returns **four** operators; the owner's number, `0447 958 346`, matches **none** of them. The leader (Barossa and Light Cab Service, Nuriootpa) holds **519 reviews at 4.6**. For a local transfer business this is a larger visibility gap than anything on the page. **Check first for an existing unclaimed listing** — claiming is far faster than creating. This supersedes L9 in priority: the Business Profile is the goal, and the schema `address` + `sameAs` are a consequence of it. |
+| L16 | **Undocumented AI-crawler posture** | The **served** `robots.txt` is not the six-line file in `public/`. Cloudflare prepends a managed block that disallows `GPTBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended`, `CCBot`, `Bytespider` and `meta-externalagent`, and sets `Content-Signal: search=yes,ai-train=no,use=reference`. Nobody on this project chose it. Stated precisely: `Google-Extended` does **not** affect Google Search ranking or AI Overviews (Googlebot governs those) — it governs Gemini grounding and training; `GPTBot` is OpenAI's *training* crawler, while `OAI-SearchBot` and `ChatGPT-User` are **not** blocked. So AI *search* access is largely intact and AI *training* access is denied. That is a defensible posture. **Decide it deliberately and write the decision down here** — live behaviour that no file records is how the next stale claim gets made. |
 | L8 | Analytics + consent | No analytics is installed. If GA4/Ads/Clarity go in (as on Barossataxi), add them and state it in `/privacy`, which currently says "no advertising or tracking cookies". |
-| L9 | Street address in schema | `TravelAgency` schema carries locality/region/country only. Adding the real street address (and Google Business Profile `sameAs`) materially helps local ranking. |
-| L10 | Re-run the 🔬 gates | ✅ **Re-run 2026-08-03** after the fares/fleet swap — see "Post-content-swap re-verification" below. Must be run **again** when the real testimonials land (L1), since quote length is the remaining untested content variable. |
+| L9 | Street address in schema | `TravelAgency` schema carries locality/region/country only. Adding the real street address (and Google Business Profile `sameAs`) materially helps local ranking. **Do L15 first** — the profile is the thing that matters, and this is the schema half of it. |
+| L10 | Re-run the 🔬 gates | ✅ **Re-run 2026-08-13** after the sitemap moved to build-time generation: build 4 pages / 0 warnings / 0 errors; `contrast.failCount 0`, `reducedMotion.hiddenReveals 0`, `noJsChecks.sectionCount 9`, 0 overflow, 0 console or network errors; `/`, `/privacy`, `/terms` → 200, `/nonexistent` → 404; `/sitemap.xml` → 200 `application/xml` with 3 `<loc>`. Must be run **again** when the real testimonials land (L1), since quote length is the remaining untested content variable. |
 
 ## Post-content-swap re-verification — 2026-08-03
 

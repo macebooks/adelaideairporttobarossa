@@ -2,15 +2,40 @@ name = "adelaideairporttobarossa"
 main = "worker/index.ts"
 compatibility_date = "2026-04-27"
 
+# The apex is bound as a Worker Custom Domain (managed in the dashboard, not here).
+# `www` is a plain route instead: its proxied DNS record already exists, and a route attaches to
+# it without the record-override prompt a second Custom Domain would trigger. Without this the
+# hostname reaches Cloudflare, finds no Worker, tries to reach an origin that is not there and
+# returns 522. The redirect itself lives in worker/index.ts.
+routes = [
+  { pattern = "www.adelaideairporttobarossa.com.au/*", zone_name = "adelaideairporttobarossa.com.au" }
+]
+
+# Adding `routes` makes wrangler disable workers.dev unless it is asked for explicitly, which
+# silently removes the preview URL this project documents. Both are stated here so the deployment
+# surface is a decision in the file rather than a side effect of an unrelated change.
+workers_dev = true
+preview_urls = true
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 # Serve the built 404.html (with a real 404 status) for unknown paths.
 not_found_handling = "404-page"
+# By default the asset store answers any request matching a built file and the Worker never runs,
+# which is why the www redirect returned 200 for /terms while /api/booking worked: only non-asset
+# paths reached the script. Worker-first inverts that so every request enters worker/index.ts,
+# which then falls through to env.ASSETS.fetch. This is path-scoped only when given a glob list,
+# and the redirect keys on hostname, so it has to be all requests.
+# Trade-off: the Worker now mediates static serving too. Acceptable at this size, and the
+# alternative is a dashboard Redirect Rule that fires at the edge but lives outside the repo.
+run_worker_first = true
 
 [vars]
 EMAIL_FROM = "support@finestsemmail.com"
 # Comma-separated: every address receives the booking notification.
-EMAIL_CC = "barossacabs@outlook.com.au"
+# Adding an address here means it receives customers' personal details (name, email,
+# phone, flight). Keep /privacy "Who else sees it" in step with the mail hosts used.
+EMAIL_CC = "barossacabs@outlook.com.au,macplanet2012@gmail.com"
 # Where a customer's reply to the auto-reply lands.
 EMAIL_REPLY_TO = "barossacabs@outlook.com.au"

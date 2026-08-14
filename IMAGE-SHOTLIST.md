@@ -1,5 +1,30 @@
 # Image Shotlist — AdelaideAirportToBarossa.com.au
 
+> # ⚠️ SUPERSEDED — DO NOT BUILD FROM THIS FILE
+>
+> **Marked 2026-08-13.** This document describes an art direction the project no longer uses, for
+> a file that no longer exists. Following it would rebuild the wrong site.
+>
+> | This file says | The live site actually is |
+> |---|---|
+> | "The Itinerary" — film-toned photographic plates, Imagen-4 generated | **"Tarmac to Vines"** — naive-premium poster build |
+> | Raster JPEGs in `assets/img/` (`hero-road.jpg`, `car-window.jpg`, `sedan-road.jpg`) | **Zero raster photography.** Hand-drawn inline SVG and flat colour blocks only. The single raster file served is `assets/img/og-image.jpg`, the 1200×630 social card |
+> | Wired into `index.html` | `index.html` is pre-migration. The site is Astro: `src/pages/index.astro` |
+> | Palette: paper `#efe7d6`, oxblood `#8a2f24`, botanical `#3d4a3a` | Tokens in `index.astro`: `--ink #241E1B`, `--bone #F3ECDD`, `--vine #2F5233`, `--wine #7A2C3B`, `--gold #E8A33D`, `--sky #6795AF` |
+>
+> The zero-photography decision is **load-bearing, not incidental**. It is why the page weighs
+> ~0.2 MB with no images (gate S19), why gate S18 passes trivially, and why there is no
+> AI-generated-face risk. See `DEFINITION-OF-DONE.md` → Design.
+>
+> **Kept, not deleted, for two reasons:** the prompts below are a decent record of the rejected
+> direction, and the vector-only design language they were rejected in favour of is what makes the
+> brand cheap to animate — HyperFrames renders HTML, CSS and SVG natively, so `index.astro`'s own
+> stylesheet doubles as the video design system.
+>
+> **If you need imagery,** start from the live tokens above, not from this file.
+
+---
+
 Art direction: **"The Itinerary"** — an editorial travel-document / private-concierge aesthetic. Images are treated as **inset printed plates** (thin ink border, small monospace caption underneath), NOT glossy full-bleed hero backgrounds. All imagery is **muted, grainy, film-stock** — desaturated, overcast, quiet. The page also applies a light CSS `saturate(.82)` filter to every plate for consistency.
 
 > **Status:** A film-toned Imagen-4 set is **already generated and wired** into `index.html` (slots marked ✅ below), living in `assets/img/`. Testimonial ("passenger notes") avatars are monogram/initials — **no AI faces** (correct). Prices, `[PHONE]`, and ABN remain placeholders in copy.
