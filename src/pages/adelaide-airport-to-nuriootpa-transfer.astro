@@ -1,0 +1,151 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { destinations, fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'adelaide-airport-to-nuriootpa-transfer';
+const url = `${site}/${slug}`;
+
+const d = destinations.nuriootpa;
+const tan = destinations.tanunda;
+const [sedan, tarago, hiace] = fleet;
+
+const faqs = [
+  {
+    q: 'How long is the transfer from Adelaide Airport to Nuriootpa?',
+    a: `About ${d.min} minutes door to door, roughly ${d.km} km, north up the Sturt Highway through Gawler and on past Tanunda.`,
+  },
+  {
+    q: 'How much is a transfer from Adelaide Airport to Nuriootpa?',
+    a: `$${sedan.now} flat per car for up to ${sedan.seats} passengers, each way. The same flat fare as the closer townships.`,
+  },
+  {
+    q: 'Can you invoice my company?',
+    a: 'Regular and corporate clients can be invoiced by arrangement. Raise it when you book.',
+  },
+  {
+    q: 'Can you collect a group arriving on several flights?',
+    a: 'Yes. Each flight is tracked by its own number, and parties above four are quoted across the right combination of vehicles.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Adelaide Airport to Nuriootpa transfers',
+    serviceType: 'Private airport transfer',
+    description: `Private chauffeur transfer between Adelaide Airport and Nuriootpa, about ${d.km} km and ${d.min} minutes. Flat fare per vehicle, each way.`,
+    provider: { '@id': `${site}/#business` },
+    areaServed: { '@type': 'Place', name: 'Nuriootpa, South Australia' },
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Adelaide Airport to Nuriootpa', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Adelaide Airport to Nuriootpa Transfer | $200 Flat, 65 Minutes"
+  description="Private transfer from Adelaide Airport to Nuriootpa. $200 flat per car, about 76 km and 65 minutes, flight tracked, met in arrivals. Corporate accounts."
+  slug={slug}
+  h1="Adelaide Airport to Nuriootpa transfers"
+  eyebrow="Nuriootpa &middot; the Barossa's working town"
+  lead={`Nuriootpa is about ${d.km} km from Adelaide Airport, roughly ${d.min} minutes by road. A private transfer is $${sedan.now} flat per car for up to ${sedan.seats} passengers, each way, the same fare as the closer townships.`}
+  schemas={schemas}
+>
+  <p><strong>Nuriootpa is the Barossa's working town</strong>, and if you are here for a conference,
+  a supplier visit or a stay with the shops in walking distance, this is your page.</p>
+
+  <h2>Nuriootpa is the practical Barossa</h2>
+
+  <p><strong>Tanunda is where the valley entertains. Nuriootpa is where it works.</strong>
+  Supermarkets, pubs, bakeries and cafes, and the ordinary infrastructure a town needs when it is
+  not performing for visitors.</p>
+
+  <p><strong>That makes it the better base for some trips and the wrong one for others.</strong> If
+  you want to walk out of your accommodation into a restaurant strip, Tanunda. <strong>If you want a
+  straightforward base with everything open and the big cellar doors on your doorstep,
+  Nuriootpa.</strong></p>
+
+  <p><strong>Penfolds, Wolf Blass and Elderton are all close by</strong>, which is why a lot of trade
+  and corporate visits base here rather than in the prettier town five minutes south.</p>
+
+  <h2>Built for the business trip as much as the weekend</h2>
+
+  <p>Corporate and trade visitors are a real share of the Nuriootpa run, and they need different
+  things from a couple on a wine weekend:</p>
+
+  <ul>
+    <li><strong>Invoicing by arrangement</strong> for regular and corporate clients, so nobody
+    expenses a cash fare from an airport rank.</li>
+    <li><strong>Every driver accredited</strong> under South Australian passenger transport
+    regulations, and every vehicle through its SA Government mechanical inspection.</li>
+    <li><strong>Met inside the arrivals hall with a name sign.</strong> No kerbside phone calls
+    between a delayed flight and a first meeting.</li>
+    <li><strong>Recurring runs set up once</strong>, if the same visit repeats across a season.</li>
+  </ul>
+
+  <p><strong>Bringing a team?</strong> Seven travel in the {tarago.vehicle} at ${tarago.now} and
+  thirteen in the {hiace.vehicle} at ${hiace.now}, per car, which for a group is well under any
+  per-head arrangement.</p>
+
+  <p><a href="/group-transfers-adelaide-airport-barossa-valley">Group and conference transfers
+  &rarr;</a></p>
+
+  <h2>The drive: {d.km} km, about {d.min} minutes</h2>
+
+  <p>North up the <strong>Sturt Highway through Gawler</strong>, into the valley, then on through
+  Tanunda and about six kilometres further north.</p>
+
+  <p><strong>Nuriootpa is roughly five minutes further than Tanunda and costs exactly the same
+  ${sedan.now}.</strong> The flat fare covers the central townships without grading them by
+  distance, so being at the top of the valley costs you nothing.</p>
+
+  <FareTable caption="Flat fares per vehicle, each way, to the central Barossa townships." />
+
+  <p><strong>Flight tracked by number, met in arrivals, one price agreed before you fly.</strong></p>
+
+  <p><a class="btn" href="/#book">Get your Nuriootpa transfer &rarr;</a></p>
+
+  <h2>Nuriootpa or Tanunda?</h2>
+
+  <p><strong>Nuriootpa for convenience and the working town. Tanunda for the visitor
+  experience.</strong> Five minutes and no difference in fare separate them, so pick the town that
+  suits the trip rather than the one that shortens the drive.</p>
+
+  <p>Tanunda is {tan.km} km and about {tan.min} minutes; Nuriootpa is {d.km} km and about {d.min}.</p>
+
+  <p><a href="/adelaide-airport-to-tanunda-transfer">Adelaide Airport to Tanunda transfers
+  &rarr;</a></p>
+
+  <h2>Nuriootpa transfer questions</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>Still deciding how to travel?
+  <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare the options</a> &middot;
+  <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">All distances and pickup
+  detail</a></p>
+</Content>

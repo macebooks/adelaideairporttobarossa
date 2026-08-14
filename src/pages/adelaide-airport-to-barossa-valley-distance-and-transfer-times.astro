@@ -1,0 +1,252 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { destinations, centralTowns, fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'adelaide-airport-to-barossa-valley-distance-and-transfer-times';
+const url = `${site}/${slug}`;
+
+const sedan = fleet[0];
+
+/* Ordered by distance, so the table reads as a journey rather than an alphabet.
+   `covered` drives the fare column: it is true only for the townships in the
+   operator's own list. Seppeltsfield is deliberately NOT given a fare here — it is
+   quoted at the standard rate by the estimator but is absent from `centralTowns`,
+   which is open item L13. This page states no fare for it rather than adding a third
+   version of the contradiction. See src/lib/fleet.ts. */
+const rows = Object.values(destinations)
+  .slice()
+  .sort((a, b) => a.km - b.km)
+  .map((d) => ({ ...d, covered: centralTowns.includes(d.name) }));
+
+/* This page is the canonical owner of the distance and duration questions. The
+   homepage and the comparison page answer them in passing; only these are in
+   FAQPage schema, to keep one owner per query. */
+const faqs = [
+  {
+    q: 'How long does it take from Adelaide Airport to the Barossa Valley?',
+    a: 'About one hour to Tanunda. Around 50 minutes to Lyndoch and around 70 to Angaston, door to door in normal traffic.',
+  },
+  {
+    q: 'How many kilometres is Adelaide Airport to the Barossa Valley?',
+    a: 'Between 58 and 80 km depending on the township. Tanunda, the most common destination, is about 70 km. Lyndoch is closest at about 58 km and Angaston furthest at about 80 km.',
+  },
+  {
+    q: 'Where do I meet my driver at Adelaide Airport?',
+    a: 'Inside the arrivals hall, after you clear baggage. Your driver waits with a name sign. Adelaide Airport runs domestic and international through the one terminal, so there is no other hall to find.',
+  },
+  {
+    q: 'Can I bring wine back in the transfer?',
+    a: 'Yes, there is boot space for cases. The constraint is the flight rather than the car: a dozen bottles weighs about 16 kg against a typical 23 kg checked allowance, so buy freely and have the cellar door ship the bulk of it.',
+  },
+  {
+    q: 'What happens if my flight is delayed?',
+    a: 'We track your flight by its number and the driver works to your real arrival time. You keep the booking and the fare does not change. You do not need to call from the plane.',
+  },
+  {
+    q: 'Do you provide child seats?',
+    a: 'Yes. Both infant restraints and booster seats are available on request, so babies, toddlers and older children are all covered. Give us the ages when you book and the right seat is fitted before pick-up.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Adelaide Airport to the Barossa Valley: distance, travel time and transfer logistics',
+    description:
+      'Distances and drive times to each Barossa township, the arrivals-hall pickup procedure, flight tracking, luggage, wine and child seats.',
+    mainEntityOfPage: url,
+    publisher: { '@id': `${site}/#business` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Distance and transfer times', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Adelaide Airport to Barossa Valley: Distance, Time & Transfers"
+  description="Adelaide Airport to the Barossa is 58 to 80 km, 50 to 70 minutes by township. Pickup procedure, flight delays, luggage and how to get your wine home."
+  slug={slug}
+  h1="Adelaide Airport to the Barossa Valley: distance, travel time and transfer logistics"
+  eyebrow="The practical detail"
+  lead="The Barossa Valley is 58 to 80 km from Adelaide Airport depending on the township, or roughly 50 to 70 minutes by road. Lyndoch is the closest at about 58 km. Angaston is the furthest at about 80 km. Tanunda, the most common destination, is about 70 km and one hour."
+  schemas={schemas}
+>
+  <h2>How far is the Barossa Valley from Adelaide Airport?</h2>
+
+  <p><strong>One hour is the short answer. Here is the one that matches your booking.</strong></p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>Township</th><th>Distance from ADL</th><th>Drive time</th><th>Sedan fare, each way</th></tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td><strong>{r.name}</strong></td>
+            <td>~{r.km} km</td>
+            <td>~{r.min} min</td>
+            <td>{r.covered ? `$${sedan.now}` : 'On enquiry'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Fares are per car, each way, not per person.</strong> A sedan carries up to
+  {sedan.seats}; larger vehicles carry seven and thirteen.</p>
+
+  <FareTable caption="One flat price per vehicle, in both directions, for the central townships." />
+
+  <p><strong>Times are door to door in normal traffic</strong>, measured from the arrivals hall
+  rather than the airport boundary. An early-morning airport run adds nothing; a Friday evening
+  departure out of Adelaide can add fifteen minutes.</p>
+
+  <div class="note">
+    <p><strong>Heading somewhere not on that list?</strong> Tell us the address when you book.
+    Destinations outside the central townships are quoted individually, and you get the number in
+    writing before you fly rather than a surprise on arrival.</p>
+  </div>
+
+  <h2>The route: what you pass on the way</h2>
+
+  <p><strong>Out of the airport, north around the city, then up the Sturt Highway through Gawler
+  and into the vines.</strong> No transfers, no changes, no waiting.</p>
+
+  <p>The road empties out past Gawler. <strong>The last fifteen minutes are the good bit</strong>:
+  the suburbs stop, the country opens up, and the vine rows start running away from the road in
+  both directions. Most people stop talking about the flight around there.</p>
+
+  <h2>Pickup at Adelaide Airport: exactly what happens</h2>
+
+  <p><strong>Adelaide Airport runs domestic and international through one terminal</strong>, so
+  there is no wrong building and no inter-terminal shuttle to work out.</p>
+
+  <ol>
+    <li><strong>You land.</strong> Nothing to do. We already have your flight number.</li>
+    <li><strong>You clear baggage.</strong> Take your time. The driver is not on a meter.</li>
+    <li><strong>You walk into the arrivals hall.</strong> Your driver is waiting with a
+    <strong>name sign</strong>.</li>
+    <li><strong>You walk to the car and go.</strong> Door to door, one flat fare, agreed before you
+    flew.</li>
+  </ol>
+
+  <p><strong>You do not need to call, message, or find a rideshare pin in a car park.</strong> If
+  something does go wrong, the driver's direct number is on your confirmation.</p>
+
+  <h2>If your flight is delayed</h2>
+
+  <p><strong>Nothing. That is the entire answer.</strong></p>
+
+  <p><strong>We track your flight by its number</strong>, not by the schedule you booked. Land
+  early, land late, get diverted and come in three hours behind: the driver is working from your
+  real arrival time.</p>
+
+  <ul>
+    <li><strong>You do not need to call from the plane.</strong></li>
+    <li><strong>You do not lose the booking</strong>, and the fare does not change because the
+    aircraft did.</li>
+    <li><strong>If your flight is cancelled and you rebook</strong>, send the new flight number and
+    the booking moves with it.</li>
+  </ul>
+
+  <h2>Wine, luggage and getting it all home</h2>
+
+  <p><strong>The car is not your problem. The plane is.</strong></p>
+
+  <p>There is room for standard bags for every passenger, plus space for cases on the way back.
+  Tell us if you are travelling with something oversized, prams, golf clubs or instruments, and we
+  bring the right vehicle.</p>
+
+  <p>Now the part almost nobody tells you before you buy:</p>
+
+  <div class="pull">
+    <p>A dozen bottles of wine weighs about 16 kg.</p>
+    <p>A standard checked bag allowance is 23 kg.</p>
+  </div>
+
+  <p><strong>One case is most of your luggage allowance.</strong> Two cases is an excess baggage
+  fee, and you will be finding this out at the check-in desk on your last morning.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>If you are buying</th><th>Do this</th></tr></thead>
+      <tbody>
+        <tr><td>A few bottles</td><td>Pack them in checked luggage, wrapped in clothes, upright in the middle of the bag</td></tr>
+        <tr><td>Half a case or more</td><td><strong>Have the cellar door ship it.</strong> Most Barossa wineries deliver anywhere in Australia</td></tr>
+        <tr><td>Anything, on a domestic flight</td><td><strong>Domestic flights within Australia have no liquid limits in the cabin</strong>, so a bottle or two can travel with you. Airlines still cap the weight, and you cannot drink your own on board</td></tr>
+        <tr><td><strong>Connecting to an international flight</strong></td><td><strong>All of it goes in checked baggage.</strong> The 100 ml liquid rule applies from international security, and wine will be taken off you</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>The practical version: taste widely, buy freely, and let the cellar door post the heavy
+  part.</strong> Bring home the bottles you cannot get anywhere else and let the rest arrive next
+  week.</p>
+
+  <div class="note">
+    <p>Airline allowances differ by carrier and fare type. Check yours before you buy a case, and
+    treat the 23 kg figure as the common economy standard rather than a promise about your
+    ticket.</p>
+  </div>
+
+  <h2>Child seats</h2>
+
+  <p><strong>Both infant restraints and booster seats are available on request</strong>, so the
+  whole family is covered from the newborn to the nine-year-old who insists they do not need
+  one.</p>
+
+  <p><strong>Tell us the children's ages when you book.</strong> Australian road rules require a
+  suitable restraint for every child under seven, and which one is suitable depends on age and
+  size. Give us the ages and the right seat is fitted before pick-up, rather than negotiated at the
+  kerb with a tired toddler.</p>
+
+  <div class="note">
+    <p><strong>Worth asking any operator, not just this one.</strong> A transfer that carries
+    booster seats only cannot legally take a baby, and families routinely find that out at the
+    airport. Ask the question before you land.</p>
+  </div>
+
+  <h2>What to tell us when you book</h2>
+  <ul>
+    <li>Flight number, date and arrival time</li>
+    <li>Where you are staying, the actual address</li>
+    <li>How many passengers, and the ages of any children</li>
+    <li>Anything oversized, and anything you would rather we asked about than assumed</li>
+  </ul>
+
+  <p><a class="btn" href="/#book">Get a flat fare for your flight &rarr;</a></p>
+
+  <h2>Quick answers</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>Going to a specific township?
+  <a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a> &middot;
+  <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a></p>
+  <p>Still deciding how to travel?
+  <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare all the options</a>.</p>
+</Content>

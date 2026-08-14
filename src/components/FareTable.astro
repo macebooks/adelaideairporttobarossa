@@ -1,0 +1,42 @@
+---
+/*
+  FareTable.astro — the fare block, shared by every content page.
+
+  Reads src/lib/fleet.ts so no page ever types a price. That module is the single
+  source of truth; see the note in it about Seppeltsfield (L13).
+
+  Props:
+    perPerson  show the per-person column (used where the argument is per-head cost)
+    caption    optional line under the table
+*/
+import { fleet } from '../lib/fleet';
+
+const { perPerson = false, caption } = Astro.props;
+
+const money = (n: number) => `$${n}`;
+const perHead = (fare: number, seats: number) =>
+  `$${(fare / seats).toFixed(2)}`;
+---
+<div class="tw">
+  <table>
+    <thead>
+      <tr>
+        <th>Vehicle</th>
+        <th>Seats</th>
+        <th>Flat fare, each way</th>
+        {perPerson && <th>Per person, full</th>}
+      </tr>
+    </thead>
+    <tbody>
+      {fleet.map((f) => (
+        <tr>
+          <td><strong>{f.tier}</strong><br />{f.vehicle}</td>
+          <td>Up to {f.seats}</td>
+          <td><strong>{money(f.now)}</strong></td>
+          {perPerson && <td>{perHead(f.now, f.seats)}</td>}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+{caption && <p class="cap" style="font-size:.9rem;opacity:.8;margin-top:-1rem">{caption}</p>}

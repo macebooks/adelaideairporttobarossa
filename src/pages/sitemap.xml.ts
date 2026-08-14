@@ -30,6 +30,38 @@ import { join } from 'node:path';
 
 const ROUTES = [
   { path: '/', source: 'index.astro', changefreq: 'monthly', priority: '1.0' },
+  {
+    path: '/group-transfers-adelaide-airport-barossa-valley',
+    source: 'group-transfers-adelaide-airport-barossa-valley.astro',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/how-to-get-from-adelaide-airport-to-barossa-valley',
+    source: 'how-to-get-from-adelaide-airport-to-barossa-valley.astro',
+    // Third-party facts date faster than anything else on the site, so this one is
+    // genuinely expected to change. See the provenance note in the page itself.
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/adelaide-airport-to-barossa-valley-distance-and-transfer-times',
+    source: 'adelaide-airport-to-barossa-valley-distance-and-transfer-times.astro',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/adelaide-airport-to-tanunda-transfer',
+    source: 'adelaide-airport-to-tanunda-transfer.astro',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/adelaide-airport-to-nuriootpa-transfer',
+    source: 'adelaide-airport-to-nuriootpa-transfer.astro',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
   { path: '/privacy', source: 'privacy.astro', changefreq: 'yearly', priority: '0.2' },
   { path: '/terms', source: 'terms.astro', changefreq: 'yearly', priority: '0.2' },
 ] as const;

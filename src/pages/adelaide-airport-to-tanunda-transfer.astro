@@ -1,0 +1,152 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { destinations, fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'adelaide-airport-to-tanunda-transfer';
+const url = `${site}/${slug}`;
+
+const d = destinations.tanunda;
+const nur = destinations.nuriootpa;
+const [sedan, tarago, hiace] = fleet;
+
+/* Township-specific questions only. The generic distance and duration questions are
+   owned in schema by the logistics page, so three URLs do not compete for one query. */
+const faqs = [
+  {
+    q: 'How long is the transfer from Adelaide Airport to Tanunda?',
+    a: `About one hour door to door, roughly ${d.km} km north up the Sturt Highway through Gawler.`,
+  },
+  {
+    q: 'How much is a transfer from Adelaide Airport to Tanunda?',
+    a: `$${sedan.now} flat per car for up to ${sedan.seats} passengers, each way. $${tarago.now} for the seven-seat people mover and $${hiace.now} for the thirteen-seat bus.`,
+  },
+  {
+    q: 'Will you drop me at my accommodation, or in the town centre?',
+    a: 'At the address you give us. Cottages and rentals on side roads are normal here, so include the property name if there is one.',
+  },
+  {
+    q: 'Can you pick me up in Tanunda for a flight home?',
+    a: 'Yes, at the same flat fare, timed back from your departure. Booking both legs together is one arrangement rather than two.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Adelaide Airport to Tanunda transfers',
+    serviceType: 'Private airport transfer',
+    description: `Private chauffeur transfer between Adelaide Airport and Tanunda, about ${d.km} km and ${d.min} minutes. Flat fare per vehicle, each way.`,
+    provider: { '@id': `${site}/#business` },
+    areaServed: { '@type': 'Place', name: 'Tanunda, South Australia' },
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Adelaide Airport to Tanunda', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Adelaide Airport to Tanunda Transfer | $200 Flat, 1 Hour"
+  description="Private transfer from Adelaide Airport to Tanunda. $200 flat per car, about 70 km and one hour, flight tracked and met in arrivals. Book both legs."
+  slug={slug}
+  h1="Adelaide Airport to Tanunda transfers"
+  eyebrow="Tanunda &middot; the Barossa's visitor town"
+  lead={`Tanunda is about ${d.km} km from Adelaide Airport, roughly one hour by road. A private transfer is $${sedan.now} flat per car for up to ${sedan.seats} passengers, each way, with the driver meeting you inside the arrivals hall.`}
+  schemas={schemas}
+>
+  <p><strong>Tanunda is the Barossa township most visitors book</strong>, and the one most airport
+  transfers run to. If your accommodation is on or near the main street, this is your page.</p>
+
+  <h2>Why most people end up in Tanunda</h2>
+
+  <p><strong>It is the valley's visitor town.</strong> More places to stay and more places to eat
+  than anywhere else in the Barossa, which is why first-time visitors gravitate to it without quite
+  knowing why.</p>
+
+  <p><strong>It is also the practical choice</strong>, and this is the part nobody explains: Tanunda
+  sits central enough that a day of cellar doors does not become a day of backtracking. From here
+  the valley opens in both directions.</p>
+
+  <p><strong>What that means for your transfer:</strong> you are almost certainly going to a street
+  address rather than a resort gate. Give us the address on the booking, including the property name
+  if it is a cottage or a rental, and that is where you are dropped. Not the main street, not
+  "near enough".</p>
+
+  <h2>The drive: about an hour, and the good part is at the end</h2>
+
+  <p>Out of the airport, north around the city and up the <strong>Sturt Highway through
+  Gawler</strong>. That stretch is ordinary and it is most of the trip.</p>
+
+  <p><strong>Then the suburbs stop.</strong> Past Gawler the country opens, and the run in through
+  Lyndoch and Rowland Flat is the one that tells you the holiday has started. Vine rows running away
+  from the road on both sides, and about ten minutes later you are on Tanunda's main street.</p>
+
+  <p><strong>About {d.km} km, about {d.min} minutes</strong>, door to door in normal traffic. Tanunda
+  is the second-closest of the central townships, so it is a shorter run than Nuriootpa or
+  Angaston.</p>
+
+  <h2>What the ${sedan.now} covers</h2>
+
+  <p><strong>One flat fare per car, each way.</strong> Not per person, not metered, and the same
+  price whether you land at 6am or 11pm.</p>
+
+  <FareTable caption="Flat fares per vehicle, each way, to the central Barossa townships." />
+
+  <p><strong>Your flight is tracked by its number</strong>, so a late arrival moves the pick-up
+  rather than costing you the booking. You are met inside the arrivals hall with a name sign, after
+  baggage.</p>
+
+  <p><strong>Book the return at the same time.</strong> The fare is identical in the other direction
+  and it is one arrangement rather than two, which matters more than it sounds like on a Sunday
+  morning with cases of wine.</p>
+
+  <p><a class="btn" href="/#book">Get your Tanunda transfer &rarr;</a></p>
+
+  <h2>Staying in Tanunda or Nuriootpa?</h2>
+
+  <p><strong>A common question, and worth answering before you book anything.</strong> Tanunda is
+  the visitor town: more to eat, more to walk to, more choice of where to sleep.
+  <strong>Nuriootpa is the working town</strong>, with the supermarkets, the bakeries and the
+  practical end of the valley, and the big-name cellar doors close by.</p>
+
+  <p><strong>The transfer barely changes.</strong> Nuriootpa is {nur.km} km against Tanunda's
+  {d.km}, about five minutes further, and the fare is the same ${sedan.now}. Choose on the town,
+  not the trip.</p>
+
+  <p><a href="/adelaide-airport-to-nuriootpa-transfer">Adelaide Airport to Nuriootpa transfers
+  &rarr;</a></p>
+
+  <h2>Tanunda transfer questions</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>More than four of you?
+  <a href="/group-transfers-adelaide-airport-barossa-valley">Group transfers</a> &middot;
+  Still deciding how to travel?
+  <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare the options</a> &middot;
+  <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">All distances and
+  pickup detail</a></p>
+</Content>

@@ -45,7 +45,17 @@ async function openPage() {
 }
 
 // ── 1. Console/network errors + viewport sweep on every page ─────────────────
-const PAGES = ['/', '/privacy', '/terms', '/404'];
+const PAGES = [
+  '/',
+  '/group-transfers-adelaide-airport-barossa-valley',
+  '/how-to-get-from-adelaide-airport-to-barossa-valley',
+  '/adelaide-airport-to-barossa-valley-distance-and-transfer-times',
+  '/adelaide-airport-to-tanunda-transfer',
+  '/adelaide-airport-to-nuriootpa-transfer',
+  '/privacy',
+  '/terms',
+  '/404',
+];
 const VIEWPORTS = [
   { w: 320, h: 640, name: '320 (iPhone SE)' },
   { w: 360, h: 800, name: '360 (Android)' },

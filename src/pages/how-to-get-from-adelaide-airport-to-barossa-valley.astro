@@ -1,0 +1,309 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'how-to-get-from-adelaide-airport-to-barossa-valley';
+const url = `${site}/${slug}`;
+
+const sedan = fleet[0];
+
+/* Third-party facts on this page were verified 2026-08-14 and they decay. Re-check
+   every six months, or immediately if a reader writes in with a correction:
+   - no direct bus, 2 to 3 changes, about 3 hr 45 min (Rome2Rio, Adelaide Metro)
+   - route via Gawler Central then a LinkSA country bus (Adelaide Metro, LinkSA)
+   - taxi calculators put the run between roughly $130 and $200, presented AS a range
+     of estimates because a meter cannot be quoted
+   - rideshare reached the Barossa, Adelaide Plains and Light in April 2025; Uber's own
+     guidance is to use Uber Reserve because driver supply is still building.
+     An earlier draft of this page said rideshare could not bring you back. That was
+     true once and is not now. Do not reinstate it. */
+
+const faqs = [
+  {
+    q: 'How far is the Barossa Valley from Adelaide Airport?',
+    a: 'About 75 km, roughly an hour by road, north up the Sturt Highway through Gawler. Lyndoch is the closest township at about 58 km and Angaston the furthest at about 80 km.',
+  },
+  {
+    q: 'Is there a direct bus from Adelaide Airport to the Barossa Valley?',
+    a: 'No. Public transport means two or three connections, typically a bus from the airport, a train to Gawler Central, then a LinkSA country bus into the valley. Allow about three hours forty-five minutes against about one hour by road.',
+  },
+  {
+    q: 'What is the cheapest way to get from Adelaide Airport to the Barossa?',
+    a: 'Public transport, at roughly $10 to $15 per person. It is the cheapest by a wide margin and the slowest by a wider one. For three or more people a flat-fare private transfer at $200 per car works out close to a taxi estimate and below most per-person options.',
+  },
+  {
+    q: 'Can I get an Uber from Adelaide Airport to the Barossa Valley?',
+    a: 'Yes. Rideshare reached the Barossa, Adelaide Plains and Light region in April 2025. Driver numbers in the valley are still building, so Uber itself suggests booking ahead with Uber Reserve rather than relying on a car being free when you want one.',
+  },
+  {
+    q: 'Should I hire a car for the Barossa Valley?',
+    a: 'Only if someone is happy not to drink. It is a wine region, so a self-drive trip means a designated driver at every cellar door and on the run back to the airport.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'How to get from Adelaide Airport to the Barossa Valley',
+    description:
+      'Bus, taxi, rideshare, hire car or private transfer from Adelaide Airport to the Barossa Valley, compared on cost, time and what happens when things go wrong.',
+    mainEntityOfPage: url,
+    publisher: { '@id': `${site}/#business` },
+    about: [
+      { '@type': 'Place', name: 'Adelaide Airport' },
+      { '@type': 'Place', name: 'Barossa Valley' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'How to get to the Barossa Valley', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="How to Get from Adelaide Airport to Barossa Valley: 5 Options"
+  description="Bus, taxi, Uber, hire car or private transfer from Adelaide Airport to the Barossa Valley. Real costs and times compared, including the 4 hour bus route."
+  slug={slug}
+  h1="How to get from Adelaide Airport to the Barossa Valley"
+  eyebrow="Every option, compared"
+  lead="The Barossa Valley is about 75 km north of Adelaide Airport, roughly an hour by road up the Sturt Highway. Driving, a taxi or a private transfer all take about an hour. Public transport is the cheapest option and takes closer to four hours with two or three changes."
+  schemas={schemas}
+>
+  <p><strong>Five ways to make the trip.</strong> Here is what each one actually costs you,
+  including the one that is cheapest and the one most people regret.</p>
+
+  <h2>The short version</h2>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Option</th><th>Typical cost</th><th>Door to door</th><th>Price known upfront?</th><th>Return leg</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Public transport</strong></td><td>~$10 to $15 per person</td>
+          <td><strong>About 3 hr 45 min</strong>, 2 to 3 changes</td><td>Yes</td>
+          <td>Limited services, check the day</td>
+        </tr>
+        <tr>
+          <td><strong>Metered taxi</strong></td><td>Estimates vary, roughly $130 to $200</td>
+          <td>About 1 hr</td><td><strong>No, it is a meter</strong></td><td>Book ahead</td>
+        </tr>
+        <tr>
+          <td><strong>Rideshare</strong></td><td>Variable, plus a $3 airport access fee</td>
+          <td>About 1 hr</td><td>No, varies with demand</td>
+          <td>Available, but reserve ahead</td>
+        </tr>
+        <tr>
+          <td><strong>Hire car</strong></td><td>Daily rate, plus fuel and parking</td>
+          <td>About 1 hr</td><td>Partly</td><td>Yes, but somebody stays sober</td>
+        </tr>
+        <tr>
+          <td><strong>Private transfer</strong></td><td><strong>${sedan.now} flat per car</strong>, up to {sedan.seats}</td>
+          <td>About 1 hr</td><td><strong>Yes, agreed in writing</strong></td>
+          <td>Same flat fare both ways</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>Read that table by column, not by row.</strong> The cost column has a clear winner.
+  The other four do not, and on an arrival day they are usually what decides it.</p>
+
+  <h2>Public transport: yes, there is a bus. Sort of.</h2>
+
+  <p><strong>There is no direct bus from Adelaide Airport to the Barossa Valley.</strong> There is a
+  chain of services that gets you there for the price of a sandwich, and it takes most of a
+  morning.</p>
+
+  <h3>The realistic route, in three legs</h3>
+  <ol>
+    <li><strong>Adelaide Airport to the rail network.</strong> A bus from the airport stop toward
+    the city or the northern suburbs.</li>
+    <li><strong>Train to Gawler Central.</strong> The Gawler line, about an hour end to end from
+    the city.</li>
+    <li><strong>LinkSA country bus into the valley.</strong> Gawler Central out to Lyndoch,
+    Tanunda, Nuriootpa and Angaston.</li>
+  </ol>
+
+  <p><strong>Total, roughly three hours forty-five minutes</strong>, against about one hour by road.
+  You will change services two or three times, with your luggage, after a flight.</p>
+
+  <h3>When the bus is genuinely the right answer</h3>
+  <ul>
+    <li>You are travelling alone or as a pair and the fare difference matters more than the
+    afternoon.</li>
+    <li>You are arriving on a weekday and have nowhere to be.</li>
+    <li>You are staying in one of the towns the country bus actually serves.</li>
+  </ul>
+
+  <h3>When it is not</h3>
+  <ul>
+    <li>You are landing in the evening, or at a weekend, when country services thin out.</li>
+    <li>You have real luggage, a pram, or wine to bring home.</li>
+    <li>Your accommodation is on a road rather than in a town centre. <strong>The bus goes to
+    towns; the Barossa's cellar doors and rentals are spread across the vines between
+    them.</strong></li>
+  </ul>
+
+  <div class="note">
+    <p><strong>Check before you commit.</strong> LinkSA timetables change, and country services run
+    fewer trips at weekends. Confirm current times with LinkSA or Adelaide Metro for your actual
+    arrival day rather than trusting any web page, including this one.</p>
+  </div>
+
+  <h2>Taxi from Adelaide Airport to the Barossa</h2>
+
+  <p><strong>About an hour, and nobody can tell you the fare.</strong></p>
+
+  <p>A metered taxi will do this run. Third-party fare calculators put it anywhere from
+  <strong>about $130 to about $200</strong>, and the honest reading of that spread is not that some
+  are wrong. <strong>It is that a meter cannot be quoted.</strong> Traffic, the route taken and the
+  time of day all move the number, and you find out at the end.</p>
+
+  <ul>
+    <li><strong>Book ahead for the return.</strong> Taxis do not idle at Barossa cellar doors
+    waiting for a fare.</li>
+    <li><strong>Confirm the driver will do the distance</strong> before you load luggage. It is a
+    75 km run out of the metropolitan area.</li>
+    <li><strong>The airport rank is first come, first served.</strong> A delayed flight means the
+    queue, not a reserved car.</li>
+  </ul>
+
+  <h2>Rideshare: available now, but thinner than the city</h2>
+
+  <p><strong>This section used to say rideshare could not bring you back. That is out of
+  date.</strong> Rideshare reached the Barossa, Adelaide Plains and Light region in April 2025, so
+  you can now be picked up in the valley as well as dropped there.</p>
+
+  <p><strong>What has not changed is driver supply.</strong> A wine region on a Sunday afternoon is
+  not the Adelaide CBD, and the pool of drivers is still building. Uber's own guidance for the
+  region is to use <strong>Uber Reserve</strong> and book ahead rather than assume a car will be
+  free when you want one.</p>
+
+  <div class="pull">
+    <p>Getting a rideshare to the Barossa is easy.</p>
+    <p>Getting one at 5pm, from a cellar door eight kilometres from town, is a different question.</p>
+  </div>
+
+  <p><strong>Practical version:</strong> fine for the airport run, worth reserving in advance for
+  anything time-critical, and not something to rely on for a flight home you cannot miss. Pickups
+  from Adelaide Airport carry a <strong>$3 airport access fee</strong> on top of the fare.</p>
+
+  <h2>Hire car and self-drive</h2>
+
+  <p><strong>The obvious choice, and the one wine travellers most often regret.</strong></p>
+
+  <p>A hire car is flexible, competitive on price for a longer stay, and the right answer if the
+  Barossa is one stop in a bigger South Australian trip.</p>
+
+  <div class="pull">
+    <p>The Barossa is a wine region.</p>
+    <p>If you drive, one of you is not drinking.</p>
+  </div>
+
+  <p>Every cellar door, every tasting flight, every long lunch. Someone in your party spends the day
+  holding a glass they are not finishing, and then drives 75 km back to the airport on the last
+  morning. <strong>South Australia's drink-driving limits do not soften for tourists</strong>, and a
+  tasting schedule is exactly the situation they exist for.</p>
+
+  <h3>Hire a car when</h3>
+  <ul>
+    <li>The Barossa is one leg of a longer self-drive trip.</li>
+    <li>You are staying several days and want to reach the Eden Valley, the Clare, or the coast.</li>
+    <li>Somebody in the party genuinely does not drink and does not mind.</li>
+  </ul>
+
+  <h3>Do not hire a car when</h3>
+  <ul>
+    <li>The trip is about the wine.</li>
+    <li>It is a short stay and the car sits in a hotel car park being paid for.</li>
+  </ul>
+
+  <h2>Private transfer</h2>
+
+  <p><strong>One hour, one price, agreed before you fly.</strong> Per car, not per person, in both
+  directions, to the central Barossa townships.</p>
+
+  <FareTable perPerson={true} caption="Flat fares per vehicle, each way. The per-person column assumes the vehicle is full." />
+
+  <h3>What the fixed price buys, which the estimates above cannot</h3>
+  <ul>
+    <li><strong>The number does not move.</strong> Not for traffic, not for a Saturday, not for a
+    delayed flight.</li>
+    <li><strong>Your flight is tracked by its number.</strong> Land early or late and the driver
+    adjusts. Nobody is watching a meter or a queue.</li>
+    <li><strong>Someone is inside the arrivals hall with your name on a sign</strong>, after
+    baggage.</li>
+    <li><strong>It runs both ways, any hour, seven days</strong>, at the same flat fare.</li>
+    <li><strong>Room for luggage and for the wine you are bringing home.</strong></li>
+  </ul>
+
+  <p><strong>Where it does not win:</strong> travelling solo on a tight budget, the bus is genuinely
+  cheaper and this page is not going to pretend otherwise. From about three or four people, the
+  per-head cost is comparable to a taxi estimate that nobody will commit to.</p>
+
+  <p><a class="btn" href="/#book">Get a flat fare for your flight &rarr;</a></p>
+
+  <h2>Which option is actually you?</h2>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>If this is you</th><th>Take</th></tr></thead>
+      <tbody>
+        <tr><td>Solo or a pair, weekday arrival, budget matters more than time</td><td><strong>Public transport</strong></td></tr>
+        <tr><td>Solo or a pair, want speed, comfortable with an unquoted meter</td><td><strong>Taxi</strong></td></tr>
+        <tr><td>Confident with apps, flexible on timing, happy to reserve ahead</td><td><strong>Rideshare</strong></td></tr>
+        <tr><td>Staying a week, exploring beyond the Barossa, someone stays sober</td><td><strong>Hire car</strong></td></tr>
+        <tr><td>Any group of three or more</td><td><strong>Private transfer</strong>, on per-head cost alone</td></tr>
+        <tr><td>The trip is about the wine</td><td><strong>Anything except self-drive</strong></td></tr>
+        <tr><td>Late arrival, early departure, kids, or a lot of luggage</td><td><strong>Private transfer</strong></td></tr>
+        <tr><td>A wedding, conference or celebration group</td><td><a href="/group-transfers-adelaide-airport-barossa-valley">Group transfers</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>The honest summary.</strong> If you are one or two people watching every dollar and you
+  land on a weekday morning, catch the bus and accept the afternoon it costs. <strong>Everyone else
+  is choosing between an hour with a known price and an hour with an unknown one</strong>, and that
+  is a smaller decision than the internet makes it look.</p>
+
+  <h2 class="faq-h">Common questions</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <div class="note">
+    <p><strong>Last checked: August 2026.</strong> Timetables, fares and rideshare coverage change.
+    Anything on this page about another operator is worth confirming with them for your travel
+    date.</p>
+  </div>
+
+  <p><a class="btn" href="/#book">Get a flat fare for your flight &rarr;</a></p>
+  <p>More detail: <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">distances,
+  pickup and luggage</a> &middot; <a href="/group-transfers-adelaide-airport-barossa-valley">groups
+  and weddings</a></p>
+</Content>

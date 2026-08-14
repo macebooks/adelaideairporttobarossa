@@ -17,6 +17,14 @@ routes = [
 workers_dev = true
 preview_urls = true
 
+# `wrangler dev` presents requests as the first configured route, which is the www
+# hostname — so the redirect in worker/index.ts fired locally and sent `npm run serve`
+# and `npm run audit` straight out to the production site. The audit passed while
+# testing the wrong build entirely, which is worse than failing.
+# Pinning dev to the apex makes local requests look like the real ones.
+[dev]
+host = "adelaideairporttobarossa.com.au"
+
 [assets]
 directory = "./dist"
 binding = "ASSETS"

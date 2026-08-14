@@ -1,0 +1,363 @@
+---
+import Content from '../layouts/Content.astro';
+import { fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'group-transfers-adelaide-airport-barossa-valley';
+const url = `${site}/${slug}`;
+
+const [sedan, tarago, hiace] = fleet;
+
+/* Every total below is computed from the published per-vehicle fares, never typed.
+   Bands above one vehicle are indicative and confirmed on quote: whether two buses can
+   run the same job depends on the day. Above 26 nothing is priced here at all, because
+   coach charter and large convoys are quoted per job. */
+const bands = [
+  { range: '1–4', vehicles: sedan.tier, total: sedan.now, seats: sedan.seats },
+  { range: '5–7', vehicles: tarago.tier, total: tarago.now, seats: tarago.seats },
+  { range: '8–13', vehicles: hiace.tier, total: hiace.now, seats: hiace.seats },
+  { range: '14–17', vehicles: 'HiAce + sedan', total: hiace.now + sedan.now, seats: 17 },
+  { range: '18–20', vehicles: 'HiAce + Tarago', total: hiace.now + tarago.now, seats: 20 },
+  { range: '21–26', vehicles: `2 × ${hiace.tier}`, total: hiace.now * 2, seats: 26 },
+];
+
+const perHead = (total: number, seats: number) => `$${(total / seats).toFixed(2)}`;
+
+const oneBus = perHead(hiace.now, hiace.seats);
+const twoBus = perHead(hiace.now * 2, hiace.seats * 2);
+const fourteen = perHead(hiace.now + sedan.now, 14);
+const extraVehicle = sedan.now;
+
+const faqs = [
+  {
+    q: 'What is the largest group you can carry?',
+    a: 'Up to 50 seats, booked in advance. Up to 13 passengers travel in one vehicle, a Toyota HiAce Commuter. Larger parties travel as a convoy or a chartered coach, scheduled as a single job.',
+  },
+  {
+    q: 'Do you charge per person or per vehicle?',
+    a: `Per vehicle. A sedan is $${sedan.now} whether one person or four is in it, and a HiAce is $${hiace.now} whether it carries eight or 13.`,
+  },
+  {
+    q: 'How much is a transfer for 30 or 40 people?',
+    a: 'That is quoted on request. Above 26 passengers the job is scheduled and priced as one operation against your date and itinerary, so send the headcount and the date and the figure comes back in writing.',
+  },
+  {
+    q: 'How far ahead do we need to book for a large group?',
+    a: 'One to three weeks for anything above 13 passengers: about a week for a second vehicle, and up to three weeks for 40 seats, a coach, or a wedding weekend with several movements. Up to 13 passengers can be booked at short notice.',
+  },
+  {
+    q: 'What happens if one flight in our group is delayed?',
+    a: 'Each flight is tracked by its own flight number, so a late inbound leg adjusts on our side. You do not need to call from the plane.',
+  },
+  {
+    q: 'Can we drink on the way to the Barossa?',
+    a: 'Non-alcoholic drinks yes, alcohol no. Sealed bottles and cases bought at a cellar door travel in the boot without any problem.',
+  },
+  {
+    q: 'Can you invoice our company?',
+    a: 'Regular and corporate clients can be invoiced by arrangement. Raise it when you request the quote.',
+  },
+  {
+    q: 'Can you fit child seats for a family group?',
+    a: 'Yes. Both infant restraints and booster seats are available on request, so a group travelling with babies and older children is covered. Tell us the ages on the booking.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Group transfers, Adelaide Airport to the Barossa Valley',
+    serviceType: 'Group airport transfer',
+    description:
+      'Private group transfers between Adelaide Airport and the Barossa Valley for weddings, corporate groups and celebrations. Up to 50 seats when booked in advance, priced per vehicle.',
+    provider: { '@id': `${site}/#business` },
+    areaServed: ['Adelaide Airport', 'Barossa Valley'],
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Group transfers', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Group Transfers: Adelaide Airport to Barossa Valley"
+  description="Group transfers from Adelaide Airport to the Barossa Valley. Flat fare per vehicle: 13 seat bus $250, 7 seat $230, sedan $200. Up to 50 seats, quoted free."
+  slug={slug}
+  h1="Group transfers: Adelaide Airport to the Barossa Valley"
+  eyebrow="Weddings, corporate & celebrations"
+  lead={`Groups of up to 13 travel from Adelaide Airport to the Barossa Valley in one vehicle for a flat $${hiace.now} one way. Up to 26 passengers is priced from the published per-vehicle fares. Larger parties, to 50 seats, are quoted on request.`}
+  schemas={schemas}
+>
+  <p><strong>One flat fare per vehicle.</strong> No per-head pricing, no surge on a Saturday, no
+  separate charge for luggage. You are told the total before you commit, in writing.</p>
+
+  <h2>Vehicle options by group size, 4 to 50 passengers</h2>
+
+  <p>The Barossa run is about <strong>one hour and 75 km</strong> north up the Sturt Highway through
+  Gawler. Every fare below is <strong>one way, per vehicle</strong>, and applies in both
+  directions.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>Party size</th><th>Vehicles</th><th>One-way total</th><th>Per person, at the top of the band</th></tr>
+      </thead>
+      <tbody>
+        {bands.map((b) => (
+          <tr>
+            <td><strong>{b.range}</strong></td>
+            <td>{b.vehicles}</td>
+            <td><strong>${b.total}</strong></td>
+            <td>{perHead(b.total, b.seats)}</td>
+          </tr>
+        ))}
+        <tr>
+          <td><strong>27–50</strong></td>
+          <td>Multiple vehicles, or a chartered coach</td>
+          <td><strong>Quoted on request</strong></td>
+          <td>Send us the number</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The single-vehicle fares are published prices. Combinations up to 26 are those same published
+  fares added together, which is how your quote is built, and a convoy is confirmed against the
+  vehicles available on your date. <strong>Above 26 the job is scheduled and priced as one
+  operation</strong>, so it is quoted rather than guessed at on a web page.</p>
+
+  <p><strong>A weekend is two of these.</strong> A party of 26 in and out of the Barossa is
+  ${hiace.now * 2} each way, ${hiace.now * 4} return. Budget the return leg now rather than
+  discovering it on the Sunday.</p>
+
+  <h2>The 13th seat rule</h2>
+
+  <p>Group transfer pricing is not a smooth curve. It is a <strong>staircase</strong>, and every
+  vehicle is a step.</p>
+
+  <p>Because you pay per vehicle rather than per head, <strong>an empty seat costs you nothing and
+  one extra passenger can cost you ${extraVehicle}</strong>. The two cheapest per-person prices on
+  this page are the two numbers that fill a bus exactly.</p>
+
+  <div class="pull">
+    <p>Twelve travelling? The thirteenth guest is free.</p>
+    <p>Thirteen travelling? The fourteenth costs ${extraVehicle}.</p>
+  </div>
+
+  <h3>The efficient numbers</h3>
+  <p>These are the party sizes where nothing is wasted:</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Party size</th><th>Vehicles</th><th>One-way total</th><th>Per person</th></tr></thead>
+      <tbody>
+        <tr><td><strong>13</strong></td><td>1 × {hiace.tier}</td><td>${hiace.now}</td><td><strong>{oneBus}</strong></td></tr>
+        <tr><td><strong>26</strong></td><td>2 × {hiace.tier}</td><td>${hiace.now * 2}</td><td><strong>{twoBus}</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Land on one of those and you are paying the lowest per-head rate available. Land one passenger
+  past it and you have bought a whole extra vehicle: at 14 the same trip works out to
+  {fourteen} a head.</p>
+
+  <p><strong>What to do with this.</strong> If your party is sitting at 14, or at 27, the number is
+  worth a second look before you book. Two people driving themselves, or one guest arriving a day
+  earlier, can remove an entire vehicle from the bill.</p>
+
+  <p><strong>And the inverse.</strong> If you are at 23 and debating whether to invite three more,
+  the transfer cost of those three people is <strong>zero</strong>. Groups routinely leave that on
+  the table because every other operator quotes per head and trains you to think per head.</p>
+
+  <h2>Above 13 seats, book one to three weeks ahead</h2>
+
+  <p><strong>Capacity here is a notice problem, not a vehicle problem.</strong></p>
+
+  <p>One HiAce is an everyday booking. <strong>Fifty seats is a scheduled operation</strong>: the
+  vehicles are committed to your date, the drivers are rostered to it, and the whole movement is
+  planned as one job rather than assembled on the morning. That planning is what the notice
+  buys.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Party size</th><th>Book at least</th></tr></thead>
+      <tbody>
+        <tr><td>Up to 13</td><td>Short notice is fine</td></tr>
+        <tr><td>14–26</td><td><strong>About a week</strong></td></tr>
+        <tr><td>27–50, or a coach</td><td><strong>Up to three weeks</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li><strong>A provisional number is enough to start.</strong> You do not need a final headcount
+    to ask, and firming it up later is a normal part of a group booking.</li>
+    <li><strong>Inside a week on a large party is not an automatic no.</strong> It becomes a
+    question of what is free rather than a plan, so call rather than assume.</li>
+  </ul>
+
+  <h2>The split-arrival problem</h2>
+
+  <p>Groups do not arrive on one flight. A wedding party converges from Sydney, Melbourne, Perth and
+  sometimes Singapore across a three-hour window, and the person who booked the transfer is the one
+  holding four different flight numbers.</p>
+
+  <p><strong>We track flights individually, by flight number.</strong> Give us every flight number
+  in the party and each is tracked against its real arrival time, not the schedule.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>Single sweep</th><th>Staged pick-up</th></tr></thead>
+      <tbody>
+        <tr><th>How it works</th><td>Everyone leaves together on the last arrival</td><td>Separate vehicles per flight group</td></tr>
+        <tr><th>You pay</th><td>One set of vehicle fares</td><td>One fare per vehicle dispatched</td></tr>
+        <tr><th>Early arrivals</th><td>Wait at the airport</td><td>Leave on landing</td></tr>
+        <tr><th>Best when</th><td>Arrivals are tightly clustered</td><td>Arrivals are hours apart</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>The rule of thumb:</strong> the tighter your arrival spread, the more a single sweep
+  wins. Once the gap between the first and last landing stretches into hours, you are paying full
+  vehicle fares to make people sit in a terminal, and a second run usually costs less than the
+  goodwill does.</p>
+
+  <p><strong>Send every flight number with your enquiry</strong> and this gets worked out for you
+  before you have to think about it.</p>
+
+  <h2>Wedding transfers to the Barossa Valley</h2>
+
+  <p>Wedding transport fails in a specific way: the guests arrive fine and the
+  <strong>schedule</strong> breaks. Ceremony at four, guests landing at two, one vehicle doing three
+  runs it was never quoted for.</p>
+
+  <p><strong>Book the movements, not the day.</strong> The airport run, the accommodation-to-venue
+  run and the end-of-night run are three separate jobs. Tell us all three at quote stage and they
+  are priced together, rather than as three panicked phone calls.</p>
+
+  <p><strong>Bring the family, including the very small ones.</strong> Both infant restraints and
+  booster seats are available on request. Tell us the children's ages on the booking and the right
+  seats are fitted before pick-up, which on a wedding morning is one less thing.</p>
+
+  <div class="note">
+    <p><strong>Worth knowing before your photographer arrives.</strong> The cars are white, discreet
+    and carry minimal markings. <strong>The 13-seat buses carry more signage than the cars do.</strong>
+    If the vehicle appears in your photographs, put the party in the cars and the guests in the
+    buses. Most operators will let you find this out on the day.</p>
+  </div>
+
+  <h2>Corporate and conference transport</h2>
+
+  <p>Conference and incentive groups need three things: the vehicles are there, the drivers are
+  accredited, and finance gets a document.</p>
+
+  <ul>
+    <li><strong>Every driver is accredited</strong> in line with South Australian government
+    regulations for passenger transport vehicles.</li>
+    <li><strong>Every vehicle has passed its SA Government mechanical inspection.</strong></li>
+    <li><strong>Regular and corporate clients can be invoiced by arrangement</strong>, so nobody is
+    expensing a cash fare from an airport rank.</li>
+    <li><strong>Your people are met inside the arrivals hall with a name sign</strong>, after
+    baggage. No kerbside phone calls, no rideshare pin dropped in the wrong car park.</li>
+  </ul>
+
+  <p><strong>Fifty seats is a conference-sized movement</strong>, which is exactly the booking that
+  needs the most notice. Delegate numbers firm up late; the vehicles do not have to wait for
+  them.</p>
+
+  <h2>Hens, bucks and celebration groups</h2>
+
+  <p>The 13-seat bus is the natural vehicle for a hens or bucks weekend: one flat ${hiace.now} to
+  the central Barossa, {oneBus} a head at capacity, everybody in one place. Bigger celebrations
+  scale in exactly the same units.</p>
+
+  <p><strong>One rule, stated plainly: alcohol is not consumed in the vehicle.</strong> Water and
+  soft drinks are welcome and we would rather you drank them, especially on a wine-country day.</p>
+
+  <p><strong>Your purchases travel fine.</strong> Sealed bottles and cases bought at a cellar door go
+  in the boot without any problem, which is what the buses have luggage space for.</p>
+
+  <p><strong>Nobody is trying to spoil the weekend.</strong> The transfer is how the weekend starts
+  safely and how everybody gets back. The celebration happens at the cellar door.</p>
+
+  <h2>Coach hire, or a convoy?</h2>
+
+  <p><strong>Both are available up to 50 seats, booked in advance, and both are quoted on your
+  specific job.</strong> The question is which shape suits the trip.</p>
+
+  <h3>A convoy of 13-seaters wins when the day has more than one plan</h3>
+  <ul>
+    <li><strong>It splits.</strong> Several buses can run several itineraries, then reunite for
+    dinner. One coach cannot, so the whole group moves at the speed of its slowest member all
+    day.</li>
+    <li><strong>It fits.</strong> Access and parking for a full-size coach is not a given at every
+    cellar door. Thirteen-seat buses park where a car parks.</li>
+    <li><strong>It fails smaller.</strong> One coach with a problem strands the entire party. One
+    vehicle in a convoy strands a fraction of it.</li>
+    <li><strong>The photos are cleaner.</strong> For a wedding, the party rides in the discreet
+    white cars while the guests follow in the buses.</li>
+  </ul>
+
+  <p><strong>A chartered coach wins when the group genuinely moves as one block:</strong> one
+  arrival, one destination, one departure, and nobody peeling off.</p>
+
+  <p><strong>Why there is no coach price on this page.</strong> A charter is priced against your
+  date, your itinerary and how much notice we have, so a headline number would be either wrong or
+  padded enough to always be safe. <strong>You get the real one by asking</strong>, and it comes
+  back in writing.</p>
+
+  <h2>How to request a group quote</h2>
+
+  <p>Send four things and the quote comes back in writing:</p>
+  <ol>
+    <li><strong>Number of passengers</strong>, your best current count. A provisional number is
+    fine.</li>
+    <li><strong>Every flight number</strong>, plus the date and direction.</li>
+    <li><strong>The drop-off township</strong>, or tell us where if it is outside the central
+    Barossa.</li>
+    <li><strong>Anything oversized</strong>: prams, golf clubs, instruments, wedding dresses, child
+    seats and the children's ages.</li>
+  </ol>
+
+  <p><strong>Nothing is charged when you lodge a request</strong>, and asking does not commit you to
+  anything. You receive a flat fare per vehicle, and payment is arranged only once you confirm.
+  Visa, Mastercard, bank transfer, or cash to the driver.</p>
+
+  <p><strong>If the party is over 13, send it one to three weeks out.</strong> Capacity to 50 seats
+  is there when it is booked ahead, and the enquiry costs you nothing to lodge before your numbers
+  are final.</p>
+
+  <p><a class="btn" href="/#book">Request a group quote &rarr;</a></p>
+  <p>Or call <a href="tel:+61447958346"><strong>0447 958 346</strong></a> if it is faster to explain
+  out loud. Numbers that sit near a cliff are usually a two-minute conversation.</p>
+
+  <h2>Group booking questions</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>Smaller party?
+  <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">Distances, pickup and
+  luggage</a> &middot;
+  <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare all transport options</a></p>
+</Content>
