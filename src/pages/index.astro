@@ -1,4 +1,6 @@
 ---
+import { fleet, centralTowns, estCars, destinations } from '../lib/fleet';
+
 const site = 'https://adelaideairporttobarossa.com.au';
 const pageUrl = `${site}/`;
 const ogImage = `${site}/assets/img/og-image.jpg`;
@@ -10,56 +12,6 @@ const socialTitle = 'Adelaide Airport to Barossa Valley Transfers';
 const socialDescription =
   'A white, discreet chauffeur car from the ADL arrivals hall to your Barossa cellar door. Flat fares from $200, flight tracked, met on arrival.';
 
-// Fleet + fares — supplied by the operator. One flat price per car, each way, for the
-// central Barossa townships. Kept in one place so the cards, the estimator rates in the
-// inline script and the Offer schema below cannot drift apart.
-const fleet = [
-  {
-    id: 'sedan',
-    tier: 'Sedan',
-    vehicle: 'Toyota Camry Hybrid or Corolla',
-    seats: 4,
-    was: 245,
-    now: 200,
-    featured: true,
-    points: [
-      'Up to 4 passengers plus luggage',
-      'Met in the arrivals hall, flight tracked',
-      'White and discreet, minimal markings',
-    ],
-  },
-  {
-    id: 'tarago',
-    tier: 'People mover',
-    vehicle: 'Toyota Tarago',
-    seats: 7,
-    was: 275,
-    now: 230,
-    featured: false,
-    points: [
-      'Up to 7 passengers plus luggage',
-      'Room for the group and the wine cases',
-      'White and discreet, minimal markings',
-    ],
-  },
-  {
-    id: 'hiace',
-    tier: 'Commuter bus',
-    vehicle: 'Toyota HiAce Commuter',
-    seats: 13,
-    was: 300,
-    now: 250,
-    featured: false,
-    points: [
-      'Up to 13 passengers plus luggage',
-      'Weddings, corporate groups, wine tours',
-      'Buses do carry more markings than the cars',
-    ],
-  },
-];
-
-// The townships the flat fare covers. Anything outside these may be quoted higher.
-const centralTowns = ['Tanunda', 'Lyndoch', 'Nuriootpa', 'Greenock', 'Angaston'];
 
 /* ---------------------------------------------------------------------------
    Guest reviews — REAL, CONSENTED REVIEWS ONLY.
@@ -82,12 +34,7 @@ const centralTowns = ['Tanunda', 'Lyndoch', 'Nuriootpa', 'Greenock', 'Angaston']
 const testimonials = [];
 const hasTestimonials = testimonials.length > 0;
 
-// Handed to the estimator script below via define:vars, so the rate the estimator quotes
-// is literally the rate on the card above it. `size` is the capacity order used to
-// auto-upgrade the vehicle when a bigger party is chosen.
-const estCars = Object.fromEntries(
-  fleet.map((f, i) => [f.id, { fare: f.now, seats: f.seats, size: i + 1 }])
-);
+
 
 const businessSchema = {
   '@context': 'https://schema.org',
@@ -1299,7 +1246,7 @@ const schemas = [businessSchema, faqSchema];
   </div>
 </footer>
 
-<script is:inline define:vars={{ estCars }}>
+<script is:inline define:vars={{ estCars, destinations }}>
 (function () {
   "use strict";
   var root = document.documentElement;
@@ -1420,20 +1367,13 @@ const schemas = [businessSchema, faqSchema];
   }
 
   /* ---- Fare estimator -------------------------------------------------
-     Fares come from `estCars`, injected by define:vars from the `fleet`
-     array in this page's frontmatter — edit the fares THERE, not here, so
-     the cards and the estimator stay in step. Distances and times are
-     approximate driving figures from the ADL terminal.
+     Both `estCars` and `destinations` are injected by define:vars from
+     src/lib/fleet.ts. Edit fares and distances THERE, not here, so the cards,
+     the estimator, the Offer schema and every other page stay in step.
   --------------------------------------------------------------------- */
   try {
-    var EST_DEST = {
-      tanunda:       { name: "Tanunda",       km: 70, min: 60 },
-      nuriootpa:     { name: "Nuriootpa",     km: 76, min: 65 },
-      angaston:      { name: "Angaston",      km: 80, min: 70 },
-      greenock:      { name: "Greenock",      km: 78, min: 65 },
-      seppeltsfield: { name: "Seppeltsfield", km: 74, min: 65 },
-      lyndoch:       { name: "Lyndoch",       km: 58, min: 50 }
-    };
+    var EST_DEST = destinations;
+
     var EST_CARS = estCars;
 
     var estFrom = document.getElementById("est-from");
