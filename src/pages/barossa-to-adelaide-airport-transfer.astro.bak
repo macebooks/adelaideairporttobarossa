@@ -1,0 +1,184 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { destinations, centralTowns, fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'barossa-to-adelaide-airport-transfer';
+const url = `${site}/${slug}`;
+
+const sedan = fleet[0];
+const tan = destinations.tanunda;
+
+/* This page owns the departure direction: when to leave, where you are dropped, the
+   return booking. Distances and drive times stay owned by the logistics page, and the
+   wine-allowance detail stays there too; this page links to it rather than repeating it.
+
+   Pick-up lead times are computed, not typed: check-in allowance + drive time + a
+   margin for traffic, rounded up to five minutes. The allowances are the usual
+   guidance at ADL (two hours domestic, three international); the airline's own
+   advice wins, and the page says so. */
+const DOMESTIC = 120;
+const INTERNATIONAL = 180;
+const MARGIN = 20;
+
+const roundUp5 = (n: number) => Math.ceil(n / 5) * 5;
+const hm = (mins: number) => {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m ? `${h} h ${m} min` : `${h} h`;
+};
+
+const rows = Object.values(destinations)
+  .filter((d) => centralTowns.includes(d.name))
+  .sort((a, b) => a.km - b.km)
+  .map((d) => ({
+    name: d.name,
+
+    domestic: hm(roundUp5(DOMESTIC + d.min + MARGIN)),
+    international: hm(roundUp5(INTERNATIONAL + d.min + MARGIN)),
+  }));
+
+// Worked example for the copy: a 6am domestic departure from Tanunda.
+const tanLead = roundUp5(DOMESTIC + tan.min + MARGIN);
+const exampleMins = 6 * 60 - tanLead;
+const example = `${Math.floor(exampleMins / 60)}:${String(exampleMins % 60).padStart(2, '0')}am`;
+
+const faqs = [
+  {
+    q: 'How much is a transfer from the Barossa to Adelaide Airport?',
+    a: `The same flat fare as the trip in: $${sedan.now} per car for up to ${sedan.seats} passengers from the central townships, each way. Larger vehicles are on the same table.`,
+  },
+  {
+    q: 'What time should I leave the Barossa for my flight?',
+    a: `From Tanunda, about ${hm(tanLead)} before a domestic departure. That is a two-hour check-in allowance, the drive and a margin for traffic. Give us your flight time and we set the pick-up.`,
+  },
+  {
+    q: 'Can you pick us up from a cellar door or a wedding venue?',
+    a: 'Yes. Any address in the central townships is a pick-up point, including cellar doors and venues. Further out is quoted per address before you travel.',
+  },
+  {
+    q: 'Where do you drop us at Adelaide Airport?',
+    a: 'At the departures drop-off outside the terminal. Domestic and international flights leave from the one terminal at Adelaide Airport, so there is no wrong building.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Barossa to Adelaide Airport transfers',
+    serviceType: 'Private airport transfer',
+    description:
+      'Private chauffeur transfer from the Barossa Valley to Adelaide Airport, timed back from your departure. Flat fare per vehicle from the central townships.',
+    provider: { '@id': `${site}/#business` },
+    areaServed: { '@type': 'Place', name: 'Barossa Valley, South Australia' },
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Barossa to Adelaide Airport', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Barossa to Adelaide Airport Transfer | Flat Fare, Timed to Your Flight"
+  description="Private transfer from the Barossa Valley to Adelaide Airport. $200 flat per car, picked up at your door and timed to your flight. Pick-up time table."
+  slug={slug}
+  h1="Barossa to Adelaide Airport transfers"
+  eyebrow="Flying home &middot; the return leg"
+  lead={`A private transfer from the Barossa to Adelaide Airport is $${sedan.now} flat per car for up to ${sedan.seats} passengers, the same fare as the trip in. We pick you up at your door and set the time back from your flight.`}
+  schemas={schemas}
+>
+  <p><strong>The last morning is the one people under-plan.</strong> Bags, wine, a checkout time and
+  a flight that will not wait. This page is about getting that leg right.</p>
+
+  <h2>When we will pick you up</h2>
+
+  <p><strong>Pick-up time is worked back from your departure</strong>: the airline's check-in
+  allowance, the drive, and a margin for traffic. These are the lead times before your flight's
+  departure time.</p>
+
+  <div class="tw">
+    <table class="fit">
+      <thead>
+        <tr><th>Leaving from</th><th>Before a domestic flight</th><th>Before an international flight</th></tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <td><strong>{r.name}</strong></td>
+            <td>{r.domestic}</td>
+            <td>{r.international}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p><strong>The table assumes two hours at the airport for a domestic flight and three for an
+  international one</strong>, the usual guidance at Adelaide. If your airline asks for more, or you
+  are checking oversized bags, tell us and we move the pick-up earlier.</p>
+
+  <h2>Early flights</h2>
+
+  <p><strong>A 6am domestic flight from Tanunda means a pick-up around {example}.</strong> That is
+  normal, and the fare is the same at that hour as at midday. Book it before you arrive so the
+  last night does not end with a search for a car.</p>
+
+  <p><strong>Checking out the day before?</strong> Give us the address you are leaving from on the
+  morning, not the one you booked the trip around.</p>
+
+  <h2>Picked up from anywhere in the valley</h2>
+
+  <p><strong>Your accommodation, a cellar door after a last tasting, or a wedding venue</strong>:
+  any address in the central townships of {centralTowns.slice(0, -1).join(', ')} and
+  {centralTowns.at(-1)} is a pick-up point at the flat fare. Further out is quoted per address,
+  in writing, before you travel.</p>
+
+  <p><strong>Leaving as a wedding party or a team?</strong> Split departures and larger vehicles
+  are covered on <a href="/group-transfers-adelaide-airport-barossa-valley">group transfers</a>.</p>
+
+  <h2>What the ${sedan.now} covers</h2>
+
+  <FareTable caption="One flat price per vehicle, the same in both directions, from the central townships." />
+
+  <p><strong>Room for the wine you bought.</strong> The boot takes cases; the flight is the real
+  limit.
+  <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">How much wine fits in
+  your baggage allowance</a>.</p>
+
+  <p><a class="btn" href="/?journey=return#book">Book your transfer to the airport &rarr;</a></p>
+
+  <p><strong>Not arrived yet?</strong> Book both legs at once and it is one arrangement rather than
+  two. <a href="/?journey=both#book">Book both ways</a>.</p>
+
+  <h2>Questions about the trip back</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>Staying in a particular township?
+  <a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a> &middot;
+  <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a> &middot;
+  <a href="/adelaide-airport-to-angaston-transfer">Angaston</a> &middot;
+  <a href="/adelaide-airport-to-lyndoch-transfer">Lyndoch</a></p>
+</Content>

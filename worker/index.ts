@@ -22,6 +22,7 @@ interface BookingData {
   date?: string;
   passengers?: string;
   dropoff?: string;
+  journey?: string;
   notes?: string;
   website?: string; // honeypot — real users never fill this
 }
@@ -33,10 +34,16 @@ const ALLOWED_DROPOFFS = [
   'Not sure yet',
 ];
 
+const ALLOWED_JOURNEYS = [
+  'Adelaide Airport to the Barossa',
+  'Barossa to Adelaide Airport',
+  'Both ways (return)',
+];
+
 const BUSINESS = 'Adelaide Airport to Barossa';
 const SITE = 'adelaideairporttobarossa.com.au';
-const PHONE_DISPLAY = '0447 958 346';
-const PHONE_HREF = '+61447958346';
+// Public contact address. No phone number is published for now.
+const BOOKINGS_EMAIL = 'bookings@adelaideairporttobarossa.com.au';
 
 // Simple per-IP rate limiting (in-memory, per isolate)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
@@ -137,6 +144,13 @@ async function sendEmail(
   }
 }
 
+// Subject-line tag, so the inbox shows the direction at a glance.
+function journeyTag(journey?: string): string {
+  if (journey === 'Barossa to Adelaide Airport') return 'Barossa→ADL';
+  if (journey === 'Both ways (return)') return 'Return';
+  return 'ADL→Barossa';
+}
+
 function row(label: string, value: string, shaded: boolean): string {
   return `<tr${shaded ? ' style="background: #f5f5f5;"' : ''}>
     <td style="padding: 12px; border: 1px solid #ddd; width: 150px;"><strong>${label}</strong></td>
@@ -149,11 +163,12 @@ function generateBookingEmailHtml(data: BookingData): string {
     row('Name', escapeHtml(data.name), true),
     row('Email', `<a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a>`, false),
     row('Phone', `<a href="tel:${escapeHtml(data.phone)}">${escapeHtml(data.phone)}</a>`, true),
-    row('Flight no.', escapeHtml(data.flight || 'Not provided'), false),
-    row('Arrival date', escapeHtml(data.date || 'Not provided'), true),
-    row('Passengers', escapeHtml(data.passengers || 'Not provided'), false),
-    row('Drop-off', escapeHtml(data.dropoff || 'Not provided'), true),
-    row('Notes', escapeHtml(data.notes || 'Not provided'), false),
+    row('Journey', escapeHtml(data.journey || 'Not provided'), false),
+    row('Flight no.', escapeHtml(data.flight || 'Not provided'), true),
+    row('Travel date', escapeHtml(data.date || 'Not provided'), false),
+    row('Passengers', escapeHtml(data.passengers || 'Not provided'), true),
+    row('Barossa stop', escapeHtml(data.dropoff || 'Not provided'), false),
+    row('Notes', escapeHtml(data.notes || 'Not provided'), true),
   ].join('');
 
   return `<!DOCTYPE html>
@@ -209,9 +224,9 @@ function generateAutoReplyHtml(name: string, date?: string): string {
 
     <div style="background: #FBF7EE; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #E8A33D;">
       <h3 style="margin-top: 0; color: #241E1B;">Flying in within 24 hours?</h3>
-      <p style="margin-bottom: 0;">Call us so we can confirm your car straight away:</p>
-      <p style="font-size: 24px; font-weight: bold; margin: 15px 0;">
-        <a href="tel:${PHONE_HREF}" style="color: #7A2C3B; text-decoration: none;">${PHONE_DISPLAY}</a>
+      <p style="margin-bottom: 0;">Reply to this email with "urgent" in the subject so we can confirm your car straight away:</p>
+      <p style="font-size: 18px; font-weight: bold; margin: 15px 0;">
+        <a href="mailto:${BOOKINGS_EMAIL}" style="color: #7A2C3B; text-decoration: none;">${BOOKINGS_EMAIL}</a>
       </p>
     </div>
 
@@ -250,12 +265,16 @@ async function handleBooking(request: Request, env: Env): Promise<Response> {
 
   if (!data.name || !data.email || !data.phone || !data.date) {
     return json(400, {
-      error: 'Please fill in all required fields: name, email, phone and arrival date.',
+      error: 'Please fill in all required fields: name, email, phone and travel date.',
     });
   }
 
   if (data.dropoff && !ALLOWED_DROPOFFS.includes(data.dropoff)) {
     return json(400, { error: 'Please select a valid drop-off option.' });
+  }
+
+  if (data.journey && !ALLOWED_JOURNEYS.includes(data.journey)) {
+    return json(400, { error: 'Please select a valid journey.' });
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -271,6 +290,7 @@ async function handleBooking(request: Request, env: Env): Promise<Response> {
     (data.date || '').length > 40 ||
     (data.passengers || '').length > 20 ||
     (data.dropoff || '').length > 100 ||
+    (data.journey || '').length > 100 ||
     (data.notes || '').length > 5000
   ) {
     return json(400, { error: 'One of the fields is too long. Please shorten it and try again.' });
@@ -285,7 +305,7 @@ async function handleBooking(request: Request, env: Env): Promise<Response> {
   const notificationSent = await sendEmail(
     env,
     recipients,
-    `[ADL→Barossa] Transfer request: ${data.name} — ${data.date || 'date TBC'}`,
+    `[${journeyTag(data.journey)}] Transfer request: ${data.name} — ${data.date || 'date TBC'}`,
     generateBookingEmailHtml(data),
     data.email
   );
@@ -293,7 +313,7 @@ async function handleBooking(request: Request, env: Env): Promise<Response> {
   if (!notificationSent) {
     console.error('Failed to send booking notification');
     return json(500, {
-      error: `Failed to send your request. Please try again or call ${PHONE_DISPLAY}.`,
+      error: `Failed to send your request. Please try again or email ${BOOKINGS_EMAIL}.`,
     });
   }
 

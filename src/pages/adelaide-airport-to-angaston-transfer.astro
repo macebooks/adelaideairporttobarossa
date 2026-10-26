@@ -1,0 +1,142 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { destinations, fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'adelaide-airport-to-angaston-transfer';
+const url = `${site}/${slug}`;
+
+const d = destinations.angaston;
+const tan = destinations.tanunda;
+const [sedan, tarago, hiace] = fleet;
+
+/* Township-specific questions only. The generic distance and duration questions are
+   owned in schema by the logistics page, so three URLs do not compete for one query. */
+const faqs = [
+  {
+    q: 'How long is the transfer from Adelaide Airport to Angaston?',
+    a: `About ${d.min} minutes door to door, roughly ${d.km} km. Angaston is the furthest of the central Barossa townships, on the valley's eastern edge.`,
+  },
+  {
+    q: 'How much is a transfer from Adelaide Airport to Angaston?',
+    a: `$${sedan.now} flat per car for up to ${sedan.seats} passengers, each way, the same as Tanunda. $${tarago.now} for the seven-seat people mover and $${hiace.now} for the thirteen-seat bus.`,
+  },
+  {
+    q: 'Do you go past Angaston to Eden Valley or Keyneton?',
+    a: 'Yes, but those are outside the central townships the flat fare covers. Give us the address when you book and the fare comes back in writing before you fly.',
+  },
+  {
+    q: 'Can you pick me up in Angaston for a flight home?',
+    a: 'Yes, at the same flat fare, timed back from your departure. Allow a little more time than from Tanunda, since Angaston is the longest run to the airport.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Adelaide Airport to Angaston transfers',
+    serviceType: 'Private airport transfer',
+    description: `Private chauffeur transfer between Adelaide Airport and Angaston, about ${d.km} km and ${d.min} minutes. Flat fare per vehicle, each way.`,
+    provider: { '@id': `${site}/#business` },
+    areaServed: { '@type': 'Place', name: 'Angaston, South Australia' },
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Adelaide Airport to Angaston', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Adelaide Airport to Angaston Transfer | $200 Flat, 70 Minutes"
+  description="Private transfer from Adelaide Airport to Angaston. $200 flat per car, about 80 km and 70 minutes, the same fare as Tanunda. Flight tracked, met in arrivals."
+  slug={slug}
+  h1="Adelaide Airport to Angaston transfers"
+  eyebrow="Angaston &middot; the Barossa's eastern edge"
+  lead={`Angaston is about ${d.km} km from Adelaide Airport, roughly ${d.min} minutes by road. A private transfer is $${sedan.now} flat per car for up to ${sedan.seats} passengers, each way, the same fare as the closer townships.`}
+  schemas={schemas}
+>
+  <p><strong>Angaston is the furthest of the central Barossa townships</strong>, and the one where a
+  flat fare works hardest for you. It is about {d.km - tan.km} km past Tanunda, and the price does
+  not move.</p>
+
+  <h2>Why people stay in Angaston</h2>
+
+  <p><strong>It is the quieter, older end of the valley.</strong> Angaston sits on the eastern edge
+  of the Barossa, where the valley floor starts to rise toward the Eden Valley ranges. Stone
+  buildings, a short main street and fewer tour buses than Tanunda.</p>
+
+  <p><strong>Yalumba is here.</strong> Samuel Smith founded it near Angaston in 1849, and it is
+  still family owned. For a lot of visitors it is the reason Angaston is on the itinerary at all.</p>
+
+  <p><strong>Saturday mornings belong to the Barossa Farmers Market</strong>, held in the Vintners
+  Sheds on the corner of Stockwell and Angaston Roads. If you land on a Friday, that is a good
+  reason to book a Friday-night transfer and wake up already here.</p>
+
+  <h2>The drive: the long way, at the same price</h2>
+
+  <p>Out of the airport, north around the city on the <strong>Northern Expressway, past
+  Gawler</strong>, then onto the Sturt Highway. Through the valley floor past Nuriootpa, then east
+  into Angaston.</p>
+
+  <p><strong>About {d.km} km, about {d.min} minutes</strong>, door to door in normal traffic. That
+  is roughly ten minutes longer than Tanunda. The flat fare covers the central townships without
+  grading them by distance, so the extra ten minutes cost you nothing.</p>
+
+  <h2>The Angaston fare is the Tanunda fare</h2>
+
+  <p><strong>Ten more minutes on the road, nothing more on the price.</strong> The fare is set per
+  vehicle for the whole central valley, so the furthest township costs what the middle one does.</p>
+
+  <FareTable caption="Per vehicle, each way, Angaston included." />
+
+  <p><strong>A delayed landing is the driver's problem, not yours.</strong> The pick-up follows your
+  flight number, and on a run this long that matters: nobody wants to start a seventy-minute drive
+  worrying about a missed connection.</p>
+
+  <p><a class="btn" href="/#book">Get your Angaston transfer &rarr;</a></p>
+
+  <h2>Staying past Angaston?</h2>
+
+  <p><strong>Eden Valley, Keyneton and the properties up in the ranges are outside the central
+  area</strong> the flat fare covers. They are still a normal booking: give us the address, and the
+  fare comes back in writing before you fly rather than as a surprise on arrival.</p>
+
+  <p><strong>Not set on Angaston yet?</strong> Tanunda puts you in the middle of the valley, about
+  ten minutes closer to the airport, at the same fare.</p>
+
+  <p><a href="/adelaide-airport-to-tanunda-transfer">Adelaide Airport to Tanunda transfers
+  &rarr;</a></p>
+
+  <h2>Angaston transfer questions</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>Flying home from Angaston?
+  <a href="/barossa-to-adelaide-airport-transfer">Barossa to Adelaide Airport</a> &middot;
+  More than four of you?
+  <a href="/group-transfers-adelaide-airport-barossa-valley">Group transfers</a> &middot;
+  <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">All distances and
+  pickup detail</a></p>
+</Content>

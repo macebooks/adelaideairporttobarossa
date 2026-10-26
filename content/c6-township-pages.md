@@ -126,8 +126,8 @@ remember.
 
 ### The drive: about an hour, and the good part is at the end
 
-Out of the airport, north around the city and up the **Sturt Highway through Gawler**. That stretch
-is ordinary and it is most of the trip.
+Out of the airport, north around the city on the **Northern Expressway, past Gawler**, then onto the
+Sturt Highway. That stretch is ordinary and it is most of the trip.
 
 **Then the suburbs stop.** Past Gawler the country opens, and the run in through Lyndoch and
 Rowland Flat is the one that tells you the holiday has started. Vine rows running away from the
@@ -174,7 +174,8 @@ further, and the fare is the same $200. Choose on the town, not the trip.
 ### Tanunda transfer questions
 
 **How long is the transfer from Adelaide Airport to Tanunda?**
-About one hour door to door, roughly 70 km north up the Sturt Highway through Gawler.
+About one hour door to door, roughly 70 km north via the Northern Expressway and Sturt Highway,
+past Gawler.
 
 **How much is a transfer from Adelaide Airport to Tanunda?**
 $200 flat per car for up to four passengers, each way. $230 for the seven-seat people mover and
@@ -249,8 +250,8 @@ which for a group is well under any per-head arrangement.
 
 ### The drive: 76 km, about 65 minutes
 
-North up the **Sturt Highway through Gawler**, into the valley, then on through Tanunda and about
-six kilometres further north.
+North on the **Northern Expressway, past Gawler**, then onto the Sturt Highway into the valley,
+through Tanunda and about six kilometres further north.
 
 **Nuriootpa is roughly five minutes further than Tanunda and costs exactly the same $200.** The
 flat fare covers the central townships without grading them by distance, so being at the top of the
@@ -275,8 +276,8 @@ the one that shortens the drive.
 ### Nuriootpa transfer questions
 
 **How long is the transfer from Adelaide Airport to Nuriootpa?**
-About 65 minutes door to door, roughly 76 km, north up the Sturt Highway through Gawler and on
-past Tanunda.
+About 65 minutes door to door, roughly 76 km, north via the Northern Expressway and Sturt Highway,
+past Gawler and on past Tanunda.
 
 **How much is a transfer from Adelaide Airport to Nuriootpa?**
 $200 flat per car for up to four passengers, each way. The same flat fare as the closer townships.

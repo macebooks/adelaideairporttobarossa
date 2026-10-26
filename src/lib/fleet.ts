@@ -16,6 +16,9 @@ export interface Vehicle {
   tier: string;
   vehicle: string;
   seats: number;
+  /* Not displayed. The struck-through "was" prices came off the fare cards pending
+     substantiation (L11): under ACCC rules a was price must have been genuinely charged.
+     Restore the .was/.save markup in index.astro only once the operator confirms it. */
   was: number;
   now: number;
   featured: boolean;

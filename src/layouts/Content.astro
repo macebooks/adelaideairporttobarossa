@@ -92,6 +92,8 @@ const ogImage = `${site}/assets/img/og-image.jpg`;
   /* Tables scroll inside their own container; the page never scrolls sideways. */
   .tw { overflow-x:auto; margin:1.4rem 0 1.8rem; border:2px solid rgba(36,30,27,.14); border-radius:14px; background:var(--docket); }
   table { border-collapse:collapse; width:100%; min-width:460px; font-size:.95rem; }
+  /* Narrow tables (three short columns) fit a phone without the scroll box. */
+  table.fit { min-width:0; }
   th, td { text-align:left; padding:.7rem .9rem; border-bottom:1px solid rgba(36,30,27,.12); vertical-align:top; }
   th { font-family:"Space Mono",ui-monospace,monospace; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; background:rgba(36,30,27,.05); }
   tr:last-child td { border-bottom:none; }
@@ -135,9 +137,9 @@ const ogImage = `${site}/assets/img/og-image.jpg`;
       <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Transport options</a>
       <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">Distances &amp; logistics</a>
       <a href="/group-transfers-adelaide-airport-barossa-valley">Group transfers</a>
+      <a href="/barossa-to-adelaide-airport-transfer">Barossa to the airport</a>
     </p>
-    <p style="margin:0 0 .6rem">Phone <a href="tel:+61447958346">0447 958 346</a> &middot;
-      Email <a href="mailto:barossacabs@outlook.com.au">barossacabs@outlook.com.au</a></p>
+    <p style="margin:0 0 .6rem">Email <a href="mailto:bookings@adelaideairporttobarossa.com.au">bookings@adelaideairporttobarossa.com.au</a></p>
     <p style="margin:0">&copy; 2026 adelaideairporttobarossa.com.au &middot;
       <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
   </div>

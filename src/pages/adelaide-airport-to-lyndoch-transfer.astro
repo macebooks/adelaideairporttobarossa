@@ -1,0 +1,144 @@
+---
+import Content from '../layouts/Content.astro';
+import FareTable from '../components/FareTable.astro';
+import { destinations, fleet } from '../lib/fleet';
+
+const site = 'https://adelaideairporttobarossa.com.au';
+const slug = 'adelaide-airport-to-lyndoch-transfer';
+const url = `${site}/${slug}`;
+
+const d = destinations.lyndoch;
+const tan = destinations.tanunda;
+const [sedan, tarago, hiace] = fleet;
+
+/* Township-specific questions only. The generic distance and duration questions are
+   owned in schema by the logistics page, so three URLs do not compete for one query.
+   Rowland Flat is not in `centralTowns`, so no fare is stated for it here: it is quoted
+   per address until the operator rules on it, the same treatment as Seppeltsfield (L13). */
+const faqs = [
+  {
+    q: 'How long is the transfer from Adelaide Airport to Lyndoch?',
+    a: `About ${d.min} minutes door to door, roughly ${d.km} km. Lyndoch is the closest of the Barossa townships to the airport.`,
+  },
+  {
+    q: 'How much is a transfer from Adelaide Airport to Lyndoch?',
+    a: `$${sedan.now} flat per car for up to ${sedan.seats} passengers, each way. $${tarago.now} for the seven-seat people mover and $${hiace.now} for the thirteen-seat bus.`,
+  },
+  {
+    q: 'Do you go to the Novotel Barossa Valley Resort at Rowland Flat?',
+    a: 'Yes. Rowland Flat is on the road between Lyndoch and Tanunda. It is quoted per address rather than at the township flat fare, and you get the price in writing before you fly.',
+  },
+  {
+    q: 'Can you pick me up in Lyndoch for a flight home?',
+    a: 'Yes, at the same flat fare, timed back from your departure. Lyndoch is the shortest run back to the airport of any Barossa township.',
+  },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Adelaide Airport to Lyndoch transfers',
+    serviceType: 'Private airport transfer',
+    description: `Private chauffeur transfer between Adelaide Airport and Lyndoch, about ${d.km} km and ${d.min} minutes. Flat fare per vehicle, each way.`,
+    provider: { '@id': `${site}/#business` },
+    areaServed: { '@type': 'Place', name: 'Lyndoch, South Australia' },
+    url,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Adelaide Airport to Lyndoch', item: url },
+    ],
+  },
+];
+---
+<Content
+  title="Adelaide Airport to Lyndoch Transfer | $200 Flat, 50 Minutes"
+  description="Private transfer from Adelaide Airport to Lyndoch, the closest Barossa township. $200 flat per car, about 58 km and 50 minutes. Rowland Flat quoted."
+  slug={slug}
+  h1="Adelaide Airport to Lyndoch transfers"
+  eyebrow="Lyndoch &middot; the first town in the valley"
+  lead={`Lyndoch is about ${d.km} km from Adelaide Airport, roughly ${d.min} minutes by road, the closest of the Barossa townships. A private transfer is $${sedan.now} flat per car for up to ${sedan.seats} passengers, each way.`}
+  schemas={schemas}
+>
+  <p><strong>Lyndoch is the first Barossa town you reach from Adelaide</strong>, at the southern
+  end of the valley. If your accommodation is here, you are in the vines about ten minutes before
+  anyone heading to Tanunda.</p>
+
+  <h2>Why people stay in Lyndoch</h2>
+
+  <p><strong>It is the closest the Barossa gets to the airport.</strong> That matters most at the
+  ends of a trip: a late-night arrival is a shorter drive, and an early flight home is a later
+  alarm.</p>
+
+  <p><strong>It is also quieter than the middle of the valley.</strong> A small township with
+  vineyards running right up to it, and Tanunda and Nuriootpa still close enough for a day of cellar
+  doors.</p>
+
+  <p><strong>What that means for your transfer:</strong> many stays around Lyndoch are on side roads
+  and vineyard properties rather than the main street. Give us the full address, including the
+  property name, and that is where you are dropped.</p>
+
+  <h2>Rowland Flat and the Novotel</h2>
+
+  <p><strong>Rowland Flat sits on the road between Lyndoch and Tanunda</strong>, and it is home to
+  the Novotel Barossa Valley Resort on Pioneer Avenue, beside the Tanunda Pines golf course. It is
+  one of the valley's larger places to stay and a common conference venue.</p>
+
+  <p><strong>Rowland Flat is quoted per address</strong> rather than at the township flat fare. Tell
+  us the property when you book and the price comes back in writing before you fly. Coming for a
+  conference with colleagues?
+  <a href="/group-transfers-adelaide-airport-barossa-valley">Group and corporate transfers</a> cover
+  split arrivals and larger vehicles.</p>
+
+  <h2>The drive: about {d.min} minutes</h2>
+
+  <p>Out of the airport, north around the city on the <strong>Northern Expressway, past
+  Gawler</strong>, then the last stretch into the southern end of the valley. The suburbs stop, the
+  vine rows start, and Lyndoch arrives sooner than anyone expects.</p>
+
+  <p><strong>About {d.km} km, about {d.min} minutes</strong>, door to door in normal traffic. That is
+  about {tan.km - d.km} km shorter than the run to Tanunda.</p>
+
+  <h2>Lyndoch fares by vehicle</h2>
+
+  <p><strong>The shortest run in the valley, on the same flat fare.</strong> Pick the vehicle by the
+  size of the party, not the distance.</p>
+
+  <FareTable caption="Per vehicle, each way, to Lyndoch and the other central townships." />
+
+  <p><strong>Landing late?</strong> The pick-up follows your flight number, so a delay moves the
+  car rather than losing the booking, and Lyndoch's fifty minutes means you are still in by a
+  reasonable hour.</p>
+
+  <p><a class="btn" href="/#book">Get your Lyndoch transfer &rarr;</a></p>
+
+  <h2>Lyndoch transfer questions</h2>
+  <div class="faq">
+    {faqs.map((f) => (
+      <>
+        <h3>{f.q}</h3>
+        <p>{f.a}</p>
+      </>
+    ))}
+  </div>
+
+  <p>Flying home from Lyndoch?
+  <a href="/barossa-to-adelaide-airport-transfer">Barossa to Adelaide Airport</a> &middot;
+  Staying mid-valley instead?
+  <a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a> &middot;
+  <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">All distances and
+  pickup detail</a></p>
+</Content>

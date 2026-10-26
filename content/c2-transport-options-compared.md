@@ -60,7 +60,7 @@ lists it.
    comparison from *cheapest* to *knowable*, which is the only frame this operator wins.
 
 **Required Entities (NLP):** Adelaide Airport, ADL, Barossa Valley, Tanunda, Nuriootpa, Angaston,
-Lyndoch, Gawler, Gawler Central, Elizabeth, Sturt Highway, LinkSA, Adelaide Metro, route 810,
+Lyndoch, Gawler, Gawler Central, Elizabeth, Sturt Highway, Northern Expressway, LinkSA, Adelaide Metro, route 810,
 Metrocard, rideshare, Uber, metered taxi, hire car, self-drive, designated driver, private
 transfer, cellar door, drink driving.
 
@@ -327,8 +327,8 @@ decision than the internet makes it look.
 ## Common questions
 
 **How far is the Barossa Valley from Adelaide Airport?**
-About 75 km, roughly an hour by road, north up the Sturt Highway through Gawler. Lyndoch is the
-closest township at about 58 km and Angaston the furthest at about 80 km.
+About 75 km, roughly an hour by road, north via the Northern Expressway and Sturt Highway, past
+Gawler. Lyndoch is the closest township at about 58 km and Angaston the furthest at about 80 km.
 
 **Is there a direct bus from Adelaide Airport to the Barossa Valley?**
 No. Public transport means two or three connections, typically an airport bus, a train to Gawler

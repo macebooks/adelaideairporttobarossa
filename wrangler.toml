@@ -46,4 +46,4 @@ EMAIL_FROM = "support@finestsemmail.com"
 # phone, flight). Keep /privacy "Who else sees it" in step with the mail hosts used.
 EMAIL_CC = "barossacabs@outlook.com.au,macplanet2012@gmail.com"
 # Where a customer's reply to the auto-reply lands.
-EMAIL_REPLY_TO = "barossacabs@outlook.com.au"
+EMAIL_REPLY_TO = "bookings@adelaideairporttobarossa.com.au"

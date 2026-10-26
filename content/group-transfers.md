@@ -56,7 +56,7 @@ the bands it can, which earns the right to ask for the enquiry on the band it ca
 reaches the quote form already believing the price will be straight.
 
 **Required Entities (NLP):** Adelaide Airport (ADL), Barossa Valley, Toyota HiAce Commuter, Toyota
-Tarago, Sturt Highway, Gawler, Tanunda, Lyndoch, Nuriootpa, Angaston, Greenock, arrivals hall,
+Tarago, Sturt Highway, Northern Expressway, Gawler, Tanunda, Lyndoch, Nuriootpa, Angaston, Greenock, arrivals hall,
 flight number, passenger transport vehicle accreditation, cellar door, minibus, coach, charter,
 per vehicle fare, seats, wedding transfer, corporate transfer, lead time, quote.
 
@@ -141,8 +141,9 @@ luggage. You are told the total before you commit, in writing.
 
 ## Vehicle options by group size, 4 to 50 passengers
 
-The Barossa run is about **one hour and 75 km** north up the Sturt Highway through Gawler. The fare
-covers the central townships: **Tanunda, Lyndoch, Nuriootpa, Greenock and Angaston**.
+The Barossa run is about **one hour and 75 km** north via the Northern Expressway and Sturt
+Highway, past Gawler. The fare covers the central townships: **Tanunda, Lyndoch, Nuriootpa, Greenock
+and Angaston**.
 
 Every fare below is **one way, per vehicle**, and applies in both directions.
 

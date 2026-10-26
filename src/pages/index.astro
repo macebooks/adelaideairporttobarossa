@@ -4,7 +4,7 @@ import { fleet, centralTowns, estCars, destinations } from '../lib/fleet';
 const site = 'https://adelaideairporttobarossa.com.au';
 const pageUrl = `${site}/`;
 const ogImage = `${site}/assets/img/og-image.jpg`;
-const title = 'Adelaide Airport to Barossa Valley Transfers | Private Car ADL to the Barossa';
+const title = 'Adelaide Airport to Barossa Valley Transfers | Private Car from $200';
 // Kept under ~155 characters so Google shows it whole.
 const description =
   'Private chauffeur transfers from Adelaide Airport (ADL) to the Barossa Valley from $200 one way per car. Flat fare, flight tracked, met in arrivals.';
@@ -45,8 +45,7 @@ const businessSchema = {
     'Private car transfer service from Adelaide Airport (ADL) to the Barossa Valley wine region, plus cellar-door day tours.',
   url: pageUrl,
   image: ogImage,
-  telephone: '+61447958346',
-  email: 'barossacabs@outlook.com.au',
+  email: 'bookings@adelaideairporttobarossa.com.au',
   priceRange: '$200-$250',
   currenciesAccepted: 'AUD',
   paymentAccepted: 'Visa, Mastercard, Bank transfer, Cash',
@@ -100,34 +99,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: "My flight's delayed. Do I lose my booking?",
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'No. We track your flight by its number, so if you land early or late your driver adjusts to the real arrival time. You do not need to call us from the plane.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Where exactly do I meet the driver?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Inside the Adelaide Airport arrivals hall. Your driver waits with a name sign after you clear baggage. Full meeting details come with your confirmation.',
-      },
-    },
-    {
-      '@type': 'Question',
       name: 'How much luggage can I bring?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Room for standard bags for every passenger, plus space for wine cases on the way back. Travelling with extra gear such as golf clubs, prams or oversized cases? Note it on the booking so we bring the right car.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can you fit a child booster seat?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Yes, child booster seats are available on request. Tell us the ages of the children on your booking and we will have the seat fitted before pick-up.',
       },
     },
     {
@@ -176,14 +151,6 @@ const faqSchema = {
       acceptedAnswer: {
         '@type': 'Answer',
         text: "Cancel more than 48 hours before your pick-up time and there is nothing to pay. Inside 48 hours a cancellation fee may apply. If your flight moves, tell us and we will shift the booking rather than cancel it.",
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How long does the drive from Adelaide Airport to the Barossa Valley take?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'About one hour door to door, roughly 75 km north up the Sturt Highway through Gawler to Lyndoch, Tanunda, Nuriootpa or Angaston. Lyndoch is the closest stop at around 50 minutes; Angaston the furthest at around 70.',
       },
     },
   ],
@@ -389,6 +356,8 @@ const schemas = [businessSchema, faqSchema];
   .hero-grid { display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); grid-template-columns: 1fr; align-items: start; }
   @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.05fr .95fr; align-items: center; } }
   .hero h1 { margin-bottom: .35em; }
+  /* The query sits in the H1 as a kicker, so the visible slogan stays the display line. */
+  .hero h1 .h1-kicker { display: block; width: fit-content; font-weight: 400; line-height: 1.4; }
   .hero .lead { margin-bottom: 1.3rem; }
   .hero-route { margin-top: 1.4rem; }
   .hero-route svg { width: 100%; }
@@ -421,7 +390,7 @@ const schemas = [businessSchema, faqSchema];
     margin-bottom: .35rem; font-weight: 700;
   }
   .field .opt { font-weight: 400; opacity: .7; letter-spacing: .06em; }
-  .field input, .field select {
+  .field input, .field select, .field textarea {
     width: 100%;
     font-family: "Hanken Grotesk", sans-serif; font-size: 1rem;
     color: var(--ink); background: #fff;
@@ -429,7 +398,7 @@ const schemas = [businessSchema, faqSchema];
     padding: .72rem .8rem;
   }
   .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M2 4l5 5 5-5' fill='none' stroke='%23241E1B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .8rem center; padding-right: 2.2rem; }
-  .field input:focus, .field select:focus { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 3px solid var(--gold); outline-offset: 2px; }
   .row2 { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
   @media (max-width: 400px) { .row2 { grid-template-columns: 1fr; } }
   .field input[aria-invalid="true"], .field select[aria-invalid="true"] { border-color: var(--wine); background: #fdf2f2; }
@@ -668,8 +637,7 @@ const schemas = [businessSchema, faqSchema];
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <p class="eyebrow">Adelaide Airport &rarr; the Barossa &middot; private car</p>
-        <h1 id="hero-h1">Land in Adelaide.<br>Arrive in the Barossa relaxed.</h1>
+        <h1 id="hero-h1"><span class="eyebrow h1-kicker">Adelaide Airport to Barossa Valley transfers</span> Land in Adelaide.<br>Arrive in the Barossa relaxed.</h1>
         <p class="lead">Private, door-to-door chauffeur transfers between Adelaide Airport and the Barossa wine country. Flat fares from <strong>$200 per car, each way</strong>, flight-tracked meet &amp; greet in arrivals, and optional cellar-door day-tours with a local driver-guide.</p>
 
         <div class="hero-route" aria-hidden="true">
@@ -740,13 +708,22 @@ const schemas = [businessSchema, faqSchema];
               </div>
             </div>
 
+            <div class="field">
+              <label for="journey">Journey</label>
+              <select id="journey" name="journey" required>
+                <option>Adelaide Airport to the Barossa</option>
+                <option>Barossa to Adelaide Airport</option>
+                <option>Both ways (return)</option>
+              </select>
+            </div>
+
             <div class="row2">
               <div class="field">
                 <label for="flight">Flight no. <span class="opt">(optional)</span></label>
                 <input id="flight" name="flight" type="text" placeholder="e.g. QF 745" autocomplete="off">
               </div>
               <div class="field">
-                <label for="date">Arrival date</label>
+                <label for="date">Travel date</label>
                 <input id="date" name="date" type="date" required aria-describedby="err-date">
                 <p class="err" id="err-date" aria-live="polite"></p>
               </div>
@@ -765,7 +742,7 @@ const schemas = [businessSchema, faqSchema];
                 <p class="err" id="err-pax" aria-live="polite"></p>
               </div>
               <div class="field">
-                <label for="drop">Drop-off</label>
+                <label for="drop">Barossa stop</label>
                 <select id="drop" name="dropoff" required aria-describedby="err-drop">
                   <option value="">Choose…</option>
                   <option>Cellar door (Barossa)</option>
@@ -775,6 +752,11 @@ const schemas = [businessSchema, faqSchema];
                 </select>
                 <p class="err" id="err-drop" aria-live="polite"></p>
               </div>
+            </div>
+
+            <div class="field">
+              <label for="notes">Address, departure time or anything else <span class="opt">(optional)</span></label>
+              <textarea id="notes" name="notes" rows="2" maxlength="2000"></textarea>
             </div>
 
             <!-- honeypot: hidden from people, tempting to bots -->
@@ -803,12 +785,12 @@ const schemas = [businessSchema, faqSchema];
 <section id="route" class="section bg-sky" aria-labelledby="route-h" style="scroll-margin-top:70px">
   <div class="wrap">
     <p class="eyebrow reveal">The last leg</p>
-    <h2 id="route-h" class="reveal">One clean run up the Sturt Highway.</h2>
-    <p class="lead reveal d1">Out of the airport, north through Gawler, then into the vines. No transfers, no waiting for a shuttle to fill. Just your car and the road.</p>
+    <h2 id="route-h" class="reveal">One clean run: Northern Expressway to Sturt Highway.</h2>
+    <p class="lead reveal d1">Out of the airport, north on the Northern Expressway past Gawler, then onto the Sturt Highway and into the vines. No transfers, no waiting for a shuttle to fill. Just your car and the road.</p>
 
     <div class="route-scroll reveal d2" aria-hidden="true">
       <div class="route-strip">
-        <svg viewBox="0 0 620 150" role="img" aria-label="Route map from Adelaide Airport through Gawler to the Barossa Valley">
+        <svg viewBox="0 0 620 150" role="img" aria-label="Route map from Adelaide Airport past Gawler to the Barossa Valley">
           <line x1="70" y1="80" x2="550" y2="80" stroke="#241E1B" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 16"/>
           <!-- ADL -->
           <g transform="translate(70,80)">
@@ -839,7 +821,7 @@ const schemas = [businessSchema, faqSchema];
 
     <div class="route-meta reveal d2">
       <span class="stat"><b>~75 km</b>door to cellar door</span>
-      <span class="stat"><b>~1 hour</b>Sturt Highway drive</span>
+      <span class="stat"><b>~1 hour</b>Northern Expressway drive</span>
       <span class="stat"><b>1 car</b>yours, no sharing</span>
     </div>
   </div>
@@ -849,7 +831,7 @@ const schemas = [businessSchema, faqSchema];
 <section id="how" class="section bg-bone" aria-labelledby="how-h" style="scroll-margin-top:70px">
   <div class="wrap">
     <p class="eyebrow reveal">Start to finish</p>
-    <h2 id="how-h" class="reveal">How it works, in four easy steps.</h2>
+    <h2 id="how-h" class="reveal">How your airport pickup works, in four steps.</h2>
     <p class="lead reveal d1">From the moment you send your flight details to the moment you step out into the vines, here's exactly what happens.</p>
 
     <div class="steps">
@@ -871,7 +853,7 @@ const schemas = [businessSchema, faqSchema];
       <div class="step reveal d3">
         <span class="badge" aria-hidden="true">4</span>
         <h3>Arrive in the Barossa relaxed</h3>
-        <p>One clean run up the Sturt Highway, straight to your cellar door, hotel or town centre. Bags and wine cases handled.</p>
+        <p>One clean run up the Northern Expressway and Sturt Highway, straight to your cellar door, hotel or town centre. Bags and wine cases handled.</p>
       </div>
     </div>
 
@@ -972,7 +954,7 @@ const schemas = [businessSchema, faqSchema];
 <section class="section bg-wine on-dark" aria-labelledby="tour-h">
   <div class="wrap">
     <p class="eyebrow reveal">Optional add-on</p>
-    <h2 id="tour-h" class="reveal">Turn the transfer into a cellar-door day.</h2>
+    <h2 id="tour-h" class="reveal">Turn the airport transfer into a cellar-door day.</h2>
     <p class="lead reveal d1">Not just a drop-off. Keep the car for the day and hop between cellar doors with someone else at the wheel.</p>
     <div class="tour reveal d2">
       <h3>Barossa day-tour &amp; drops</h3>
@@ -994,7 +976,7 @@ const schemas = [businessSchema, faqSchema];
 <section id="fares" class="section bg-bone" aria-labelledby="fares-h" style="scroll-margin-top:70px">
   <div class="wrap">
     <p class="eyebrow reveal">Flat fares</p>
-    <h2 id="fares-h" class="reveal">One price, agreed before you fly.</h2>
+    <h2 id="fares-h" class="reveal">Barossa transfer fares: one price, agreed before you fly.</h2>
     <p class="lead reveal d1">No meter and no surge. One flat price per car, each way, whether you're heading to the valley or back to your flight.</p>
 
     <div class="fares">
@@ -1006,10 +988,9 @@ const schemas = [businessSchema, faqSchema];
           <div class="fare-body">
             <p class="veh">{f.vehicle}</p>
             <div class="price">
-              ${f.now}<span class="was">was ${f.was}</span>
+              ${f.now}
               <small>Per car, each way &middot; up to {f.seats} passengers</small>
             </div>
-            <span class="save">Save ${f.was - f.now}</span>
             <ul>
               {f.points.map((p) => <li>{p}</li>)}
             </ul>
@@ -1032,8 +1013,11 @@ const schemas = [businessSchema, faqSchema];
       <strong>More than four of you?</strong>
       <a href="/group-transfers-adelaide-airport-barossa-valley">Group transfers</a> covers weddings,
       corporate parties and celebrations, up to 50 seats when booked ahead.
-      Heading for a particular township? <a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a>
-      or <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a>.
+      Heading for a particular township? <a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a>,
+      <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a>,
+      <a href="/adelaide-airport-to-angaston-transfer">Angaston</a> or
+      <a href="/adelaide-airport-to-lyndoch-transfer">Lyndoch</a>.
+      Flying out? <a href="/barossa-to-adelaide-airport-transfer">Barossa to Adelaide Airport</a>.
       Still weighing up a taxi or a hire car?
       <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare every option</a>.
     </p>
@@ -1151,7 +1135,7 @@ const schemas = [businessSchema, faqSchema];
 <section class="section bg-sky" aria-labelledby="faq-h">
   <div class="wrap">
     <p class="eyebrow reveal">Good to know</p>
-    <h2 id="faq-h" class="reveal">The questions people actually ask.</h2>
+    <h2 id="faq-h" class="reveal">Barossa airport transfer questions.</h2>
     <div class="faq reveal d1">
       <details>
         <summary>My flight's delayed. Do I lose my booking?</summary>
@@ -1174,8 +1158,8 @@ const schemas = [businessSchema, faqSchema];
         <p>The central Barossa townships: Tanunda, Lyndoch, Nuriootpa, Greenock and Angaston. Destinations outside that central area can be quoted higher, so tell us exactly where you're headed and we'll confirm the price in writing before you fly.</p>
       </details>
       <details>
-        <summary>Can you fit a child booster seat?</summary>
-        <p>Yes, child booster seats are available on request. Tell us the ages of the children on your booking and we'll have the seat fitted before pick-up, so there's no guesswork on the day.</p>
+        <summary>Can you fit a child seat?</summary>
+        <p>Yes, infant restraints and booster seats are both available on request. Tell us the ages of the children on your booking and we'll have the right seat fitted before pick-up. <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">More on child seats and pickup</a>.</p>
       </details>
       <details>
         <summary>Are your drivers accredited?</summary>
@@ -1192,10 +1176,6 @@ const schemas = [businessSchema, faqSchema];
       <details>
         <summary>What's your cancellation policy?</summary>
         <p>Cancel more than 48 hours before your pick-up time and there is nothing to pay. Inside 48 hours a cancellation fee may apply. If your flight moves, tell us and we'll shift the booking rather than cancel it.</p>
-      </details>
-      <details>
-        <summary>How long does the drive from Adelaide Airport to the Barossa Valley take?</summary>
-        <p>About one hour door to door, roughly 75 km north up the Sturt Highway through Gawler to Lyndoch, Tanunda, Nuriootpa or Angaston. Lyndoch is the closest stop at around 50 minutes; Angaston the furthest at around 70.</p>
       </details>
     </div>
   </div>
@@ -1233,8 +1213,7 @@ const schemas = [businessSchema, faqSchema];
     <div>
       <h4>Get in touch</h4>
       <ul>
-        <li>Phone: <a href="tel:+61447958346">0447 958 346</a></li>
-        <li>Email: <a href="mailto:barossacabs@outlook.com.au">barossacabs@outlook.com.au</a></li>
+        <li>Email: <a href="mailto:bookings@adelaideairporttobarossa.com.au">bookings@adelaideairporttobarossa.com.au</a></li>
         <li>Available 7 days, flights met around the clock</li>
       </ul>
     </div>
@@ -1242,13 +1221,14 @@ const schemas = [businessSchema, faqSchema];
       <h4>Service area</h4>
       <ul>
         <li>Adelaide Airport (ADL)</li>
-        <li>Gawler &middot; Lyndoch</li>
+        <li>Gawler &middot; <a href="/adelaide-airport-to-lyndoch-transfer">Lyndoch</a></li>
         <li><a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a> &middot;
           <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a></li>
-        <li>Angaston &middot; Seppeltsfield</li>
+        <li><a href="/adelaide-airport-to-angaston-transfer">Angaston</a> &middot; Seppeltsfield</li>
       </ul>
       <h4 style="margin-top:1.2rem">Guides</h4>
       <ul>
+        <li><a href="/barossa-to-adelaide-airport-transfer">Barossa to the airport</a></li>
         <li><a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Every transport option</a></li>
         <li><a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">Distances &amp; pickup</a></li>
         <li><a href="/group-transfers-adelaide-airport-barossa-valley">Group transfers</a></li>
@@ -1294,6 +1274,12 @@ const schemas = [businessSchema, faqSchema];
   if (form) {
     var success = document.getElementById("form-success");
 
+    /* The return-trip page links here as /?journey=return#book. */
+    var journeyParam = new URLSearchParams(location.search).get("journey");
+    var journeySel = document.getElementById("journey");
+    if (journeySel && journeyParam === "return") journeySel.value = "Barossa to Adelaide Airport";
+    if (journeySel && journeyParam === "both") journeySel.value = "Both ways (return)";
+
     function setErr(id, msg) {
       var input = document.getElementById(id);
       var box = document.getElementById("err-" + id);
@@ -1321,9 +1307,9 @@ const schemas = [businessSchema, faqSchema];
       check("name",  v("name").length > 1,        "Please tell us your name.");
       check("email", validEmail(v("email")),        "Enter a valid email so we can reply.");
       check("phone", v("phone").replace(/[^\d]/g, "").length >= 8, "Enter a phone number we can reach you on.");
-      check("date",  v("date") !== "",              "Which day do you arrive?");
+      check("date",  v("date") !== "",              "Which day do you travel?");
       check("pax",   v("pax") !== "",               "How many passengers?");
-      check("drop",  v("drop") !== "",              "Where are we dropping you?");
+      check("drop",  v("drop") !== "",              "Where in the Barossa?");
 
       if (!ok) { if (firstBad) firstBad.focus(); return; }
 
@@ -1340,6 +1326,8 @@ const schemas = [businessSchema, faqSchema];
         date: v("date"),
         passengers: v("pax"),
         dropoff: v("drop"),
+        journey: v("journey"),
+        notes: v("notes"),
         website: (document.getElementById("website").value || "").trim()
       };
 
@@ -1370,7 +1358,7 @@ const schemas = [businessSchema, faqSchema];
 
       function showError(msg) {
         reset();
-        submitErr.textContent = msg || "Sorry, that didn't send. Please try again, or call 0447 958 346.";
+        submitErr.textContent = msg || "Sorry, that didn't send. Please try again, or email bookings@adelaideairporttobarossa.com.au.";
         submitErr.focus && submitErr.focus();
       }
 

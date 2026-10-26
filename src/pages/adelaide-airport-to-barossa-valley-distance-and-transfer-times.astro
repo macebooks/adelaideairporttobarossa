@@ -20,6 +20,15 @@ const rows = Object.values(destinations)
   .sort((a, b) => a.km - b.km)
   .map((d) => ({ ...d, covered: centralTowns.includes(d.name) }));
 
+/* Township rows link to their own page where one exists. Greenock and Seppeltsfield
+   have none: Greenock fails the 400-words-true-only-of-it test, Seppeltsfield is held (L13). */
+const townPages: Record<string, string> = {
+  Lyndoch: '/adelaide-airport-to-lyndoch-transfer',
+  Tanunda: '/adelaide-airport-to-tanunda-transfer',
+  Nuriootpa: '/adelaide-airport-to-nuriootpa-transfer',
+  Angaston: '/adelaide-airport-to-angaston-transfer',
+};
+
 /* This page is the canonical owner of the distance and duration questions. The
    homepage and the comparison page answer them in passing; only these are in
    FAQPage schema, to keep one owner per query. */
@@ -54,7 +63,7 @@ const schemas = [
   {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'Adelaide Airport to the Barossa Valley: distance, travel time and transfer logistics',
+    headline: 'Adelaide Airport to the Barossa Valley: distance, drive time and pickup logistics',
     description:
       'Distances and drive times to each Barossa township, the arrivals-hall pickup procedure, flight tracking, luggage, wine and child seats.',
     mainEntityOfPage: url,
@@ -80,10 +89,10 @@ const schemas = [
 ];
 ---
 <Content
-  title="Adelaide Airport to Barossa Valley: Distance, Time & Transfers"
+  title="Adelaide Airport to Barossa Valley Distance & Drive Time"
   description="Adelaide Airport to the Barossa is 58 to 80 km, 50 to 70 minutes by township. Pickup procedure, flight delays, luggage and how to get your wine home."
   slug={slug}
-  h1="Adelaide Airport to the Barossa Valley: distance, travel time and transfer logistics"
+  h1="Adelaide Airport to the Barossa Valley: distance, drive time and pickup logistics"
   eyebrow="The practical detail"
   lead="The Barossa Valley is 58 to 80 km from Adelaide Airport depending on the township, or roughly 50 to 70 minutes by road. Lyndoch is the closest at about 58 km. Angaston is the furthest at about 80 km. Tanunda, the most common destination, is about 70 km and one hour."
   schemas={schemas}
@@ -100,7 +109,7 @@ const schemas = [
       <tbody>
         {rows.map((r) => (
           <tr>
-            <td><strong>{r.name}</strong></td>
+            <td><strong>{townPages[r.name] ? <a href={townPages[r.name]}>{r.name}</a> : r.name}</strong></td>
             <td>~{r.km} km</td>
             <td>~{r.min} min</td>
             <td>{r.covered ? `$${sedan.now}` : 'On enquiry'}</td>
@@ -127,8 +136,8 @@ const schemas = [
 
   <h2>The route: what you pass on the way</h2>
 
-  <p><strong>Out of the airport, north around the city, then up the Sturt Highway through Gawler
-  and into the vines.</strong> No transfers, no changes, no waiting.</p>
+  <p><strong>Out of the airport, north around the city on the Northern Expressway, past Gawler and
+  onto the Sturt Highway into the vines.</strong> No transfers, no changes, no waiting.</p>
 
   <p>The road empties out past Gawler. <strong>The last fifteen minutes are the good bit</strong>:
   the suburbs stop, the country opens up, and the vine rows start running away from the road in
@@ -245,8 +254,12 @@ const schemas = [
   </div>
 
   <p>Going to a specific township?
+  <a href="/adelaide-airport-to-lyndoch-transfer">Lyndoch</a> &middot;
   <a href="/adelaide-airport-to-tanunda-transfer">Tanunda</a> &middot;
-  <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a></p>
+  <a href="/adelaide-airport-to-nuriootpa-transfer">Nuriootpa</a> &middot;
+  <a href="/adelaide-airport-to-angaston-transfer">Angaston</a></p>
+  <p>Flying home? <a href="/barossa-to-adelaide-airport-transfer">Pick-up times for the trip back
+  to the airport</a>.</p>
   <p>Still deciding how to travel?
   <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare all the options</a>.</p>
 </Content>

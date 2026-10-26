@@ -62,34 +62,101 @@ const ROUTES = [
     changefreq: 'monthly',
     priority: '0.7',
   },
+  {
+    path: '/barossa-to-adelaide-airport-transfer',
+    source: 'barossa-to-adelaide-airport-transfer.astro',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/adelaide-airport-to-angaston-transfer',
+    source: 'adelaide-airport-to-angaston-transfer.astro',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/adelaide-airport-to-lyndoch-transfer',
+    source: 'adelaide-airport-to-lyndoch-transfer.astro',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
   { path: '/privacy', source: 'privacy.astro', changefreq: 'yearly', priority: '0.2' },
   { path: '/terms', source: 'terms.astro', changefreq: 'yearly', priority: '0.2' },
 ] as const;
 
 const isoDay = (d: Date) => d.toISOString().slice(0, 10);
 
-function lastModified(source: string): string {
+/*
+  A shallow clone is the one failure this file cannot detect per-file. With no parent
+  commit available, git reports the single fetched commit as the one that "added" every
+  path, so `git log -1 -- <file>` returns HEAD's date for all of them: a well-formed
+  answer that passes the regex below and is wrong for every page at once. Verified by
+  cloning this repo with --depth 1, where terms.astro reports the HEAD date of 2026-08-14
+  rather than its real 2026-08-03.
+
+  This is not recoverable by falling back to mtime, because a fresh clone stamps every
+  working-tree file at checkout time -- the same build-date answer by another route. So a
+  shallow clone is a hard stop, not a degraded mode. Checked once, not per file.
+*/
+function assertGitHistoryUsable(): boolean {
+  let shallow: string;
+  try {
+    shallow = execFileSync('git', ['rev-parse', '--is-shallow-repository'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+  } catch {
+    // No git binary or not a repository. Not "misleading history" -- just no history,
+    // which the mtime fallback handles honestly in a real working tree.
+    return false;
+  }
+
+  if (shallow === 'true') {
+    throw new Error(
+      'sitemap: refusing to build from a shallow clone -- git would report the same ' +
+        'commit date for every page, publishing a <lastmod> that bumps on every deploy. ' +
+        'Run `git fetch --unshallow` (or clone with full history) and build again.',
+    );
+  }
+  return true;
+}
+
+function lastModified(source: string, useGit: boolean): string {
   // process.cwd() is the project root during `astro build`. Deliberately not
   // import.meta.url, which Vite rewrites to the bundled chunk's location.
   const file = join(process.cwd(), 'src', 'pages', source);
 
-  try {
-    // `--date=short --format=%cd`, not `--format=%cs`: git prints an unknown placeholder
-    // back verbatim rather than failing, and %cs is absent from the git 2.22 that ships
-    // on this machine. The regex below is what catches that, so keep it.
-    const committed = execFileSync('git', ['log', '-1', '--date=short', '--format=%cd', '--', file], {
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim();
-    if (/^\d{4}-\d{2}-\d{2}$/.test(committed)) return committed;
-  } catch {
-    // No git binary, no repository, or no history for this file. Fall through.
+  if (useGit) {
+    try {
+      // `--date=short --format=%cd`, not `--format=%cs`: git prints an unknown placeholder
+      // back verbatim rather than failing, and %cs is absent from the git 2.22 that ships
+      // on this machine. The regex below is what catches that, so keep it.
+      const committed = execFileSync('git', ['log', '-1', '--date=short', '--format=%cd', '--', file], {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+      }).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(committed)) return committed;
+    } catch {
+      // No history for this file. Fall through to mtime.
+    }
   }
 
+  /*
+    mtime is a genuine second-best: it is the file's real modification time, it just does
+    not survive a fresh checkout. Falling back to it is fine. Falling back to the BUILD
+    DATE -- which this function used to do -- is not: it silently answers "today" for a
+    page nobody has touched in months, and it does so for every page at once whenever the
+    git lookup fails wholesale. That is a fabricated freshness signal, worse than no
+    sitemap at all, and it fails without a word in the build log. If the source file is
+    not on disk the route table is wrong, so say so and stop.
+  */
   try {
     return isoDay(statSync(file).mtime);
   } catch {
-    return isoDay(new Date());
+    throw new Error(
+      `sitemap: cannot date ${source} -- no git history and no file at ${file}. ` +
+        `Fix the ROUTES entry rather than shipping a guessed <lastmod>.`,
+    );
   }
 }
 
@@ -97,12 +164,16 @@ export const GET: APIRoute = ({ site }) => {
   // `site` is astro.config.mjs's `site`, so the host cannot drift from the canonicals.
   const origin = site ?? new URL('https://adelaideairporttobarossa.com.au');
 
+  // Resolved once per build, not once per route: 8 routes meant 8 identical git calls.
+  // Throws outright on a shallow clone; see the note above assertGitHistoryUsable.
+  const useGit = assertGitHistoryUsable();
+
   const urls = ROUTES.map(({ path, source, changefreq, priority }) => {
     const loc = new URL(path, origin).href;
     return [
       '  <url>',
       `    <loc>${loc}</loc>`,
-      `    <lastmod>${lastModified(source)}</lastmod>`,
+      `    <lastmod>${lastModified(source, useGit)}</lastmod>`,
       `    <changefreq>${changefreq}</changefreq>`,
       `    <priority>${priority}</priority>`,
       '  </url>',

@@ -67,7 +67,7 @@ the order they occur converts. A page that answers them in the order Google like
 
 **Required Entities (NLP):** Adelaide Airport, ADL, Terminal 1, arrivals hall, baggage claim, name
 sign, Barossa Valley, Tanunda, Lyndoch, Nuriootpa, Angaston, Greenock, Seppeltsfield, Gawler, Sturt
-Highway, kilometres, drive time, flight number, flight tracking, checked baggage, carry-on, booster
+Highway, Northern Expressway, kilometres, drive time, flight number, flight tracking, checked baggage, carry-on, booster
 seat, child restraint, cellar door, case of wine.
 
 **E-E-A-T Persona:** The driver who has answered these questions at the kerb a thousand times, in
@@ -167,8 +167,8 @@ minutes before it.
 
 ## The route: what you pass on the way
 
-**Out of the airport, north around the city, then up the Sturt Highway through Gawler and into the
-vines.** No transfers, no changes, no waiting.
+**Out of the airport, north around the city on the Northern Expressway, past Gawler and onto the
+Sturt Highway into the vines.** No transfers, no changes, no waiting.
 
 The road empties out past Gawler. **The last fifteen minutes are the good bit**: the suburbs stop,
 the country opens up, and the vine rows start running away from the road in both directions. Most

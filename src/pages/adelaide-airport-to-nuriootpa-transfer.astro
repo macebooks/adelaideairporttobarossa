@@ -14,7 +14,7 @@ const [sedan, tarago, hiace] = fleet;
 const faqs = [
   {
     q: 'How long is the transfer from Adelaide Airport to Nuriootpa?',
-    a: `About ${d.min} minutes door to door, roughly ${d.km} km, north up the Sturt Highway through Gawler and on past Tanunda.`,
+    a: `About ${d.min} minutes door to door, roughly ${d.km} km, north via the Northern Expressway and Sturt Highway, past Gawler and on past Tanunda.`,
   },
   {
     q: 'How much is a transfer from Adelaide Airport to Nuriootpa?',
@@ -110,8 +110,8 @@ const schemas = [
 
   <h2>The drive: {d.km} km, about {d.min} minutes</h2>
 
-  <p>North up the <strong>Sturt Highway through Gawler</strong>, into the valley, then on through
-  Tanunda and about six kilometres further north.</p>
+  <p>North on the <strong>Northern Expressway, past Gawler</strong>, then onto the Sturt Highway
+  into the valley, through Tanunda and about six kilometres further north.</p>
 
   <p><strong>Nuriootpa is roughly five minutes further than Tanunda and costs exactly the same
   ${sedan.now}.</strong> The flat fare covers the central townships without grading them by
@@ -144,7 +144,12 @@ const schemas = [
     ))}
   </div>
 
-  <p>Still deciding how to travel?
+  <p><strong>Staying in Greenock?</strong> It is a few minutes north-west of Nuriootpa and on the
+  same flat fare. Give us the address when you book.</p>
+
+  <p>Flying home from Nuriootpa?
+  <a href="/barossa-to-adelaide-airport-transfer">Barossa to Adelaide Airport</a> &middot;
+  Still deciding how to travel?
   <a href="/how-to-get-from-adelaide-airport-to-barossa-valley">Compare the options</a> &middot;
   <a href="/adelaide-airport-to-barossa-valley-distance-and-transfer-times">All distances and pickup
   detail</a></p>

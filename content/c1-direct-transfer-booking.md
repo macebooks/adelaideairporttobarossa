@@ -58,7 +58,7 @@ agreed in advance.
    last one decides the whole category on this specific route and almost nobody says it out loud.
 
 **Required Entities (NLP):** Adelaide Airport, ADL, Terminal 1, arrivals hall, Barossa Valley,
-Sturt Highway, Gawler, Tanunda, Lyndoch, Nuriootpa, Greenock, Angaston, Seppeltsfield, private
+Sturt Highway, Northern Expressway, Gawler, Tanunda, Lyndoch, Nuriootpa, Greenock, Angaston, Seppeltsfield, private
 transfer, shared shuttle, chauffeur, meet and greet, flight tracking, flat fare, per car, cellar
 door, booster seat, accredited driver, door to door.
 
